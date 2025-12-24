@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SesiFoto - Sistem Tempahan Studio Raya</title>
+  <meta name="description" content="Urus booking studio dengan mudah!">
+
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://sesifoto.my/">
+  <meta property="og:title" content="SesiFoto - Sistem Tempahan Studio Raya">
+  <meta property="og:description" content="Urus booking studio dengan mudah!">
+  <meta property="og:image" content="/img/og_image.png">
+
+  <!-- Twitter -->
+  <meta property="twitter:card" content="summary_large_image">
+  <meta property="twitter:url" content="https://sesifoto.my/">
+  <meta property="twitter:title" content="SesiFoto - Sistem Tempahan Studio Raya">
+  <meta property="twitter:description" content="Urus booking studio dengan mudah!">
+  <meta property="twitter:image" content="/img/og_image.png">
+
+  <link rel="icon" type="image/svg+xml" href="/img/SesiFoto.svg">
+  <!-- ==================== LIGHT MODE DISABLED ==================== -->
+  <!-- Uncomment line below to re-enable light mode theme-color later -->
+  <!-- <meta name="theme-color" content="#FAFAFA" media="(prefers-color-scheme: light)"> -->
+  <!-- ============================================================== -->
+  <!-- FORCE DARK MODE: Removed media query to always use dark theme-color -->
+  <meta name="theme-color" content="#0A0A0A">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <!-- Satoshi Font -->
+  <link href="https://api.fontshare.com/v2/css?f[]=satoshi@300,400,500,700,900&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Satoshi', 'sans-serif'],
+            serif: ['Satoshi', 'sans-serif'],
+          },
+          colors: {
+            studio: {
+              black: '#0A0A0A', // Deep Black (matching dashboard)
+              base: '#1A1A1A', // Card Background Dark
+              card: '#1E1E1E', // Card Background
+              border: '#2A2A2A', // Card Border
+              'border-light-dark': '#333333', // Lighter border for hover
+
+              // Primary Orange Accent (matching dashboard)
+              primary: '#FF6B2C', // Vibrant Orange
+              'primary-hover': '#FF7D42', // Lighter orange for hover
+              'primary-glow': 'rgba(255, 107, 44, 0.2)', // Orange glow
+
+              // Secondary colors
+              secondary: '#00D9A3', // Success Green (from checkmarks)
+              accent: '#FFB800', // Warning/Info Yellow
+
+              highlight: 'rgba(255, 107, 44, 0.15)', // Orange highlight
+
+              // Light mode (keep clean light tones)
+              paper: '#FAFAFA', // Clean light gray
+              light: '#FFFFFF',
+              'card-light': '#F5F5F5',
+              'border-light': '#E5E5E5',
+            }
+          },
+          animation: {
+            'float': 'float 8s ease-in-out infinite',
+            'pulse-slow': 'pulse 8s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+            'draw': 'draw 2s ease-out forwards',
+            'fade-in-up': 'fadeInUp 0.8s ease-out forwards',
+            'scroll': 'scroll 120s linear infinite',
+          },
+          keyframes: {
+            float: {
+              '0%, 100%': { transform: 'translateY(0)' },
+              '50%': { transform: 'translateY(-20px)' },
+            },
+            draw: {
+              '0%': { strokeDashoffset: '1000' },
+              '100%': { strokeDashoffset: '0' },
+            },
+            fadeInUp: {
+              '0%': { opacity: '0', transform: 'translateY(20px)' },
+              '100%': { opacity: '1', transform: 'translateY(0)' },
+            },
+            scroll: {
+              '0%': { transform: 'translateX(0)' },
+              '100%': { transform: 'translateX(-50%)' },
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    /* Luxury Scrollbar - Orange Theme */
+    ::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: #FF6B2C;
+      border-radius: 10px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: #FF7D42;
+    }
+
+    .dark ::-webkit-scrollbar-thumb {
+      background: #FF6B2C;
+    }
+
+    .text-gradient-creative {
+      background-clip: text;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-image: linear-gradient(to right, #FF6B2C, #FF8A5C, #FFB800);
+    }
+
+    .dark .text-gradient-creative {
+      background-image: linear-gradient(to right, #FF6B2C, #FF8A5C, #FFB800);
+    }
+
+    .glass-shine {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .glass-shine::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 50%;
+      height: 100%;
+      background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.2), transparent);
+      transform: skewX(-25deg);
+      transition: 0.5s;
+    }
+
+    .glass-shine:hover::after {
+      left: 150%;
+      transition: 0.7s ease-in-out;
+    }
+  </style>
+</head>
+
+<body
+  class="bg-studio-paper dark:bg-studio-black text-slate-900 dark:text-slate-100 antialiased font-sans selection:bg-studio-primary/30 selection:text-studio-primary dark:selection:text-white transition-colors duration-500">
+  <div id="root"></div>
+  <script type="module" src="/index.tsx"></script>
+</body>
+
+</html>
