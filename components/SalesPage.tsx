@@ -41,7 +41,7 @@ const SalesPage: React.FC = () => {
                 </div>
 
                 {/* ==================================================================
-            ELEMEN 1: HEADLINE (AGITATE PAIN + 2025 POWER WORDS)
+            ELEMEN 1: HEADLINE (AGITATE PAIN +  POWER WORDS)
             Angle: "Serabut" & "Penat" -> "Settled"
            ================================================================== */}
                 <section className="text-center space-y-8">
