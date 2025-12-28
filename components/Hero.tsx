@@ -303,8 +303,15 @@ const Sidebar = ({ theme }: { theme: string }) => {
     return (
         <div className={`w-64 border-r flex flex-col shrink-0 transition-colors duration-500 ${isDark ? 'border-white/5 bg-black' : 'border-slate-200 bg-white'}`}>
             {/* Brand */}
-            <div className="h-16 flex items-center px-6">
+            {/* <div className="h-16 flex items-center px-6">
                 <span className={`font-black text-xl tracking-wide ${isDark ? 'text-white' : 'text-slate-900'}`}>SESIFOTO.MY</span>
+            </div> */}
+            <div className="h-16 flex items-center px-6">
+                <img
+                    src="/img/Asset 5.png"
+                    alt="SesiFoto Logo"
+                    className={`h-8 w-auto object-contain ${isDark ? '' : 'invert brightness-0'}`}
+                />
             </div>
 
             {/* Navigation */}
@@ -348,7 +355,7 @@ const Sidebar = ({ theme }: { theme: string }) => {
                         <div className={`w-8 h-8 rounded flex items-center justify-center text-xs font-bold ${isDark ? 'bg-zinc-800 text-zinc-400' : 'bg-slate-200 text-slate-500'}`}>SK</div>
                         <div className="flex-1 min-w-0">
                             <p className={`text-xs font-bold truncate ${isDark ? 'text-white' : 'text-slate-800'}`}>StudioKu</p>
-                            <p className={`text-[10px] truncate ${isDark ? 'text-zinc-500' : 'text-slate-500'}`}>iman@infyra.my</p>
+                            <p className={`text-[10px] truncate ${isDark ? 'text-zinc-500' : 'text-slate-500'}`}>studio@infyra.my</p>
                         </div>
                         <ChevronsUpDown size={12} className={isDark ? 'text-zinc-600' : 'text-slate-400'} />
                     </div>

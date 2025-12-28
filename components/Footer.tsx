@@ -1,9 +1,11 @@
 import React from 'react';
 import { Aperture, Instagram, Clock } from 'lucide-react';
 import { useLanguage } from '../contexts/LanguageContext';
+import { useTheme } from '../contexts/ThemeContext';
 
 const Footer: React.FC = () => {
   const { t, isChanging } = useLanguage();
+  const { theme } = useTheme();
   const year = new Date().getFullYear();
 
   return (
@@ -56,14 +58,13 @@ const Footer: React.FC = () => {
           {/* Logo & Tagline */}
           <div className="flex flex-col items-center gap-4 mb-8">
             <a href="#" className="flex items-center gap-3">
-              <div className="h-10 w-10 flex items-center justify-center">
+              <div className="h-10 flex items-center justify-center">
                 <img
-                  src="/img/SesiFoto.svg"
+                  src={theme === 'dark' ? "/img/Asset 5.png" : "/img/Asset 4.png"}
                   alt="SesiFoto Logo"
-                  className="h-full w-full object-contain"
+                  className="h-full w-auto object-contain"
                 />
               </div>
-              <span className="text-2xl font-bold font-serif text-slate-900 dark:text-white">SesiFoto</span>
             </a>
             <p className="text-slate-600 dark:text-slate-500 text-base font-medium max-w-lg">
               {t.footer.taglineLine1}
@@ -85,7 +86,7 @@ const Footer: React.FC = () => {
 
           {/* Copyright & Builder Info */}
           <div className="border-t border-slate-200 dark:border-white/5 pt-8 w-full flex flex-col items-center gap-3 text-sm text-slate-500 dark:text-slate-600">
-            <p>© {year} SesiFoto.my by Infyra Ventures. Hak cipta terpelihara.</p>
+            <p>© {year} sesifoto by Infyra Ventures. Hak cipta terpelihara.</p>
           </div>
         </div>
       </div>

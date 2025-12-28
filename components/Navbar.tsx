@@ -63,23 +63,22 @@ const Navbar: React.FC = () => {
 
           {/* Logo */}
           <a href="#" className="flex items-center gap-3 group">
-            <div className="h-10 w-10 rounded-xl overflow-hidden bg-white dark:bg-studio-card border border-slate-200 dark:border-studio-border flex items-center justify-center">
+            <div className="h-10 flex items-center justify-center">
               <img
-                src="/img/SesiFoto.svg"
+                src={theme === 'dark' ? "/img/Asset 5.png" : "/img/Asset 4.png"}
                 alt="SesiFoto Logo"
-                className="h-full w-full object-contain"
+                className="h-full w-auto object-contain"
                 onError={(e) => {
                   // Fallback to icon if logo doesn't exist
                   e.currentTarget.style.display = 'none';
                   const parent = e.currentTarget.parentElement;
                   if (parent) {
-                    parent.innerHTML = '<svg class="w-5 h-5 text-studio-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="4"/><line x1="21.17" y1="8" x2="12" y2="8"/><line x1="3.95" y1="6.06" x2="8.54" y2="14"/><line x1="10.88" y1="21.94" x2="15.46" y2="14"/></svg>';
+                    parent.innerHTML = '<svg class="w-8 h-8 text-studio-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="4"/><line x1="21.17" y1="8" x2="12" y2="8"/><line x1="3.95" y1="6.06" x2="8.54" y2="14"/><line x1="10.88" y1="21.94" x2="15.46" y2="14"/></svg>';
                   }
                 }}
               />
             </div>
             <div className="flex flex-col md:flex-row md:items-baseline gap-0 md:gap-1.5">
-              <span className="text-xl font-bold font-serif tracking-tight text-slate-900 dark:text-white transition-colors leading-none">SesiFoto</span>
               <span className="text-[10px] text-slate-500 dark:text-slate-400 font-sans font-medium tracking-widest uppercase opacity-90">by Infyra</span>
             </div>
           </a>

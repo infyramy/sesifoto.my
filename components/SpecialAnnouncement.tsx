@@ -93,12 +93,12 @@ const SpecialAnnouncement: React.FC = () => {
                                             <div className="w-8 h-8 rounded-lg bg-orange-500 flex items-center justify-center p-1.5 shrink-0 shadow-sm">
                                                 {/* Logo or Fallback */}
                                                 <img
-                                                    src="/img/SesiFoto.svg"
+                                                    src="/img/Asset 2.png"
                                                     alt="Logo"
                                                     className="w-full h-full object-contain brightness-0 invert"
                                                     onError={(e) => {
                                                         e.currentTarget.style.display = 'none';
-                                                        e.currentTarget.parentElement!.innerHTML = '<svg class="w-full h-full text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="4"/><line x1="21.17" y1="8" x2="12" y2="8"/><line x1="3.95" y1="6.06" x2="8.54" y2="14"/><line x1="10.88" y1="21.94" x2="15.46" y2="14"/></svg>';
+                                                        e.currentTarget.parentElement!.innerHTML = '<svg class="w-full h-full text-black" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="4"/><line x1="21.17" y1="8" x2="12" y2="8"/><line x1="3.95" y1="6.06" x2="8.54" y2="14"/><line x1="10.88" y1="21.94" x2="15.46" y2="14"/></svg>';
                                                     }}
                                                 />
                                             </div>
