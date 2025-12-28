@@ -63,7 +63,7 @@ const Navbar: React.FC = () => {
 
           {/* Logo */}
           <a href="#" className="flex items-center gap-3 group">
-            <div className="h-10 flex items-center justify-center">
+            <div className="h-8 md:h-11 p-1 flex items-center justify-center">
               <img
                 src={theme === 'dark' ? "/img/Asset 5.png" : "/img/Asset 4.png"}
                 alt="SesiFoto Logo"

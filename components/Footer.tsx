@@ -87,6 +87,7 @@ const Footer: React.FC = () => {
           {/* Copyright & Builder Info */}
           <div className="border-t border-slate-200 dark:border-white/5 pt-8 w-full flex flex-col items-center gap-3 text-sm text-slate-500 dark:text-slate-600">
             <p>© {year} sesifoto by Infyra Ventures. Hak cipta terpelihara.</p>
+            <p className="text-xs opacity-70">SSM-202503136836</p>
           </div>
         </div>
       </div>

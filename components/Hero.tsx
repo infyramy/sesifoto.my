@@ -486,7 +486,7 @@ const DashboardView = ({ theme }: { theme: string }) => {
                         <div className="space-y-4">
                             <div className={`flex justify-between items-center py-2 border-b ${isDark ? 'border-white/5' : 'border-slate-50'}`}>
                                 <span className={`text-sm font-semibold ${isDark ? 'text-zinc-300' : 'text-slate-700'}`}>Makeup Service</span>
-                                <span className={`text-xs font-medium ${isDark ? 'text-zinc-500' : 'text-slate-600'}`}>24 added</span>
+                                <span className={`text-xs font-medium ${isDark ? 'text-zinc-500' : 'text-slate-600'}`}>22 added</span>
                             </div>
                             <div className={`flex justify-between items-center py-2 border-b ${isDark ? 'border-white/5' : 'border-slate-50'}`}>
                                 <span className={`text-sm font-semibold ${isDark ? 'text-zinc-300' : 'text-slate-700'}`}>Extra Edited Photos</span>

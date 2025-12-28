@@ -226,7 +226,7 @@ export const translations = {
       popular: 'Recommended',
       plans: [
         {
-          name: "Studio",
+          name: "Pro Package",
           price: "RM899",
           period: "",
           description: "Everything you need to automate bookings & payments.",
@@ -243,12 +243,12 @@ export const translations = {
           cta: "Get Started"
         },
         {
-          name: "Agency",
+          name: "Prime Package",
           price: "RM1499",
           period: "",
           description: "Powerful tools to manage your team & grow revenue.",
           features: [
-            "Everything in Studio, plus:",
+            "Everything in Pro Package, plus:",
             "Manage Photographers",
             "WhatsApp Reminders",
             "Coupons & Vouchers",
@@ -421,7 +421,7 @@ export const translations = {
           title: "Analisa Prestasi Studio Anda",
           description: "Buat keputusan bisnes berdasarkan data, bukan agak-agak. Pantau graf jualan dan jumlah tempahan mengikut bulan atau minggu. Tahu prestasi sebenar untuk kembangkan lagi bisnes anda.",
           image: "https://placehold.co/800x500/e2e8f0/1e293b?text=Reporting+Dashboard&font=roboto",
-          checkpoints: ["Laporan Jualan Ikut Tempoh", "Filter Pantas (7/30 Hari)", "Graf Trend Mudah Faham"]
+          checkpoints: ["Laporan Jualan Ikut Tempoh", "Filter Pantas (7/30 Hari)", "Graf <i>Trend</i> Mudah Faham"]
         }
       ],
       bentoGrid: {
@@ -535,31 +535,31 @@ export const translations = {
       popular: 'Disyorkan',
       plans: [
         {
-          name: "Studio",
+          name: "Pakej Pro",
           price: "RM899",
           period: "",
           description: "Semua yang anda perlukan untuk sistem tempahan digital.",
           features: [
-            "Sesi Tempahan Tanpa Had",
+            "Sesi tempahan Tanpa Had",
             "Laman Tempahan Profesional",
-            "Sistem Kalendar Pintar",
-            "Gateway Pembayaran",
-            "Segerak Google Calendar",
+            "Kalendar Pintar",
+            "Terima bayaran secara online",
+            "<i>Sync</i> dengan Google Calendar",
             "Notifikasi Email",
-            "Domain Tersuai",
+            "<i>Custom Subdomain</i>",
             "Laporan Asas"
           ],
           cta: "Mula Sekarang"
         },
         {
-          name: "Agensi",
+          name: "Pakej Prime",
           price: "RM1499",
           period: "",
           description: "Alat berkuasa untuk urus pasukan & tingkatkan hasil.",
           features: [
-            "Semua dalam Studio, tambah:",
-            "Urus Jurugambar",
-            "Peringatan WhatsApp",
+            "Semua dalam Pakej Pro, Termasuk:",
+            "Pengurusan Jurugambar",
+            "Peringatan automatik melalui WhatsApp",
             "Kupon & Baucar",
             "Laporan Terperinci",
             "Sokongan Keutamaan"
