@@ -4,6 +4,8 @@ import { useLanguage } from '../contexts/LanguageContext';
 import StudioRayaLogo from '../img/_studioraya2025__1080_x_1350_px_-removebg-preview.png';
 // @ts-ignore
 import VisaLogo from '../img/vd-t.png';
+// @ts-ignore
+import DuoLogo from '../img/duo.PNG';
 
 interface Studio {
   id: string;
@@ -31,6 +33,13 @@ const studios: Studio[] = [
     logo: VisaLogo,
     url: 'https://www.instagram.com/the_visualdiaries/',
     darkInvert: true, // It's black, needs invert on dark mode
+  },
+  {
+    id: 'duo',
+    name: 'The Duo Studio',
+    shortName: 'Duo',
+    logo: DuoLogo,
+    url: 'https://linktr.ee/theduostudio.co',
   },
   {
     id: 'rangka',

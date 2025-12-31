@@ -284,6 +284,11 @@ const Hero: React.FC = () => {
                                     name="Sedetik Studio"
                                     link="https://www.instagram.com/sedetik.studio/"
                                 />
+                                <StudioLogo
+                                    src="/img/duo.PNG"
+                                    name="The Duo Studio"
+                                    link="https://linktr.ee/theduostudio.co"
+                                />
                             </div>
                         ))}
                     </div>
