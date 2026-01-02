@@ -84,6 +84,16 @@ const Footer: React.FC = () => {
             </a>
           </div>
 
+          {/* Footer Links */}
+          <div className="flex gap-6 mb-6 text-sm">
+            <a href="https://office.sesifoto.my/privacy-policy" target="_blank" rel="noopener noreferrer" className="text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-300 transition-colors">
+              Privacy Policy
+            </a>
+            <a href="https://office.sesifoto.my/terms-of-service" target="_blank" rel="noopener noreferrer" className="text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-300 transition-colors">
+              Terms of Service
+            </a>
+          </div>
+
           {/* Copyright & Builder Info */}
           <div className="border-t border-slate-200 dark:border-white/5 pt-8 w-full flex flex-col items-center gap-3 text-sm text-slate-500 dark:text-slate-600">
             <p>© {year} sesifoto by Infyra Ventures. Hak cipta terpelihara.</p>
