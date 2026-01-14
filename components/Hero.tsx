@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import {
     Zap, Calendar as CalendarIcon, LayoutDashboard, Users, CreditCard,
     FileText, Settings, ChevronRight, ChevronLeft, Bell, Moon, Sun,
-    ChevronsUpDown, CheckCircle2, MessageSquare, Plus, Search, Filter, MoreHorizontal, TrendingUp, ExternalLink
+    ChevronsUpDown, CheckCircle2, MessageSquare, Plus, Search, Filter, MoreHorizontal, TrendingUp, ExternalLink, Lightbulb
 } from 'lucide-react';
 import { useLanguage } from '../contexts/LanguageContext';
 import { useTheme } from '../contexts/ThemeContext';
@@ -94,9 +94,9 @@ const Hero: React.FC = () => {
                                 {t.hero.startTrial}
                             </div>
                         </a>
-                        <button className="relative group px-10 py-4 bg-white dark:bg-studio-card text-slate-700 dark:text-white rounded-full font-bold text-lg hover:bg-slate-50 dark:hover:bg-studio-base transition-all border border-slate-200 dark:border-studio-border shadow-sm hover:scale-105 active:scale-95">
+                        <a href="https://office.sesifoto.my/login" className="relative group px-10 py-4 bg-white dark:bg-studio-card text-slate-700 dark:text-white rounded-full font-bold text-lg hover:bg-slate-50 dark:hover:bg-studio-base transition-all border border-slate-200 dark:border-studio-border shadow-sm hover:scale-105 active:scale-95 text-center flex items-center justify-center">
                             <span className="relative z-10">{t.hero.viewShowreel}</span>
-                        </button>
+                        </a>
                     </div>
                 </div>
 
@@ -106,7 +106,10 @@ const Hero: React.FC = () => {
                     {/* Stat 1 */}
                     <div className="flex flex-col items-center justify-center border-r md:border-r border-slate-200 dark:border-white/10">
                         <span className="text-xl sm:text-2xl md:text-5xl font-black text-slate-900 dark:text-white mb-1 md:mb-2 tracking-tight leading-none">{t.hero.stats.studios.value}</span>
-                        <p className="uppercase font-bold text-slate-400 dark:text-zinc-600 text-[8px] sm:text-[10px] md:text-xs tracking-wider text-center leading-tight">{t.hero.stats.studios.label}</p>
+                        <p className="uppercase font-bold text-slate-400 dark:text-zinc-600 text-[8px] sm:text-[10px] md:text-xs tracking-wider text-center leading-tight">
+                            {t.hero.stats.studios.label}<br className="hidden md:block" />
+                            <span className="opacity-70 block md:inline">{t.hero.stats.studios.subLabel}</span>
+                        </p>
                     </div>
 
                     {/* Stat 2 */}
@@ -289,6 +292,11 @@ const Hero: React.FC = () => {
                                     name="The Duo Studio"
                                     link="https://linktr.ee/theduostudio.co"
                                 />
+                                <StudioLogo
+                                    src="/img/gr.png"
+                                    name="Golden Ring Studios"
+                                    link="https://www.instagram.com/goldenring.studios/"
+                                />
                             </div>
                         ))}
                     </div>
@@ -353,7 +361,7 @@ const Sidebar = ({ theme }: { theme: string }) => {
                         <div className="w-1.5 h-1.5 rounded-full bg-green-500"></div>
                     </div>
                     <div className="flex justify-between items-center mb-4">
-                        <span className="bg-[#FFB800] text-black text-[10px] font-bold px-2 py-0.5 rounded-full">Agency</span>
+                        <span className="bg-[#FFB800] text-black text-[10px] font-bold px-2 py-0.5 rounded-full">Prime</span>
                         <ChevronRight size={12} className={isDark ? 'text-zinc-600' : 'text-slate-400'} />
                     </div>
                     <div className={`flex items-center gap-3 pt-3 border-t ${isDark ? 'border-white/5' : 'border-slate-200'}`}>
@@ -402,107 +410,172 @@ const NavItem = ({ icon, label, active = false, hasArrow = false, theme }: { ico
 const DashboardView = ({ theme }: { theme: string }) => {
     const isDark = theme === 'dark';
 
+    // Chart Data (7 Days) - Flat then spike
+    // Using simple cubic bezier approximation for smooth curve
+    // Points: (0,100), (20,100), (40,100), (60,90), (75,30), (90,20), (100,60)
+    const chartPath = "M0,100 C20,100 40,100 50,100 C60,100 65,90 70,60 C75,30 85,15 90,25 C95,35 100,60 100,60";
+    const chartArea = `${chartPath} L100,100 L0,100 Z`;
+
+    const days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+
     return (
-        <div className="flex flex-col h-full overflow-hidden">
+        <div className={`flex flex-col h-full overflow-hidden font-sans ${isDark ? 'bg-black text-white' : 'bg-white text-slate-900'}`}>
             {/* Header */}
-            <div className={`h-16 border-b flex items-center justify-between px-4 md:px-8 shrink-0 transition-colors duration-500 ${isDark ? 'bg-[#0A0A0A] border-white/5' : 'bg-white border-slate-200'}`}>
-                <div className={`flex items-center gap-4 ${isDark ? 'text-zinc-500' : 'text-slate-400'}`}>
-                    <div className={`w-4 h-4 border rounded ${isDark ? 'border-zinc-700' : 'border-slate-300'}`}></div>
-                    <span className="text-sm">Dashboard</span>
+            <div className={`p-6 md:p-8 pb-0 shrink-0 flex items-start justify-between`}>
+                <div>
+                    <h2 className={`text-3xl font-bold mb-2 ${isDark ? 'text-white' : 'text-slate-900'}`}>Overview</h2>
+                    <p className={`text-sm ${isDark ? 'text-zinc-500' : 'text-slate-500'}`}>Welcome back, Studio Owner. Here's your daily breakdown.</p>
                 </div>
-                <div className={`flex items-center gap-4 ${isDark ? 'text-zinc-500' : 'text-slate-400'}`}>
-                    {isDark ? <Moon size={18} /> : <Sun size={18} />}
-                    <Bell size={18} />
+                <div className="flex items-center gap-3">
+                    <div className={`flex items-center gap-2 px-3 py-1.5 rounded-lg border ${isDark ? 'bg-zinc-900 border-white/10 text-white' : 'bg-slate-50 border-slate-200 text-slate-900'}`}>
+                        <LayoutDashboard size={14} />
+                        <span className="text-sm font-medium">Overview</span>
+                    </div>
+                    <div className={`w-8 h-8 flex items-center justify-center rounded-lg border ${isDark ? 'border-white/10 text-zinc-500' : 'border-slate-200 text-slate-400'}`}>
+                        <Lightbulb size={14} />
+                    </div>
+                    <div className={`flex items-center gap-2 px-3 py-1.5 rounded-lg border ${isDark ? 'bg-zinc-900 border-white/10 text-zinc-300' : 'bg-slate-50 border-slate-200 text-slate-600'}`}>
+                        <span className="text-sm">Last 7 Days</span>
+                        <ChevronRight className="rotate-90" size={12} />
+                    </div>
                 </div>
             </div>
 
-            {/* Content */}
-            <div className={`flex-1 p-4 md:p-8 overflow-y-auto ${isDark ? 'bg-[#0A0A0A]' : 'bg-[#FAFAFA]'}`}>
-                <div className="flex justify-between items-end mb-8">
-                    <div>
-                        <h2 className={`text-2xl md:text-3xl font-bold mb-1 ${isDark ? 'text-white' : 'text-slate-900'}`}>Dashboard</h2>
-                        <p className={`text-sm ${isDark ? 'text-zinc-500' : 'text-slate-500'}`}>Welcome back StudioKu! Let's get started.</p>
+            {/* Main Content Grid */}
+            <div className={`flex-1 p-6 md:p-8 overflow-y-auto grid grid-cols-1 lg:grid-cols-3 gap-6 custom-scrollbar`}>
+
+                {/* Left Column: Stats & Chart */}
+                <div className="lg:col-span-2 flex flex-col gap-6">
+                    {/* Stats Row */}
+                    <div className="grid grid-cols-2 gap-6">
+                        {/* Box 1: Total Sales */}
+                        <div className={`p-6 rounded-2xl border ${isDark ? 'bg-[#0A0A0A] border-white/5' : 'bg-slate-50 border-slate-200'}`}>
+                            <div className="flex justify-between items-start mb-6">
+                                <p className={`text-[10px] font-bold uppercase tracking-wider ${isDark ? 'text-zinc-500' : 'text-slate-500'}`}>TOTAL SALES</p>
+                                <div className={`w-8 h-8 rounded-full flex items-center justify-center ${isDark ? 'bg-orange-900/20 text-orange-500' : 'bg-orange-100 text-orange-600'}`}>
+                                    <span className="font-sans text-sm font-bold">$</span>
+                                </div>
+                            </div>
+                            <h3 className={`text-3xl font-bold mb-2 ${isDark ? 'text-white' : 'text-slate-900'}`}>RM 730.00</h3>
+                            <p className="text-xs font-semibold text-green-500 flex items-center gap-1">
+                                <TrendingUp size={12} /> +24.8% <span className={`font-normal ${isDark ? 'text-zinc-600' : 'text-slate-400'}`}>vs last period</span>
+                            </p>
+                        </div>
+
+                        {/* Box 2: Total Bookings */}
+                        <div className={`p-6 rounded-2xl border ${isDark ? 'bg-[#0A0A0A] border-white/5' : 'bg-slate-50 border-slate-200'}`}>
+                            <div className="flex justify-between items-start mb-6">
+                                <p className={`text-[10px] font-bold uppercase tracking-wider ${isDark ? 'text-zinc-500' : 'text-slate-500'}`}>TOTAL BOOKINGS</p>
+                                <div className={`w-8 h-8 rounded-full flex items-center justify-center ${isDark ? 'bg-blue-900/20 text-blue-500' : 'bg-blue-100 text-blue-600'}`}>
+                                    <CalendarIcon size={14} />
+                                </div>
+                            </div>
+                            <h3 className={`text-3xl font-bold mb-2 ${isDark ? 'text-white' : 'text-slate-900'}`}>3</h3>
+                            <p className="text-xs font-semibold text-green-500 flex items-center gap-1">
+                                <TrendingUp size={12} /> +12.5% <span className={`font-normal ${isDark ? 'text-zinc-600' : 'text-slate-400'}`}>vs last period</span>
+                            </p>
+                        </div>
                     </div>
-                    <div className={`border rounded-lg px-3 py-1.5 flex items-center gap-2 text-sm shadow-sm ${isDark ? 'bg-zinc-900 border-white/5 text-zinc-400' : 'bg-white border-slate-200 text-slate-600'}`}>
-                        Last 7 Days <ChevronRight className="rotate-90" size={12} />
+
+                    {/* Sales Overview Chart */}
+                    <div className={`flex-1 p-6 rounded-2xl border flex flex-col justify-between ${isDark ? 'bg-[#0A0A0A] border-white/5' : 'bg-slate-50 border-slate-200'}`}>
+                        <div className="flex justify-between items-start mb-2">
+                            <div>
+                                <h4 className={`flex items-center gap-2 font-bold mb-1 ${isDark ? 'text-white' : 'text-slate-900'}`}>
+                                    <span className="text-orange-500"><Zap size={14} fill="currentColor" /></span>
+                                    Sales Overview
+                                </h4>
+                                <p className={`text-xs ${isDark ? 'text-zinc-500' : 'text-slate-500'}`}>Revenue performance over time</p>
+                            </div>
+                            <div className="flex items-center gap-2">
+                                <div className="w-2 h-2 rounded-full bg-orange-500"></div>
+                                <span className={`text-xs ${isDark ? 'text-zinc-400' : 'text-slate-600'}`}>Revenue</span>
+                            </div>
+                        </div>
+
+                        {/* Chart Area */}
+                        <div className="relative h-48 w-full mt-4 flex flex-col justify-end">
+                            <div className="flex-1 relative w-full mb-6">
+                                {/* Grid Lines */}
+                                <div className="absolute inset-0 flex flex-col justify-between pointer-events-none">
+                                    {[400, 300, 200, 100].map((val, i) => (
+                                        <div key={i} className="flex items-center w-full">
+                                            <span className={`text-[10px] w-12 ${isDark ? 'text-zinc-600' : 'text-slate-400'}`}>RM {val}</span>
+                                            <div className={`h-px flex-1 ${isDark ? 'bg-white/5' : 'bg-slate-200'}`}></div>
+                                        </div>
+                                    ))}
+                                </div>
+
+                                {/* SVG Curve */}
+                                <svg className="w-full h-full absolute inset-0 pl-12 pt-2" preserveAspectRatio="none" viewBox="0 0 100 100">
+                                    <defs>
+                                        <linearGradient id="chartGradient" x1="0" x2="0" y1="0" y2="1">
+                                            <stop offset="0%" stopColor="#f97316" stopOpacity="0.5" />
+                                            <stop offset="100%" stopColor="#f97316" stopOpacity="0" />
+                                        </linearGradient>
+                                    </defs>
+                                    <path d={chartArea} fill="url(#chartGradient)" />
+                                    <path d={chartPath} fill="none" stroke="#f97316" strokeWidth="3" vectorEffect="non-scaling-stroke" strokeLinecap="round" strokeLinejoin="round" />
+                                </svg>
+                            </div>
+
+                            {/* X-Axis Labels */}
+                            <div className="flex justify-between pl-12 pr-0 text-[10px] text-zinc-500 font-medium uppercase tracking-wide">
+                                {days.map((day, i) => (
+                                    <span key={i}>{day}</span>
+                                ))}
+                            </div>
+                        </div>
                     </div>
                 </div>
 
-                {/* Stats Row */}
-                <div className="grid grid-cols-2 gap-4 md:gap-6 mb-6">
-                    <div className={`p-4 md:p-6 rounded-xl border shadow-sm ${isDark ? 'bg-[#0F0F0F] border-white/5' : 'bg-white border-slate-200'}`}>
-                        <div className="flex justify-between items-start mb-4">
-                            <p className={`font-bold text-sm ${isDark ? 'text-white' : 'text-slate-800'}`}>Total Bookings</p>
-                            <CalendarIcon size={16} className={`${isDark ? 'text-zinc-600' : 'text-slate-400'}`} />
-                        </div>
-                        <p className={`text-2xl md:text-4xl font-black mb-2 ${isDark ? 'text-white' : 'text-slate-900'}`}>142</p>
-                        <p className="text-xs font-semibold text-green-500">+12.5% <span className={`font-normal ${isDark ? 'text-zinc-600' : 'text-slate-400'}`}>from last period</span></p>
+                {/* Right Column: Sidebar */}
+                <div className={`p-6 rounded-2xl border flex flex-col ${isDark ? 'bg-[#0A0A0A] border-white/5' : 'bg-slate-50 border-slate-200'}`}>
+                    <div className="mb-6">
+                        <h3 className={`text-xl font-bold mb-1 ${isDark ? 'text-white' : 'text-slate-900'}`}>Popular</h3>
+                        <p className={`text-xs ${isDark ? 'text-zinc-500' : 'text-slate-500'}`}>Most booked items</p>
                     </div>
-                    <div className={`p-4 md:p-6 rounded-xl border shadow-sm ${isDark ? 'bg-[#0F0F0F] border-white/5' : 'bg-white border-slate-200'}`}>
-                        <div className="flex justify-between items-start mb-4">
-                            <p className={`font-bold text-sm ${isDark ? 'text-white' : 'text-slate-800'}`}>Sales</p>
-                            <p className={`font-serif ${isDark ? 'text-zinc-600' : 'text-slate-400'}`}>$</p>
-                        </div>
-                        <p className={`text-2xl md:text-4xl font-black mb-2 ${isDark ? 'text-white' : 'text-slate-900'}`}>RM 12,450</p>
-                        <p className="text-xs font-semibold text-green-500">+8.2% <span className={`font-normal ${isDark ? 'text-zinc-600' : 'text-slate-400'}`}>from last period</span></p>
-                    </div>
-                </div>
 
-                {/* Lists Row */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div className={`p-4 md:p-6 rounded-xl border shadow-sm h-64 ${isDark ? 'bg-[#0F0F0F] border-white/5' : 'bg-white border-slate-200'}`}>
-                        <p className={`font-bold text-sm mb-1 ${isDark ? 'text-white' : 'text-slate-800'}`}>Popular Themes</p>
-                        <p className={`text-xs mb-6 ${isDark ? 'text-zinc-500' : 'text-slate-500'}`}>Top performing themes</p>
+                    {/* Tabs */}
+                    <div className={`flex p-1 rounded-lg mb-8 ${isDark ? 'bg-zinc-900 border border-white/5' : 'bg-white border border-slate-200'}`}>
+                        <button className={`flex-1 py-1.5 text-xs font-medium rounded-md ${isDark ? 'bg-zinc-800 text-white shadow-sm' : 'bg-slate-100 text-slate-900'}`}>Themes</button>
+                        <button className={`flex-1 py-1.5 text-xs font-medium rounded-md ${isDark ? 'text-zinc-500 hover:text-zinc-300' : 'text-slate-400 hover:text-slate-600'}`}>Add-ons</button>
+                    </div>
 
-                        <div className="space-y-5">
-                            <div>
-                                <div className="flex justify-between items-center mb-1.5">
-                                    <span className={`text-xs font-semibold ${isDark ? 'text-zinc-300' : 'text-slate-700'}`}>Set 1: Kampung</span>
-                                    <span className={`text-xs ${isDark ? 'text-zinc-500' : 'text-slate-500'}`}>86 bookings</span>
-                                </div>
-                                <div className={`w-full h-2 rounded-full overflow-hidden ${isDark ? 'bg-zinc-800' : 'bg-slate-100'}`}>
-                                    <div className="h-full bg-studio-primary w-[85%] rounded-full"></div>
-                                </div>
+                    {/* List */}
+                    <div className="space-y-8 flex-1">
+                        <div>
+                            <div className="flex justify-between items-center mb-2">
+                                <span className={`text-sm font-semibold flex gap-2 ${isDark ? 'text-white' : 'text-slate-800'}`}>
+                                    <span className={`px-1.5 rounded text-[10px] flex items-center ${isDark ? 'bg-zinc-800 text-zinc-400' : 'bg-slate-200 text-slate-500'}`}>#1</span>
+                                    Set Halaman Kampung
+                                </span>
+                                <span className={`text-sm font-bold ${isDark ? 'text-white' : 'text-slate-900'}`}>67%</span>
                             </div>
-                            <div>
-                                <div className="flex justify-between items-center mb-1.5">
-                                    <span className={`text-xs font-semibold ${isDark ? 'text-zinc-300' : 'text-slate-700'}`}>Set 2: Modern</span>
-                                    <span className={`text-xs ${isDark ? 'text-zinc-500' : 'text-slate-500'}`}>42 bookings</span>
-                                </div>
-                                <div className={`w-full h-2 rounded-full overflow-hidden ${isDark ? 'bg-zinc-800' : 'bg-slate-100'}`}>
-                                    <div className="h-full bg-studio-primary opacity-60 w-[45%] rounded-full"></div>
-                                </div>
+                            <div className={`w-full h-1.5 rounded-full overflow-hidden ${isDark ? 'bg-zinc-800' : 'bg-slate-200'}`}>
+                                <div className="h-full bg-[#f97316] w-[67%] rounded-full"></div>
                             </div>
-                            <div>
-                                <div className="flex justify-between items-center mb-1.5">
-                                    <span className={`text-xs font-semibold ${isDark ? 'text-zinc-300' : 'text-slate-700'}`}>Set 3: Mini</span>
-                                    <span className={`text-xs ${isDark ? 'text-zinc-500' : 'text-slate-500'}`}>14 bookings</span>
-                                </div>
-                                <div className={`w-full h-2 rounded-full overflow-hidden ${isDark ? 'bg-zinc-800' : 'bg-slate-100'}`}>
-                                    <div className="h-full bg-studio-primary opacity-30 w-[15%] rounded-full"></div>
-                                </div>
+                            <p className={`text-[10px] text-right mt-1 ${isDark ? 'text-zinc-600' : 'text-slate-400'}`}>2 bookings</p>
+                        </div>
+
+                        <div>
+                            <div className="flex justify-between items-center mb-2">
+                                <span className={`text-sm font-semibold flex gap-2 ${isDark ? 'text-white' : 'text-slate-800'}`}>
+                                    <span className={`px-1.5 rounded text-[10px] flex items-center ${isDark ? 'bg-zinc-800 text-zinc-400' : 'bg-slate-200 text-slate-500'}`}>#2</span>
+                                    Set Ruang Mesra
+                                </span>
+                                <span className={`text-sm font-bold ${isDark ? 'text-white' : 'text-slate-900'}`}>33%</span>
                             </div>
+                            <div className={`w-full h-1.5 rounded-full overflow-hidden ${isDark ? 'bg-zinc-800' : 'bg-slate-200'}`}>
+                                <div className="h-full bg-[#f97316] w-[33%] rounded-full"></div>
+                            </div>
+                            <p className={`text-[10px] text-right mt-1 ${isDark ? 'text-zinc-600' : 'text-slate-400'}`}>1 bookings</p>
                         </div>
                     </div>
-                    <div className={`p-4 md:p-6 rounded-xl border shadow-sm h-64 ${isDark ? 'bg-[#0F0F0F] border-white/5' : 'bg-white border-slate-200'}`}>
-                        <p className={`font-bold text-sm mb-1 ${isDark ? 'text-white' : 'text-slate-800'}`}>Popular Add-ons</p>
-                        <p className={`text-xs mb-6 ${isDark ? 'text-zinc-500' : 'text-slate-500'}`}>Top selling add-ons</p>
 
-                        <div className="space-y-4">
-                            <div className={`flex justify-between items-center py-2 border-b ${isDark ? 'border-white/5' : 'border-slate-50'}`}>
-                                <span className={`text-sm font-semibold ${isDark ? 'text-zinc-300' : 'text-slate-700'}`}>Makeup Service</span>
-                                <span className={`text-xs font-medium ${isDark ? 'text-zinc-500' : 'text-slate-600'}`}>22 added</span>
-                            </div>
-                            <div className={`flex justify-between items-center py-2 border-b ${isDark ? 'border-white/5' : 'border-slate-50'}`}>
-                                <span className={`text-sm font-semibold ${isDark ? 'text-zinc-300' : 'text-slate-700'}`}>Extra Edited Photos</span>
-                                <span className={`text-xs font-medium ${isDark ? 'text-zinc-500' : 'text-slate-600'}`}>18 added</span>
-                            </div>
-                            <div className={`flex justify-between items-center py-2 border-b ${isDark ? 'border-white/5' : 'border-slate-50'}`}>
-                                <span className={`text-sm font-semibold ${isDark ? 'text-zinc-300' : 'text-slate-700'}`}>Frame 18x24</span>
-                                <span className={`text-xs font-medium ${isDark ? 'text-zinc-500' : 'text-slate-600'}`}>12 added</span>
-                            </div>
-                        </div>
-                    </div>
+                    <button className="mt-auto flex items-center gap-2 text-xs text-[#f97316] font-medium hover:underline">
+                        View Themes <ExternalLink size={12} />
+                    </button>
                 </div>
 
             </div>

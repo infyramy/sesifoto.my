@@ -555,7 +555,7 @@ const AutoPilotMockup = () => (
 
                {/* Details Box (Simulating Monospace/Quote slightly) */}
                <div className="mb-3 space-y-1 text-[13px] border-l-4 border-slate-200 dark:border-slate-700 pl-2 text-slate-600 dark:text-slate-300">
-                  <p>🗓️ Tarikh: <strong className="text-black dark:text-white">12 Mac 2025</strong></p>
+                  <p>🗓️ Tarikh: <strong className="text-black dark:text-white">12 Mac 2026</strong></p>
                   <p>⏰ Masa: <strong className="text-black dark:text-white">10:00 Pagi</strong></p>
                   <p>📸 Tema: <strong className="text-black dark:text-white">Raya Family</strong></p>
                </div>

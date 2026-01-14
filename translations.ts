@@ -20,7 +20,8 @@ export const translations = {
       pricing: 'Pricing',
       faq: 'FAQ',
       signin: 'Sign in',
-      getStarted: 'Get Started'
+      getStarted: 'Get Started',
+      support: 'Support'
     },
     announcement: {
       badge: 'Announcement!',
@@ -48,11 +49,11 @@ export const translations = {
       promo: 'Take advantage of this one-time fixed rate for the entire season.'
     },
     hero: {
-      badge: '#1 System for Studio Raya 2025',
+      badge: '#1 System for Studio Raya 2026',
       titleLine1: 'Simplify Booking Management',
       titleLine2: 'For Your Photo Studio.',
       subtitle: 'Manage bookings, payments, and customers in one system—customers book and pay themselves, you simply monitor the dashboard.',
-      startTrial: 'Request Demo',
+      startTrial: 'Start Now',
       viewShowreel: 'Login →',
       noCard: 'No credit card',
       trialDays: '14-day free trial',
@@ -64,7 +65,8 @@ export const translations = {
       stats: {
         studios: {
           value: '10+',
-          label: 'Studios Empowered'
+          label: 'Studios Empowered',
+          subLabel: '(Raya 2025)'
         },
         sales: {
           value: 'RM 300k+',
@@ -88,7 +90,7 @@ export const translations = {
           image: "https://placehold.co/800x500/e2e8f0/1e293b?text=Booking+Site+UI&font=roboto",
           checkpoints: ["Real-Time Slot Updates", "Online Payment Integration", "Professional Booking Website"],
           demoLabel: "View Live Demo",
-          demoLink: "https://najiahstudio.sesifoto.my"
+          demoLink: "https://studio-demo2.sesifoto.my"
         },
         {
           title: "Manage Bookings In One View",
@@ -298,7 +300,7 @@ export const translations = {
         badge: 'Raya 2026 Ready?',
         titleLine1: 'Maximize Your Studio\'s Potential',
         titleLine2: 'for Raya 2026.',
-        primaryCta: 'Request Demo'
+        primaryCta: 'Start Now'
       },
       preFooterTitle: 'Raya 2026 Ready?',
       preFooterSubtitle: 'Maximize Your Studio\'s Potential for Raya 2026. Don\'t Miss Out. Setup Your System Today.',
@@ -330,7 +332,8 @@ export const translations = {
       pricing: 'Harga',
       faq: 'Soalan Lazim',
       signin: 'Log Masuk',
-      getStarted: 'Mula Sekarang'
+      getStarted: 'Mula Sekarang',
+      support: 'Bantuan'
     },
     announcement: {
       badge: 'Pemberitahuan!',
@@ -357,11 +360,11 @@ export const translations = {
       promo: 'Manfaatkan kadar tetap sekali bayar ini untuk kegunaan sepanjang musim.'
     },
     hero: {
-      badge: 'Sistem #1 Untuk Studio Raya 2025',
+      badge: 'Sistem #1 Untuk Studio Raya 2026',
       titleLine1: 'Mudahkan Urusan Tempahan',
       titleLine2: 'Studio Foto Anda.',
       subtitle: 'Urus tempahan, bayaran dan pelanggan dalam satu sistem — pelanggan tempah dan bayar sendiri, anda cuma pantau dashboard.',
-      startTrial: 'Minta Demo',
+      startTrial: 'Mula Sekarang',
       viewShowreel: 'Log Masuk →',
       noCard: 'Tiada kad kredit',
       trialDays: '14-hari percubaan percuma',
@@ -373,7 +376,8 @@ export const translations = {
       stats: {
         studios: {
           value: '10+',
-          label: 'Studio Dibantu'
+          label: 'Studio Dibantu',
+          subLabel: '(Raya 2025)'
         },
         sales: {
           value: 'RM 300k+',
@@ -397,7 +401,7 @@ export const translations = {
           image: "https://placehold.co/800x500/e2e8f0/1e293b?text=Booking+Site+UI&font=roboto",
           checkpoints: ["Kemas kini Slot *Real-Time*", "Integrasi Bayaran *Online*", "*Website* Tempahan Profesional"],
           demoLabel: "Lihat Demo Live",
-          demoLink: "https://najiahstudio.sesifoto.my"
+          demoLink: "https://studio-demo2.sesifoto.my"
         },
         {
           title: "Urus Tempahan Dalam Satu Paparan",
@@ -608,7 +612,7 @@ export const translations = {
         badge: 'Sedia Untuk Raya 2026?',
         titleLine1: 'Maksimumkan Potensi Studio Anda',
         titleLine2: 'Untuk Raya 2026.',
-        primaryCta: 'Minta Demo'
+        primaryCta: 'Mula Sekarang'
       },
       preFooterTitle: 'Sedia Untuk Raya 2026?',
       preFooterSubtitle: 'Maksimumkan Potensi Studio Anda Untuk Raya 2026. Jangan Terlepas. Setup Sistem Hari Ini.',

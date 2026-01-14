@@ -71,18 +71,7 @@ const Footer: React.FC = () => {
             </p>
           </div>
 
-          {/* Social Links */}
-          <div className="flex gap-4 mb-10">
-            <a href="https://instagram.com" target="_blank" rel="noreferrer" className="w-12 h-12 rounded-full bg-white dark:bg-white/5 flex items-center justify-center text-slate-500 dark:text-slate-400 hover:text-[#E4405F] dark:hover:text-[#E4405F] hover:bg-slate-50 dark:hover:bg-white/10 transition-all border border-slate-200 dark:border-white/5 shadow-sm hover:shadow-md hover:-translate-y-1">
-              <Instagram className="w-5 h-5" />
-            </a>
-            <a href="https://tiktok.com" target="_blank" rel="noreferrer" className="w-12 h-12 rounded-full bg-white dark:bg-white/5 flex items-center justify-center text-slate-500 dark:text-slate-400 hover:text-[#000000] dark:hover:text-[#00f2ea] hover:bg-slate-50 dark:hover:bg-white/10 transition-all border border-slate-200 dark:border-white/5 shadow-sm hover:shadow-md hover:-translate-y-1">
-              {/* TikTok Icon SVG */}
-              <svg viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5">
-                <path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.65-1.58-1.09v10.95c-.001 3.09-2.519 5.588-5.602 5.588-3.083 0-5.602-2.498-5.602-5.588 0-2.863 2.158-5.216 4.965-5.539v4.06c-.958.077-1.748.88-1.748 1.867 0 1.037.842 1.875 1.879 1.875 1.026 0 1.879-.838 1.879-1.875V.02z" />
-              </svg>
-            </a>
-          </div>
+
 
           {/* Footer Links */}
           <div className="flex gap-6 mb-6 text-sm">
