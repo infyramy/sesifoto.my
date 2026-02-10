@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Link, useLocation } from 'react-router-dom';
 import { Aperture, Menu, X, Globe, Moon, Sun } from 'lucide-react';
 import { NAV_LINKS } from '../constants';
 import { useLanguage } from '../contexts/LanguageContext';
@@ -7,6 +8,8 @@ import { useTheme } from '../contexts/ThemeContext';
 const Navbar: React.FC = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const location = useLocation();
+  const isHomePage = location.pathname === '/';
 
   const { language, setLanguage, t } = useLanguage();
   const { theme, toggleTheme } = useTheme();
@@ -62,7 +65,7 @@ const Navbar: React.FC = () => {
         <div className="flex items-center justify-between">
 
           {/* Logo */}
-          <a href="#" className="flex items-center gap-3 group">
+          <Link to="/" className="flex items-center gap-3 group">
             <div className="h-8 md:h-11 p-1 flex items-center justify-center">
               <img
                 src={theme === 'dark' ? "/img/Asset 5.png" : "/img/Asset 4.png"}
@@ -81,23 +84,35 @@ const Navbar: React.FC = () => {
             <div className="flex flex-col md:flex-row md:items-baseline gap-0 md:gap-1.5">
               <span className="text-[10px] text-slate-500 dark:text-slate-400 font-sans font-medium tracking-widest uppercase opacity-90">by Infyra</span>
             </div>
-          </a>
+          </Link>
 
           {/* Desktop Nav */}
           <div className="hidden md:flex items-center gap-8">
-            {NAV_LINKS.map((link) => (
-              <a
-                key={link.key}
-                href={link.href}
-                className="text-sm font-medium text-slate-600 dark:text-slate-400 hover:text-studio-primary dark:hover:text-studio-primary transition-colors tracking-wide"
-              >
-                {t.nav[link.key as keyof typeof t.nav]}
-              </a>
-            ))}
+            {isHomePage && (
+              NAV_LINKS.map((link) => (
+                <a
+                  key={link.key}
+                  href={link.href}
+                  className="text-sm font-medium text-slate-600 dark:text-slate-400 hover:text-studio-primary dark:hover:text-studio-primary transition-colors tracking-wide"
+                >
+                  {t.nav[link.key as keyof typeof t.nav]}
+                </a>
+              ))
+            )}
           </div>
 
           {/* Actions */}
           <div className="flex items-center gap-3 md:gap-6">
+
+            {/* Home Link (Only on non-home pages) */}
+            {!isHomePage && (
+              <Link
+                to="/"
+                className="hidden md:block text-sm font-medium text-slate-600 dark:text-slate-400 hover:text-studio-primary dark:hover:text-studio-primary transition-colors mr-2"
+              >
+                {t.nav.home}
+              </Link>
+            )}
 
             {/* Theme Toggle - Hidden */}
             <button
@@ -146,16 +161,26 @@ const Navbar: React.FC = () => {
         {/* Mobile Menu */}
         <div className={`md:hidden absolute top-full left-0 right-0 overflow-hidden transition-all duration-300 ease-in-out ${isMobileMenuOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'}`}>
           <div className="bg-studio-paper/90 dark:bg-studio-black/90 backdrop-blur-xl border-b border-slate-200 dark:border-white/10 p-6 flex flex-col gap-4 shadow-xl">
-            {NAV_LINKS.map((link) => (
-              <a
-                key={link.key}
-                href={link.href}
+            {isHomePage ? (
+              NAV_LINKS.map((link) => (
+                <a
+                  key={link.key}
+                  href={link.href}
+                  className="text-lg font-medium text-slate-600 dark:text-slate-300 hover:text-studio-primary dark:hover:text-white py-2 border-b border-slate-100 dark:border-white/5"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  {t.nav[link.key as keyof typeof t.nav]}
+                </a>
+              ))
+            ) : (
+              <Link
+                to="/"
                 className="text-lg font-medium text-slate-600 dark:text-slate-300 hover:text-studio-primary dark:hover:text-white py-2 border-b border-slate-100 dark:border-white/5"
                 onClick={() => setIsMobileMenuOpen(false)}
               >
-                {t.nav[link.key as keyof typeof t.nav]}
-              </a>
-            ))}
+                {t.nav.home}
+              </Link>
+            )}
             <div className="flex flex-col gap-3 mt-4">
               <a href="https://office.sesifoto.my/login" className="text-center py-3 text-slate-600 dark:text-white font-medium hover:bg-slate-50 dark:hover:bg-white/5 rounded-xl">{t.nav.signin}</a>
               <a href="https://office.sesifoto.my/register" className="block text-center w-full bg-studio-primary text-white py-3 rounded-xl font-bold hover:bg-studio-primary-hover transition-colors">

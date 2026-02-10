@@ -11,7 +11,13 @@ interface LanguageContextType {
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
 
 export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [language, setLanguageState] = useState<Language>('bm');
+  const [language, setLanguageState] = useState<Language>(() => {
+    if (typeof window !== 'undefined') {
+      const saved = localStorage.getItem('app_language');
+      return (saved === 'en' || saved === 'bm') ? saved : 'bm';
+    }
+    return 'bm';
+  });
   const [isChanging, setIsChanging] = useState(false);
 
   const setLanguage = (lang: Language) => {
@@ -20,17 +26,18 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     // Short delay for animation before switching text
     setTimeout(() => {
       setLanguageState(lang);
+      localStorage.setItem('app_language', lang);
       // Short delay for animation out
       setTimeout(() => {
         setIsChanging(false);
-      }, 100); 
+      }, 100);
     }, 200);
   };
 
   return (
-    <LanguageContext.Provider value={{ 
-      language, 
-      setLanguage, 
+    <LanguageContext.Provider value={{
+      language,
+      setLanguage,
       t: translations[language],
       isChanging
     }}>

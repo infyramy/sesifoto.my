@@ -16,6 +16,7 @@ export type Language = 'en' | 'bm';
 export const translations = {
   en: {
     nav: {
+      home: 'Home',
       features: 'Features',
       pricing: 'Pricing',
       faq: 'FAQ',
@@ -324,10 +325,25 @@ export const translations = {
         terms: 'Terms of Service',
         cookie: 'Cookie Policy'
       }
+    },
+    news: {
+      title: 'News & Updates',
+      subtitle: 'Stay up to date with the latest features, announcements, and tips to get the most out of SesiFoto.',
+      readMore: 'Read More',
+      backToNews: 'Back to News',
+      postedOn: 'Posted on',
+      categories: {
+        all: 'All Updates',
+        announcement: 'Announcement',
+        feature: 'Feature',
+        article: 'Article'
+      },
+      empty: 'No updates found for this category.'
     }
   },
   bm: {
     nav: {
+      home: 'Utama',
       features: 'Ciri-ciri',
       pricing: 'Harga',
       faq: 'Soalan Lazim',
@@ -636,6 +652,20 @@ export const translations = {
         terms: 'Terma Perkhidmatan',
         cookie: 'Dasar Kuki'
       }
+    },
+    news: {
+      title: 'Berita & Terkini',
+      subtitle: 'Kekal maklum dengan ciri terkini, pengumuman, dan tips untuk memaksimumkan penggunaan SesiFoto.',
+      readMore: 'Baca Lagi',
+      backToNews: 'Kembali ke Berita',
+      postedOn: 'Diterbitkan pada',
+      categories: {
+        all: 'Semua Terkini',
+        announcement: 'Pengumuman',
+        feature: 'Ciri Baru',
+        article: 'Artikel'
+      },
+      empty: 'Tiada kemas kini dijumpai untuk kategori ini.'
     }
   }
 };
