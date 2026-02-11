@@ -70,183 +70,213 @@ export const NEWS_DATA: NewsItem[] = [
         },
         content: {
             bm: (
-                <div className="space-y-12">
-                    {/* Intro Alert */}
-                    <div className="bg-amber-50 dark:bg-amber-900/10 border border-amber-200 dark:border-amber-800/30 rounded-2xl p-6 md:p-8">
-                        <div className="flex gap-4">
-                            <div className="shrink-0 mt-1">
-                                <WarningIcon />
-                            </div>
-                            <div>
-                                <h3 className="text-lg font-bold text-amber-800 dark:text-amber-500 mb-2">Peralihan ke Official Meta WhatsApp API</h3>
-                                <p className="text-amber-900/80 dark:text-amber-200/80 leading-relaxed text-sm md:text-base">
-                                    Untuk memastikan kestabilan dan kelancaran sistem notifikasi, pihak SesiFoto telah mengambil langkah untuk beralih kepada integrasi <strong>Official Meta WhatsApp API</strong>. Langkah ini diambil kerana kaedah tidak rasmi yang digunakan sebelum ini telah menyebabkan nombor perkhidmatan SesiFoto disekat (banned) oleh pihak WhatsApp.
-                                </p>
-                            </div>
-                        </div>
+                <div className="space-y-8">
+                    {/* Intro Alert - Simplified */}
+                    <div className="border-l-4 border-amber-500 bg-amber-50/50 dark:bg-amber-900/5 pl-6 pr-4 py-5">
+                        <h3 className="text-lg font-bold text-amber-900 dark:text-amber-400 mb-2">Peralihan ke Official Meta WhatsApp API</h3>
+                        <p className="text-slate-700 dark:text-slate-300 leading-relaxed">
+                            Untuk memastikan kestabilan dan kelancaran sistem notifikasi, pihak SesiFoto telah mengambil langkah untuk beralih kepada integrasi <strong>Official Meta WhatsApp API</strong>. Langkah ini diambil kerana kaedah tidak rasmi yang digunakan sebelum ini telah menyebabkan nombor perkhidmatan SesiFoto disekat oleh pihak WhatsApp.
+                        </p>
                     </div>
 
                     {/* 1. Cost Structure */}
                     <section>
-                        <SectionHeader icon={<Coins className="w-6 h-6 text-studio-primary" />} title="1. Kos & Struktur Mesej" />
-                        <p className="text-slate-600 dark:text-slate-300 mb-4 leading-relaxed">
+                        <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-3">Kos & Struktur Mesej</h2>
+                        <p className="text-slate-600 dark:text-slate-300 leading-relaxed">
                             Penggunaan API rasmi melibatkan kos bagi setiap mesej yang dikenakan oleh Meta. Walau bagaimanapun, pihak SesiFoto berusaha untuk <strong>tidak mengambil keuntungan</strong> daripada caj ini dan mengekalkan harga pada kadar kos sebenar demi sokongan kepada komuniti studio.
                         </p>
                     </section>
 
                     {/* 2. Free Quota */}
                     <section>
-                        <SectionHeader icon={<CheckCircle2 className="w-6 h-6 text-green-500" />} title="2. Kuota Percuma" />
-                        <div className="bg-green-50 dark:bg-green-900/10 border border-green-200 dark:border-green-800/30 rounded-xl p-6 flex flex-col md:flex-row items-center justify-between gap-6">
-                            <div>
-                                <h4 className="text-xl font-bold text-green-800 dark:text-green-400 mb-2">Sumbangan Permulaan SesiFoto</h4>
-                                <p className="text-green-900/70 dark:text-green-200/70">Sebagai permulaan, setiap studio akan menerima kuota mesej percuma yang ditanggung sepenuhnya oleh kami.</p>
-                            </div>
-                            <div className="bg-white dark:bg-green-950/50 px-6 py-4 rounded-lg border border-green-200 dark:border-green-800/30 text-center shrink-0 min-w-[200px]">
-                                <span className="block text-3xl font-black text-green-600 dark:text-green-400">400</span>
-                                <span className="text-xs font-bold uppercase tracking-wider text-green-800/60 dark:text-green-400/60">Mesej Percuma</span>
-                            </div>
+                        <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-3">Kuota Percuma</h2>
+                        <div className="border-l-4 border-green-500 bg-green-50/50 dark:bg-green-900/5 pl-6 pr-4 py-5">
+                            <p className="text-slate-700 dark:text-slate-300 leading-relaxed mb-3">
+                                Sebagai permulaan, setiap studio akan menerima <strong className="text-green-700 dark:text-green-400">400 mesej percuma</strong> yang ditanggung sepenuhnya oleh kami.
+                            </p>
                         </div>
                     </section>
 
-                    {/* 3. Topup Packages */}
+                    {/* 3. Topup Packages - Minimal Table */}
                     <section>
-                        <SectionHeader icon={<MessageCircle className="w-6 h-6 text-blue-500" />} title="3. Pakej Tambahan (Topup)" />
-                        <p className="text-slate-600 dark:text-slate-300 mb-8">
-                            Setelah kuota percuma habis, anda boleh membeli pakej tambahan mengikut keperluan. Berikut adalah anggaran jumlah tempahan yang boleh ditampung.
+                        <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-3">Pakej Tambahan (Topup)</h2>
+                        <p className="text-slate-600 dark:text-slate-300 mb-6 leading-relaxed">
+                            Setelah kuota percuma habis, anda boleh membeli pakej tambahan mengikut keperluan. Berikut adalah anggaran jumlah tempahan yang boleh ditampung:
                         </p>
 
-                        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                            <PricingCard price="RM50" messages="800" bookings="~266" t="bm" />
-                            <PricingCard price="RM100" messages="1,600" bookings="~533" isPopular t="bm" />
-                            <PricingCard price="RM200" messages="3,200" bookings="~1,066" t="bm" />
+                        <div className="overflow-x-auto">
+                            <table className="w-full text-left border-collapse">
+                                <thead>
+                                    <tr className="border-b-2 border-slate-200 dark:border-slate-700">
+                                        <th className="py-3 px-4 text-slate-700 dark:text-slate-300 font-semibold">Harga</th>
+                                        <th className="py-3 px-4 text-slate-700 dark:text-slate-300 font-semibold">Mesej</th>
+                                        <th className="py-3 px-4 text-slate-700 dark:text-slate-300 font-semibold">Kapasiti Tempahan</th>
+                                    </tr>
+                                </thead>
+                                <tbody className="text-slate-600 dark:text-slate-400">
+                                    <tr className="border-b border-slate-100 dark:border-slate-800">
+                                        <td className="py-3 px-4 font-medium">RM50</td>
+                                        <td className="py-3 px-4">800</td>
+                                        <td className="py-3 px-4">~266 tempahan</td>
+                                    </tr>
+                                    <tr className="border-b border-slate-100 dark:border-slate-800 bg-orange-50/30 dark:bg-orange-900/5">
+                                        <td className="py-3 px-4 font-medium">RM100</td>
+                                        <td className="py-3 px-4 font-semibold text-orange-600 dark:text-orange-500">1,600</td>
+                                        <td className="py-3 px-4">~533 tempahan</td>
+                                    </tr>
+                                    <tr>
+                                        <td className="py-3 px-4 font-medium">RM200</td>
+                                        <td className="py-3 px-4">3,200</td>
+                                        <td className="py-3 px-4">~1,066 tempahan</td>
+                                    </tr>
+                                </tbody>
+                            </table>
                         </div>
-                        <p className="text-xs text-slate-400 mt-4 text-center italic">*Anggaran 3 mesej per tempahan: Pengesahan, Peringatan 24 Jam, & Notifikasi Admin.</p>
+                        <p className="text-xs text-slate-400 mt-3 italic">*Anggaran 3 mesej per tempahan: Pengesahan, Peringatan 24 Jam, & Notifikasi Admin</p>
                     </section>
 
-                    {/* 4. Alternatives */}
+                    {/* 4. Alternatives - Simple List */}
                     <section>
-                        <SectionHeader icon={<Send className="w-6 h-6 text-purple-500" />} title="4. Pilihan Alternatif (Percuma)" />
-                        <p className="text-slate-600 dark:text-slate-300 mb-6">
+                        <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-3">Pilihan Alternatif (Percuma)</h2>
+                        <p className="text-slate-600 dark:text-slate-300 mb-4 leading-relaxed">
                             Jika anda memilih untuk tidak menggunakan perkhidmatan WhatsApp berbayar ini, sistem operasi studio anda <strong>tidak akan terjejas</strong> kerana:
                         </p>
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            <AlternativeCard icon={<Mail className="w-5 h-5" />} title="E-mel Automatik" desc="Pelanggan tetap menerima e-mel pengesahan tempahan secara automatik." />
-                            <AlternativeCard icon={<Send className="w-5 h-5" />} title="Notifikasi Telegram" desc="Pemilik studio boleh menerima notifikasi percuma melalui Telegram." />
-                        </div>
+                        <ul className="space-y-3 text-slate-600 dark:text-slate-300">
+                            <li className="flex items-start gap-3">
+                                <span className="text-blue-500 mt-1">•</span>
+                                <div>
+                                    <strong className="text-slate-900 dark:text-white">E-mel Automatik:</strong> Pelanggan tetap menerima e-mel pengesahan tempahan secara automatik
+                                </div>
+                            </li>
+                            <li className="flex items-start gap-3">
+                                <span className="text-blue-500 mt-1">•</span>
+                                <div>
+                                    <strong className="text-slate-900 dark:text-white">Notifikasi Telegram:</strong> Pemilik studio boleh menerima notifikasi percuma melalui Telegram
+                                </div>
+                            </li>
+                        </ul>
                     </section>
 
-                    {/* 5. How to Enable */}
-                    <section className="bg-slate-100 dark:bg-zinc-800/50 rounded-2xl p-8 text-center">
-                        <Settings className="w-8 h-8 mx-auto text-slate-400 mb-4" />
-                        <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-2">Tetapan Sistem</h3>
-                        <p className="text-slate-600 dark:text-slate-400 mb-6">Anda mempunyai kawalan penuh untuk mengaktifkan atau mematikan fungsi ini pada bila-bila masa.</p>
-
-                        <div className="inline-flex items-center gap-2 bg-white dark:bg-zinc-900 px-4 py-2 rounded-lg border border-slate-200 dark:border-white/10 text-sm font-medium font-mono text-slate-700 dark:text-slate-300 shadow-sm">
-                            <span>Settings</span>
-                            <span className="text-slate-300">/</span>
-                            <span>Integration</span>
-                            <span className="text-slate-300">/</span>
-                            <span>WhatsApp</span>
-                            <span className="text-slate-300">/</span>
-                            <span className="text-studio-primary">Automated Notification</span>
-                        </div>
+                    {/* 5. How to Enable - Simplified */}
+                    <section>
+                        <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-3">Tetapan Sistem</h2>
+                        <p className="text-slate-600 dark:text-slate-300 mb-4 leading-relaxed">
+                            Anda mempunyai kawalan penuh untuk mengaktifkan atau mematikan fungsi ini pada bila-bila masa melalui:
+                        </p>
+                        <p className="font-mono text-sm text-slate-700 dark:text-slate-300 bg-slate-100 dark:bg-slate-800/50 px-4 py-2 rounded inline-block">
+                            Settings → Integration → WhatsApp → <span className="text-orange-600 dark:text-orange-500">Automated Notification</span>
+                        </p>
                     </section>
 
-                    <div className="text-center pt-8 border-t border-slate-200 dark:border-white/10">
-                        <p className="text-slate-500 dark:text-slate-400 italic">Maaf kerana mengambil masa dan terima kasih atas sokongan berterusan anda.</p>
-                        <p className="font-bold text-slate-900 dark:text-white mt-2">– Pasukan SesiFoto</p>
+                    <div className="text-center pt-6 mt-8 border-t border-slate-200 dark:border-slate-700">
+                        <p className="text-slate-500 dark:text-slate-400 italic mb-1">Maaf kerana mengambil masa dan terima kasih atas sokongan berterusan anda.</p>
+                        <p className="font-semibold text-slate-900 dark:text-white">– Pasukan SesiFoto</p>
                     </div>
 
                 </div>
             ),
             en: (
-                <div className="space-y-12">
-                    {/* Intro Alert */}
-                    <div className="bg-amber-50 dark:bg-amber-900/10 border border-amber-200 dark:border-amber-800/30 rounded-2xl p-6 md:p-8">
-                        <div className="flex gap-4">
-                            <div className="shrink-0 mt-1">
-                                <WarningIcon />
-                            </div>
-                            <div>
-                                <h3 className="text-lg font-bold text-amber-800 dark:text-amber-500 mb-2">Transition to Official Meta WhatsApp API</h3>
-                                <p className="text-amber-900/80 dark:text-amber-200/80 leading-relaxed text-sm md:text-base">
-                                    To ensure the stability and smoothness of the notification system, SesiFoto has taken steps to transition to the <strong>Official Meta WhatsApp API</strong> integration. This step was taken because the unofficial method used previously caused the SesiFoto service number to be banned by WhatsApp.
-                                </p>
-                            </div>
-                        </div>
+                <div className="space-y-8">
+                    {/* Intro Alert - Simplified */}
+                    <div className="border-l-4 border-amber-500 bg-amber-50/50 dark:bg-amber-900/5 pl-6 pr-4 py-5">
+                        <h3 className="text-lg font-bold text-amber-900 dark:text-amber-400 mb-2">Transition to Official Meta WhatsApp API</h3>
+                        <p className="text-slate-700 dark:text-slate-300 leading-relaxed">
+                            To ensure the stability and smoothness of the notification system, SesiFoto has taken steps to transition to the <strong>Official Meta WhatsApp API</strong> integration. This step was taken because the unofficial method used previously caused the SesiFoto service number to be banned by WhatsApp.
+                        </p>
                     </div>
 
                     {/* 1. Cost Structure */}
                     <section>
-                        <SectionHeader icon={<Coins className="w-6 h-6 text-studio-primary" />} title="1. Message Costs & Structure" />
-                        <p className="text-slate-600 dark:text-slate-300 mb-4 leading-relaxed">
+                        <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-3">Message Costs & Structure</h2>
+                        <p className="text-slate-600 dark:text-slate-300 leading-relaxed">
                             Using the official API involves a cost for each message charged by Meta. However, SesiFoto strives <strong>not to make a profit</strong> from these charges and maintains the price at the actual cost rate to support the studio community.
                         </p>
                     </section>
 
                     {/* 2. Free Quota */}
                     <section>
-                        <SectionHeader icon={<CheckCircle2 className="w-6 h-6 text-green-500" />} title="2. Free Quota" />
-                        <div className="bg-green-50 dark:bg-green-900/10 border border-green-200 dark:border-green-800/30 rounded-xl p-6 flex flex-col md:flex-row items-center justify-between gap-6">
-                            <div>
-                                <h4 className="text-xl font-bold text-green-800 dark:text-green-400 mb-2">SesiFoto Initial Contribution</h4>
-                                <p className="text-green-900/70 dark:text-green-200/70">To start, each studio will receive a free message quota fully borne by us.</p>
-                            </div>
-                            <div className="bg-white dark:bg-green-950/50 px-6 py-4 rounded-lg border border-green-200 dark:border-green-800/30 text-center shrink-0 min-w-[200px]">
-                                <span className="block text-3xl font-black text-green-600 dark:text-green-400">400</span>
-                                <span className="text-xs font-bold uppercase tracking-wider text-green-800/60 dark:text-green-400/60">Free Messages</span>
-                            </div>
+                        <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-3">Free Quota</h2>
+                        <div className="border-l-4 border-green-500 bg-green-50/50 dark:bg-green-900/5 pl-6 pr-4 py-5">
+                            <p className="text-slate-700 dark:text-slate-300 leading-relaxed mb-3">
+                                To start, each studio will receive <strong className="text-green-700 dark:text-green-400">400 free messages</strong> fully borne by us.
+                            </p>
                         </div>
                     </section>
 
-                    {/* 3. Topup Packages */}
+                    {/* 3. Topup Packages - Minimal Table */}
                     <section>
-                        <SectionHeader icon={<MessageCircle className="w-6 h-6 text-blue-500" />} title="3. Topup Packages" />
-                        <p className="text-slate-600 dark:text-slate-300 mb-8">
-                            Once the free quota is exhausted, you can purchase additional packages as needed. Here is the estimated number of bookings that can be covered.
+                        <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-3">Topup Packages</h2>
+                        <p className="text-slate-600 dark:text-slate-300 mb-6 leading-relaxed">
+                            Once the free quota is exhausted, you can purchase additional packages as needed. Here is the estimated number of bookings that can be covered:
                         </p>
 
-                        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                            <PricingCard price="RM50" messages="800" bookings="~266" t="en" />
-                            <PricingCard price="RM100" messages="1,600" bookings="~533" isPopular t="en" />
-                            <PricingCard price="RM200" messages="3,200" bookings="~1,066" t="en" />
+                        <div className="overflow-x-auto">
+                            <table className="w-full text-left border-collapse">
+                                <thead>
+                                    <tr className="border-b-2 border-slate-200 dark:border-slate-700">
+                                        <th className="py-3 px-4 text-slate-700 dark:text-slate-300 font-semibold">Price</th>
+                                        <th className="py-3 px-4 text-slate-700 dark:text-slate-300 font-semibold">Messages</th>
+                                        <th className="py-3 px-4 text-slate-700 dark:text-slate-300 font-semibold">Booking Capacity</th>
+                                    </tr>
+                                </thead>
+                                <tbody className="text-slate-600 dark:text-slate-400">
+                                    <tr className="border-b border-slate-100 dark:border-slate-800">
+                                        <td className="py-3 px-4 font-medium">RM50</td>
+                                        <td className="py-3 px-4">800</td>
+                                        <td className="py-3 px-4">~266 bookings</td>
+                                    </tr>
+                                    <tr className="border-b border-slate-100 dark:border-slate-800 bg-orange-50/30 dark:bg-orange-900/5">
+                                        <td className="py-3 px-4 font-medium">RM100</td>
+                                        <td className="py-3 px-4 font-semibold text-orange-600 dark:text-orange-500">1,600</td>
+                                        <td className="py-3 px-4">~533 bookings</td>
+                                    </tr>
+                                    <tr>
+                                        <td className="py-3 px-4 font-medium">RM200</td>
+                                        <td className="py-3 px-4">3,200</td>
+                                        <td className="py-3 px-4">~1,066 bookings</td>
+                                    </tr>
+                                </tbody>
+                            </table>
                         </div>
-                        <p className="text-xs text-slate-400 mt-4 text-center italic">*Estimation: 3 messages per booking: Confirmation, 24-Hour Reminder, & Admin Notification.</p>
+                        <p className="text-xs text-slate-400 mt-3 italic">*Estimation: 3 messages per booking: Confirmation, 24-Hour Reminder, & Admin Notification</p>
                     </section>
 
-                    {/* 4. Alternatives */}
+                    {/* 4. Alternatives - Simple List */}
                     <section>
-                        <SectionHeader icon={<Send className="w-6 h-6 text-purple-500" />} title="4. Alternative Options (Free)" />
-                        <p className="text-slate-600 dark:text-slate-300 mb-6">
+                        <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-3">Alternative Options (Free)</h2>
+                        <p className="text-slate-600 dark:text-slate-300 mb-4 leading-relaxed">
                             If you choose not to use this paid WhatsApp service, your studio's operating system <strong>will not be affected</strong> because:
                         </p>
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            <AlternativeCard icon={<Mail className="w-5 h-5" />} title="Automatic Email" desc="Customers still receive booking confirmation emails automatically." />
-                            <AlternativeCard icon={<Send className="w-5 h-5" />} title="Telegram Notifications" desc="Studio owners can receive free notifications via Telegram." />
-                        </div>
+                        <ul className="space-y-3 text-slate-600 dark:text-slate-300">
+                            <li className="flex items-start gap-3">
+                                <span className="text-blue-500 mt-1">•</span>
+                                <div>
+                                    <strong className="text-slate-900 dark:text-white">Automatic Email:</strong> Customers still receive booking confirmation emails automatically
+                                </div>
+                            </li>
+                            <li className="flex items-start gap-3">
+                                <span className="text-blue-500 mt-1">•</span>
+                                <div>
+                                    <strong className="text-slate-900 dark:text-white">Telegram Notifications:</strong> Studio owners can receive free notifications via Telegram
+                                </div>
+                            </li>
+                        </ul>
                     </section>
 
-                    {/* 5. How to Enable */}
-                    <section className="bg-slate-100 dark:bg-zinc-800/50 rounded-2xl p-8 text-center">
-                        <Settings className="w-8 h-8 mx-auto text-slate-400 mb-4" />
-                        <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-2">System Settings</h3>
-                        <p className="text-slate-600 dark:text-slate-400 mb-6">You have full control to enable or disable this function at any time.</p>
-
-                        <div className="inline-flex items-center gap-2 bg-white dark:bg-zinc-900 px-4 py-2 rounded-lg border border-slate-200 dark:border-white/10 text-sm font-medium font-mono text-slate-700 dark:text-slate-300 shadow-sm">
-                            <span>Settings</span>
-                            <span className="text-slate-300">/</span>
-                            <span>Integration</span>
-                            <span className="text-slate-300">/</span>
-                            <span>WhatsApp</span>
-                            <span className="text-slate-300">/</span>
-                            <span className="text-studio-primary">Automated Notification</span>
-                        </div>
+                    {/* 5. How to Enable - Simplified */}
+                    <section>
+                        <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-3">System Settings</h2>
+                        <p className="text-slate-600 dark:text-slate-300 mb-4 leading-relaxed">
+                            You have full control to enable or disable this function at any time via:
+                        </p>
+                        <p className="font-mono text-sm text-slate-700 dark:text-slate-300 bg-slate-100 dark:bg-slate-800/50 px-4 py-2 rounded inline-block">
+                            Settings → Integration → WhatsApp → <span className="text-orange-600 dark:text-orange-500">Automated Notification</span>
+                        </p>
                     </section>
 
-                    <div className="text-center pt-8 border-t border-slate-200 dark:border-white/10">
-                        <p className="text-slate-500 dark:text-slate-400 italic">Sorry for the delay and thank you for your continued support.</p>
-                        <p className="font-bold text-slate-900 dark:text-white mt-2">– SesiFoto Team</p>
+                    <div className="text-center pt-6 mt-8 border-t border-slate-200 dark:border-slate-700">
+                        <p className="text-slate-500 dark:text-slate-400 italic mb-1">Sorry for the delay and thank you for your continued support.</p>
+                        <p className="font-semibold text-slate-900 dark:text-white">– SesiFoto Team</p>
                     </div>
 
                 </div>

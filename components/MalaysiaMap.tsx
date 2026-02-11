@@ -126,35 +126,29 @@ const MalaysiaMap: React.FC<MalaysiaMapProps> = ({ onStateSelect, selectedState,
 
         if (isActive) {
             return {
-                fill: '#f97316', // orange-500
+                fill: '#f97316',
                 stroke: '#fff',
-                strokeWidth: 1,
-                filter: 'drop-shadow(0 8px 12px rgba(249, 115, 22, 0.5))',
-                transform: 'scale(1.05) translateY(-3px)',
-                transformOrigin: 'center',
-                transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+                strokeWidth: 1.5,
+                filter: 'drop-shadow(0 2px 4px rgba(249, 115, 22, 0.4))',
+                transition: 'fill 0.2s ease, stroke-width 0.2s ease, filter 0.2s ease',
                 cursor: 'pointer',
             };
         }
         if (isHovered) {
             return {
-                fill: '#fb923c', // orange-400
+                fill: '#fb923c',
                 stroke: '#fff',
-                strokeWidth: 0.8,
-                filter: 'drop-shadow(0 4px 8px rgba(249, 115, 22, 0.3))',
-                transform: 'scale(1.08) translateY(-2px)',
-                transformOrigin: 'center',
-                transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+                strokeWidth: 1,
+                filter: 'drop-shadow(0 1px 3px rgba(249, 115, 22, 0.25))',
+                transition: 'fill 0.2s ease, stroke-width 0.2s ease, filter 0.2s ease',
                 cursor: 'pointer',
             };
         }
         return {
-            fill: '', // will use class
+            fill: '',
             stroke: '#ffffff',
             strokeWidth: 0.5,
-            transform: 'scale(1)',
-            transformOrigin: 'center',
-            transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+            transition: 'fill 0.2s ease, stroke-width 0.2s ease, filter 0.2s ease',
             cursor: 'pointer',
         };
     };
@@ -175,15 +169,15 @@ const MalaysiaMap: React.FC<MalaysiaMapProps> = ({ onStateSelect, selectedState,
         <div
             ref={containerRef}
             onMouseMove={handleMouseMove}
-            className="w-full relative bg-gradient-to-br from-slate-50 to-white dark:from-zinc-900/50 dark:to-black rounded-3xl border border-slate-200 dark:border-white/5 overflow-hidden p-4 md:p-8 shadow-2xl shadow-slate-200/50 dark:shadow-none"
-            style={{ perspective: '1200px', minHeight: '550px' }}
+            className="w-full relative bg-gradient-to-br from-slate-50 to-white dark:from-zinc-900/50 dark:to-black rounded-2xl md:rounded-3xl border border-slate-200 dark:border-white/5 overflow-hidden p-3 md:p-8 shadow-2xl shadow-slate-200/50 dark:shadow-none"
+            style={{ minHeight: 'auto' }}
         >
             {/* Header */}
-            <div className="absolute top-4 right-4 md:top-8 md:right-8 text-right z-20 pointer-events-none">
-                <h3 className="text-sm font-bold uppercase tracking-widest text-slate-400 mb-1">
+            <div className="relative text-center md:text-right md:absolute md:top-8 md:right-8 z-20 pointer-events-none mb-2 md:mb-0">
+                <h3 className="text-[10px] md:text-sm font-bold uppercase tracking-widest text-slate-400 mb-0.5 md:mb-1">
                     Explore By State
                 </h3>
-                <h2 className="text-2xl md:text-3xl font-serif font-bold text-slate-900 dark:text-white">
+                <h2 className="text-lg md:text-3xl font-serif font-bold text-slate-900 dark:text-white">
                     {displayName}
                 </h2>
             </div>
@@ -192,24 +186,18 @@ const MalaysiaMap: React.FC<MalaysiaMapProps> = ({ onStateSelect, selectedState,
             {selectedState && (
                 <button
                     onClick={(e) => { e.stopPropagation(); onStateSelect(null); }}
-                    className="absolute top-4 left-4 md:top-auto md:bottom-8 md:left-8 z-30 bg-orange-50/80 dark:bg-orange-900/30 backdrop-blur-md border border-orange-500/20 text-xs font-bold text-orange-600 dark:text-orange-400 px-4 py-2 rounded-full hover:bg-orange-500 hover:text-white transition-all shadow-lg"
+                    className="absolute bottom-3 left-3 md:bottom-8 md:left-8 z-30 bg-orange-50/80 dark:bg-orange-900/30 backdrop-blur-md border border-orange-500/20 text-[10px] md:text-xs font-bold text-orange-600 dark:text-orange-400 px-3 py-1.5 md:px-4 md:py-2 rounded-full hover:bg-orange-500 hover:text-white transition-all shadow-lg"
                 >
                     Clear Filter
                 </button>
             )}
 
-            {/* 3D Map */}
-            <div
-                className="w-full transition-transform duration-700 ease-out"
-                style={{
-                    transformStyle: 'preserve-3d',
-                    transform: 'rotateX(25deg) scale(0.95)',
-                }}
-            >
+            {/* Map */}
+            <div className="w-full mt-0 md:mt-4">
                 {svgPaths.length > 0 ? (
                     <svg
-                        viewBox="30 20 920 300"
-                        className="w-full h-auto overflow-visible"
+                        viewBox="10 30 920 290"
+                        className="w-full h-auto"
                         onClick={() => onStateSelect(null)}
                     >
                         <g>
@@ -226,6 +214,12 @@ const MalaysiaMap: React.FC<MalaysiaMapProps> = ({ onStateSelect, selectedState,
                                     }}
                                     onMouseEnter={() => setHoveredState(getStateKey(id))}
                                     onMouseLeave={() => setHoveredState(null)}
+                                    onTouchStart={(e) => {
+                                        e.stopPropagation();
+                                        const stateKey = getStateKey(id);
+                                        setHoveredState(stateKey);
+                                        onStateSelect(selectedState === stateKey ? null : stateKey);
+                                    }}
                                 />
                             ))}
                         </g>
@@ -271,7 +265,7 @@ const MalaysiaMap: React.FC<MalaysiaMapProps> = ({ onStateSelect, selectedState,
             </div>
 
             {/* Tooltip - Fixed Top Left */}
-            <div className={`absolute top-4 left-4 z-50 pointer-events-none transition-all duration-300 ease-out ${hoveredState
+            <div className={`absolute top-3 left-3 z-50 pointer-events-none transition-all duration-300 ease-out hidden md:block ${hoveredState
                 ? 'opacity-100 translate-y-0 scale-100'
                 : 'opacity-0 -translate-y-2 scale-95'
                 }`}>
