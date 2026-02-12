@@ -132,7 +132,24 @@ export const NEWS_DATA: NewsItem[] = [
                                 </tbody>
                             </table>
                         </div>
-                        <p className="text-xs text-slate-400 mt-3 italic">*Anggaran 3 mesej per tempahan: Pengesahan, Peringatan 24 Jam, & Notifikasi Admin</p>
+                        <p className="text-xs text-slate-400 mt-3 italic mb-6">*Anggaran 3 mesej per tempahan: Pengesahan, Peringatan 24 Jam, & Notifikasi Admin</p>
+
+                        <div className="bg-slate-50 dark:bg-white/5 p-5 rounded-xl border border-slate-200 dark:border-white/10">
+                            <h3 className="font-bold text-slate-900 dark:text-white mb-3 text-sm uppercase tracking-wide">Cara Topup</h3>
+                            <ol className="list-decimal list-inside space-y-2 text-slate-600 dark:text-slate-300 text-sm mb-4">
+                                <li>Pilih pakej mesj yang diinginkan sebagai kredit WhatsApp studio anda.</li>
+                                <li>Klik butang <span className="font-mono bg-slate-200 dark:bg-black px-1 rounded">Purchase</span>.</li>
+                                <li>Lakukan pembayaran melalui gerbang pembayaran yang disediakan.</li>
+                                <li>Kredit mesej akan dikemaskini dalam baki anda secara automatik.</li>
+                            </ol>
+
+                            <div className="flex gap-3 bg-amber-50 dark:bg-amber-900/20 border border-amber-100 dark:border-amber-800/30 p-3 rounded-lg">
+                                <AlertTriangle size={16} className="text-amber-600 dark:text-amber-500 shrink-0 mt-0.5" />
+                                <p className="text-xs text-amber-800 dark:text-amber-400 leading-relaxed font-medium">
+                                    Penting: Pastikan baki mesej sentiasa mencukupi. Sistem <span className="underline decoration-amber-500/50">tidak dapat menghantar notifikasi</span> jika baki tidak mencukupi.
+                                </p>
+                            </div>
+                        </div>
                     </section>
 
                     {/* 4. Alternatives - Simple List */}
@@ -157,20 +174,67 @@ export const NEWS_DATA: NewsItem[] = [
                         </ul>
                     </section>
 
-                    {/* 5. How to Enable - Simplified */}
+                    {/* 5. How to Enable - Expanded */}
                     <section>
                         <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-3">Tetapan Sistem</h2>
                         <p className="text-slate-600 dark:text-slate-300 mb-4 leading-relaxed">
                             Anda mempunyai kawalan penuh untuk mengaktifkan atau mematikan fungsi ini pada bila-bila masa melalui:
                         </p>
-                        <p className="font-mono text-sm text-slate-700 dark:text-slate-300 bg-slate-100 dark:bg-slate-800/50 px-4 py-2 rounded inline-block">
+                        <p className="font-mono text-sm text-slate-700 dark:text-slate-300 bg-slate-100 dark:bg-slate-800/50 px-4 py-2 rounded inline-block mb-6">
                             Settings → Integration → WhatsApp → <span className="text-orange-600 dark:text-orange-500">Automated Notification</span>
                         </p>
+
+                        <div className="space-y-6">
+                            {/* Studio Number */}
+                            <div className="bg-white dark:bg-zinc-900 p-5 rounded-xl border border-slate-200 dark:border-white/10 shadow-sm">
+                                <h3 className="font-bold text-slate-900 dark:text-white mb-2 flex items-center gap-2">
+                                    <Settings size={18} className="text-slate-400" />
+                                    Studio WhatsApp Number
+                                </h3>
+                                <p className="text-slate-600 dark:text-slate-300 text-sm leading-relaxed">
+                                    Masukkan nombor telefon untuk menerima notifikasi tempahan baru di ruangan ini. Nombor ini adalah <span className="font-medium text-slate-900 dark:text-white">untuk kegunaan dalaman sahaja</span> dan tidak akan didedahkan kepada pelanggan.
+                                </p>
+                            </div>
+
+                            {/* Toggles */}
+                            <div className="bg-white dark:bg-zinc-900 p-5 rounded-xl border border-slate-200 dark:border-white/10 shadow-sm">
+                                <h3 className="font-bold text-slate-900 dark:text-white mb-4 flex items-center gap-2">
+                                    <CheckCircle2 size={18} className="text-green-500" />
+                                    Pilihan Notifikasi
+                                </h3>
+                                <p className="text-slate-600 dark:text-slate-300 text-sm mb-4">
+                                    Anda boleh memilih untuk hidupkan atau matikan mana-mana automasi notifikasi berikut mengikut keperluan studio anda:
+                                </p>
+                                <ul className="space-y-4">
+                                    <li className="flex gap-3">
+                                        <div className="mt-1"><div className="w-2 h-2 rounded-full bg-slate-300 dark:bg-slate-600"></div></div>
+                                        <div>
+                                            <strong className="block text-slate-900 dark:text-white text-sm">Payment Confirmation (Customer)</strong>
+                                            <span className="text-slate-500 dark:text-slate-400 text-xs">Menghantar resit dan butiran tempahan kepada pelanggan selepas pembayaran berjaya.</span>
+                                        </div>
+                                    </li>
+                                    <li className="flex gap-3">
+                                        <div className="mt-1"><div className="w-2 h-2 rounded-full bg-slate-300 dark:bg-slate-600"></div></div>
+                                        <div>
+                                            <strong className="block text-slate-900 dark:text-white text-sm">New Booking Alert (Studio)</strong>
+                                            <span className="text-slate-500 dark:text-slate-400 text-xs">Notifikasi ke nombor studio anda apabila tempahan baharu diterima.</span>
+                                        </div>
+                                    </li>
+                                    <li className="flex gap-3">
+                                        <div className="mt-1"><div className="w-2 h-2 rounded-full bg-slate-300 dark:bg-slate-600"></div></div>
+                                        <div>
+                                            <strong className="block text-slate-900 dark:text-white text-sm">24-Hour Reminder</strong>
+                                            <span className="text-slate-500 dark:text-slate-400 text-xs">Peringatan automatik kepada pelanggan 1 hari sebelum sesi dijadualkan.</span>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
                     </section>
 
                     <div className="text-center pt-6 mt-8 border-t border-slate-200 dark:border-slate-700">
-                        <p className="text-slate-500 dark:text-slate-400 italic mb-1">Maaf kerana mengambil masa dan terima kasih atas sokongan berterusan anda.</p>
-                        <p className="font-semibold text-slate-900 dark:text-white">– Pasukan SesiFoto</p>
+                        <p className="text-slate-500 dark:text-slate-400 italic mb-1">Maaf kerana mengambil masa dan terima kasih atas sokongan anda.</p>
+
                     </div>
 
                 </div>
@@ -238,7 +302,24 @@ export const NEWS_DATA: NewsItem[] = [
                                 </tbody>
                             </table>
                         </div>
-                        <p className="text-xs text-slate-400 mt-3 italic">*Estimation: 3 messages per booking: Confirmation, 24-Hour Reminder, & Admin Notification</p>
+                        <p className="text-xs text-slate-400 mt-3 italic mb-6">*Estimation: 3 messages per booking: Confirmation, 24-Hour Reminder, & Admin Notification</p>
+
+                        <div className="bg-slate-50 dark:bg-white/5 p-5 rounded-xl border border-slate-200 dark:border-white/10">
+                            <h3 className="font-bold text-slate-900 dark:text-white mb-3 text-sm uppercase tracking-wide">How to Topup</h3>
+                            <ol className="list-decimal list-inside space-y-2 text-slate-600 dark:text-slate-300 text-sm mb-4">
+                                <li>Select the desired package to add WhatsApp credits to your studio.</li>
+                                <li>Click the <span className="font-mono bg-slate-200 dark:bg-black px-1 rounded">Purchase</span> button.</li>
+                                <li>Complete the payment via the provided gateway.</li>
+                                <li>Message credits will be automatically updated in your balance.</li>
+                            </ol>
+
+                            <div className="flex gap-3 bg-amber-50 dark:bg-amber-900/20 border border-amber-100 dark:border-amber-800/30 p-3 rounded-lg">
+                                <AlertTriangle size={16} className="text-amber-600 dark:text-amber-500 shrink-0 mt-0.5" />
+                                <p className="text-xs text-amber-800 dark:text-amber-400 leading-relaxed font-medium">
+                                    Important: Ensure sufficient message balance. Unfortunately, the system <span className="underline decoration-amber-500/50">cannot send notifications</span> if the balance is insufficient.
+                                </p>
+                            </div>
+                        </div>
                     </section>
 
                     {/* 4. Alternatives - Simple List */}
@@ -263,15 +344,62 @@ export const NEWS_DATA: NewsItem[] = [
                         </ul>
                     </section>
 
-                    {/* 5. How to Enable - Simplified */}
+                    {/* 5. How to Enable - Expanded */}
                     <section>
                         <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-3">System Settings</h2>
                         <p className="text-slate-600 dark:text-slate-300 mb-4 leading-relaxed">
                             You have full control to enable or disable this function at any time via:
                         </p>
-                        <p className="font-mono text-sm text-slate-700 dark:text-slate-300 bg-slate-100 dark:bg-slate-800/50 px-4 py-2 rounded inline-block">
+                        <p className="font-mono text-sm text-slate-700 dark:text-slate-300 bg-slate-100 dark:bg-slate-800/50 px-4 py-2 rounded inline-block mb-6">
                             Settings → Integration → WhatsApp → <span className="text-orange-600 dark:text-orange-500">Automated Notification</span>
                         </p>
+
+                        <div className="space-y-6">
+                            {/* Studio Number */}
+                            <div className="bg-white dark:bg-zinc-900 p-5 rounded-xl border border-slate-200 dark:border-white/10 shadow-sm">
+                                <h3 className="font-bold text-slate-900 dark:text-white mb-2 flex items-center gap-2">
+                                    <Settings size={18} className="text-slate-400" />
+                                    Studio WhatsApp Number
+                                </h3>
+                                <p className="text-slate-600 dark:text-slate-300 text-sm leading-relaxed">
+                                    Enter the number to receive administrative alerts here. This number is <span className="font-medium text-slate-900 dark:text-white">kept private</span> and is not visible to customers.
+                                </p>
+                            </div>
+
+                            {/* Toggles */}
+                            <div className="bg-white dark:bg-zinc-900 p-5 rounded-xl border border-slate-200 dark:border-white/10 shadow-sm">
+                                <h3 className="font-bold text-slate-900 dark:text-white mb-4 flex items-center gap-2">
+                                    <CheckCircle2 size={18} className="text-green-500" />
+                                    Notification Options
+                                </h3>
+                                <p className="text-slate-600 dark:text-slate-300 text-sm mb-4">
+                                    You can toggle on any of the following notifications based on your needs:
+                                </p>
+                                <ul className="space-y-4">
+                                    <li className="flex gap-3">
+                                        <div className="mt-1"><div className="w-2 h-2 rounded-full bg-slate-300 dark:bg-slate-600"></div></div>
+                                        <div>
+                                            <strong className="block text-slate-900 dark:text-white text-sm">Payment Confirmation (Customer)</strong>
+                                            <span className="text-slate-500 dark:text-slate-400 text-xs">Send receipt and booking details to customer after payment.</span>
+                                        </div>
+                                    </li>
+                                    <li className="flex gap-3">
+                                        <div className="mt-1"><div className="w-2 h-2 rounded-full bg-slate-300 dark:bg-slate-600"></div></div>
+                                        <div>
+                                            <strong className="block text-slate-900 dark:text-white text-sm">New Booking Alert (Studio)</strong>
+                                            <span className="text-slate-500 dark:text-slate-400 text-xs">Notify your studio number when a new booking is received.</span>
+                                        </div>
+                                    </li>
+                                    <li className="flex gap-3">
+                                        <div className="mt-1"><div className="w-2 h-2 rounded-full bg-slate-300 dark:bg-slate-600"></div></div>
+                                        <div>
+                                            <strong className="block text-slate-900 dark:text-white text-sm">24-Hour Reminder</strong>
+                                            <span className="text-slate-500 dark:text-slate-400 text-xs">Remind customers 1 day before their scheduled session.</span>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
                     </section>
 
                     <div className="text-center pt-6 mt-8 border-t border-slate-200 dark:border-slate-700">
