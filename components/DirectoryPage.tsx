@@ -61,6 +61,11 @@ const DirectoryPage: React.FC = () => {
                         'Cache-Control': 'no-cache'
                     }
                 });
+
+                if (!response.ok) {
+                    throw new Error(`API responded with status ${response.status}. Falling back to static data.`);
+                }
+
                 const apiStudios = await response.json();
 
                 // Map API response to our Studio interface
@@ -77,7 +82,8 @@ const DirectoryPage: React.FC = () => {
                 setStudios(mappedStudios);
             } catch (error) {
                 console.error('Failed to fetch studios from API, using static data:', error);
-                // Keep the static data as fallback
+                // Actually use the static data as fallback
+                setStudios(STUDIOS_DATA);
             } finally {
                 setIsLoading(false);
             }
@@ -87,8 +93,8 @@ const DirectoryPage: React.FC = () => {
     }, []);
 
 
-    // Only show studios with complete production data
-    const completeStudios = studios.filter(s => s.logo && s.address && s.phone);
+    // Only show studios with complete production data and filter out rangkaraya
+    const completeStudios = studios.filter(s => s.logo && s.address && s.phone && s.id !== 'rangkaraya');
 
     const filteredStudios = completeStudios.filter(studio => {
         const matchesState = selectedState ? studio.state === selectedState : true;

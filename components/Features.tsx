@@ -2,7 +2,7 @@ import React from 'react';
 import GlassCard from './ui/GlassCard';
 import Reveal from './ui/Reveal';
 import { useLanguage } from '../contexts/LanguageContext';
-import { Globe, LayoutDashboard, Calendar, CalendarClock, BarChart3, CheckCircle2, ShieldCheck, Zap, Smartphone, FileSpreadsheet, Ticket, ArrowLeftRight, Download, Search, Plus, Clock, ChevronsUpDown, Banknote, Filter, Users, MoreHorizontal, Calendar as CalendarIcon } from 'lucide-react';
+import { Globe, LayoutDashboard, Calendar, CalendarClock, BarChart3, CheckCircle2, ShieldCheck, Zap, Smartphone, FileSpreadsheet, Ticket, ArrowLeftRight, Download, Search, Plus, Clock, ChevronsUpDown, Banknote, Filter, Users, MoreHorizontal, MoreVertical, Calendar as CalendarIcon, Mail, Phone } from 'lucide-react';
 
 const Features: React.FC = () => {
    const { t, isChanging } = useLanguage();
@@ -145,10 +145,34 @@ const Features: React.FC = () => {
 
                                     {/* CONDITIONAL MOCKUPS FOR ALL FEATURES */}
                                     {index === 0 && <BookingSiteMockup />}
-                                    {index === 1 && <ControlCentreMockup />}
-                                    {index === 2 && <AutoPilotMockup />}
-                                    {index === 3 && <StudioRulesMockup />}
-                                    {index === 4 && <AnalyticsMockup />}
+                                    {index === 1 && (
+                                       <RemotionLoopMockup
+                                          src="/remotion/AnimatedBookingCard.mp4"
+                                          title={feature.title}
+                                          poster={feature.image}
+                                       />
+                                    )}
+                                    {index === 2 && (
+                                       <RemotionLoopMockup
+                                          src="/remotion/AnimatedNotificationViews.mp4"
+                                          title={feature.title}
+                                          poster={feature.image}
+                                       />
+                                    )}
+                                    {index === 3 && (
+                                       <RemotionLoopMockup
+                                          src="/remotion/AnimatedOperatingHours.mp4"
+                                          title={feature.title}
+                                          poster={feature.image}
+                                       />
+                                    )}
+                                    {index === 4 && (
+                                       <RemotionLoopMockup
+                                          src="/remotion/AnimatedDashboard.mp4"
+                                          title={feature.title}
+                                          poster={feature.image}
+                                       />
+                                    )}
 
                                     {/* Fallback for safety or future items */}
                                     {![0, 1, 2, 3, 4].includes(index) && (
@@ -213,149 +237,335 @@ const Features: React.FC = () => {
 // FEATURE MOCKUPS
 // ==========================================
 
-const BookingSiteMockup = () => {
+const RemotionLoopMockup: React.FC<{ src: string; title: string; poster?: string }> = ({ src, title, poster }) => {
+   const webmSrc = src.replace(/\.mp4$/, '.webm');
+   const cacheKey = '20260306b';
+   const videoRef = React.useRef<HTMLVideoElement | null>(null);
+   const [resolvedSrc, setResolvedSrc] = React.useState(`${src}?v=${cacheKey}`);
+
+   React.useEffect(() => {
+      if (typeof navigator === 'undefined') return;
+      const ua = navigator.userAgent;
+      const isIOS =
+         /iPad|iPhone|iPod/.test(ua) ||
+         (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+
+      if (isIOS) {
+         setResolvedSrc(`${src}?v=${cacheKey}`);
+         return;
+      }
+
+      const probe = document.createElement('video');
+      const webmSupport = probe.canPlayType('video/webm; codecs="vp9"');
+      if (webmSupport === 'probably' || webmSupport === 'maybe') {
+         setResolvedSrc(`${webmSrc}?v=${cacheKey}`);
+         return;
+      }
+
+      setResolvedSrc(`${src}?v=${cacheKey}`);
+   }, [src, webmSrc]);
+
+   React.useEffect(() => {
+      const video = videoRef.current;
+      if (!video) return;
+
+      const forceInlineLoopPlay = () => {
+         video.muted = true;
+         video.defaultMuted = true;
+         video.playsInline = true;
+         video.setAttribute('playsinline', 'true');
+         video.setAttribute('webkit-playsinline', 'true');
+         const playPromise = video.play();
+         if (playPromise && typeof playPromise.catch === 'function') {
+            playPromise.catch(() => {
+               // Autoplay can still be blocked by iOS low power mode.
+            });
+         }
+      };
+
+      const onVisibility = () => {
+         if (document.visibilityState === 'visible') {
+            forceInlineLoopPlay();
+         }
+      };
+
+      video.addEventListener('loadedmetadata', forceInlineLoopPlay);
+      video.addEventListener('canplay', forceInlineLoopPlay);
+      document.addEventListener('visibilitychange', onVisibility);
+      forceInlineLoopPlay();
+
+      return () => {
+         video.removeEventListener('loadedmetadata', forceInlineLoopPlay);
+         video.removeEventListener('canplay', forceInlineLoopPlay);
+         document.removeEventListener('visibilitychange', onVisibility);
+      };
+   }, [resolvedSrc]);
+
    return (
-      <div className="w-full h-full relative flex items-center justify-center font-sans select-none perspective-1000">
+      <div className="w-full h-full bg-transparent">
+         <div className="relative w-full h-full overflow-hidden bg-transparent">
+            <video
+               ref={videoRef}
+               src={resolvedSrc}
+               autoPlay
+               muted
+               loop
+               playsInline
+               controls={false}
+               disablePictureInPicture
+               disableRemotePlayback
+               controlsList="nodownload nofullscreen noremoteplayback"
+               tabIndex={-1}
+               draggable={false}
+               preload="auto"
+               className="w-full h-full object-contain pointer-events-none select-none touch-none bg-transparent"
+               aria-label={title}
+               onContextMenu={(event) => event.preventDefault()}
+            />
+         </div>
+      </div>
+   );
+};
 
-         {/* Abstract Gradient Background */}
+const BookingSiteMockup = () => {
+   const [activeFrame, setActiveFrame] = React.useState<'first' | 'second'>('first');
+
+   const days = [
+      { month: 'MAR', date: '5', day: 'Thu', active: false },
+      { month: 'MAR', date: '6', day: 'Fri', active: false },
+      { month: 'MAR', date: '7', day: 'Sat', active: true },
+      { month: 'MAR', date: '8', day: 'Sun', active: false },
+      { month: 'MAR', date: '9', day: 'Mon', active: false },
+      { month: 'MAR', date: '10', day: 'Tue', active: false },
+      { month: 'MAR', date: '11', day: 'Wed', active: false },
+   ];
+
+   const timeSlots = [
+      ['10:00 AM - 10:20 AM', '10:30 AM - 10:50 AM'],
+      ['11:00 AM - 11:20 AM', '11:30 AM - 11:50 AM'],
+      ['12:00 PM - 12:20 PM', '12:30 PM - 12:50 PM'],
+      ['1:00 PM - 1:20 PM', '1:30 PM - 1:50 PM'],
+      ['2:00 PM - 2:20 PM', '2:30 PM - 2:50 PM'],
+      ['3:00 PM - 3:20 PM', '3:30 PM - 3:50 PM'],
+      ['4:00 PM - 4:20 PM', '4:30 PM - 4:50 PM'],
+      ['5:00 PM - 5:20 PM', '5:30 PM - 5:50 PM'],
+      ['6:00 PM - 6:20 PM', '6:30 PM - 6:50 PM'],
+   ];
+
+   return (
+      <div className="w-full h-full relative flex items-center justify-center font-sans select-none">
          <div className="absolute inset-0 pointer-events-none">
-            <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-orange-400/30 dark:bg-orange-600/20 rounded-full blur-3xl opacity-50 mix-blend-multiply dark:mix-blend-screen animate-blob"></div>
-            <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-red-400/30 dark:bg-red-900/20 rounded-full blur-3xl opacity-50 mix-blend-multiply dark:mix-blend-screen animate-blob animation-delay-2000"></div>
+            <div className="absolute top-[6%] left-[8%] w-[240px] h-[240px] rounded-full bg-slate-300/30 blur-3xl"></div>
+            <div className="absolute bottom-[4%] right-[6%] w-[260px] h-[260px] rounded-full bg-slate-200/60 blur-3xl"></div>
          </div>
 
-         {/* Screen 1: Landing Page (Left - Peaking) */}
-         <div className="absolute left-[5%] md:left-[10%] w-[45%] max-w-[220px] aspect-[9/18] bg-[#431407] dark:bg-black rounded-xl md:rounded-[2rem] shadow-2xl shadow-orange-900/20 ring-2 ring-white/10 dark:ring-white/10 flex flex-col overflow-hidden transform -rotate-12 scale-90 origin-bottom-right z-0 blur-[0.5px] opacity-80 transition-all duration-500 hover:opacity-100 hover:blur-none hover:z-20 hover:scale-100">
-            {/* Background Image Placeholder */}
-            <div className="absolute inset-0 bg-gradient-to-t from-orange-950 via-transparent to-transparent z-10"></div>
-            <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1542038784456-1ea8e935640e?q=80&w=2070&auto=format&fit=crop')] bg-cover bg-center opacity-40"></div>
-            <div className="relative z-20 flex-1 flex flex-col justify-end p-4 pb-8">
-               <div className="w-8 h-8 rounded-full border border-white/30 flex items-center justify-center mb-auto pt-4 backdrop-blur-sm">
-                  <div className="w-4 h-4 text-white text-[8px] font-bold">SF</div>
-               </div>
-               <div className="space-y-2 mb-6">
-                  <div className="h-6 w-3/4 bg-white/20 rounded-md backdrop-blur-sm"></div>
-                  <div className="h-4 w-1/2 bg-white/10 rounded-md backdrop-blur-sm"></div>
-               </div>
-               <div className="w-full h-10 bg-orange-500 text-white rounded-lg flex items-center justify-center text-[10px] font-bold tracking-widest shadow-lg shadow-orange-500/30">
-                  BOOK NOW →
-               </div>
-            </div>
-         </div>
-
-         {/* Screen 3: Summary (Right - Peaking) */}
-         <div className="absolute right-[5%] md:right-[10%] w-[45%] max-w-[220px] aspect-[9/18] bg-white dark:bg-zinc-950 rounded-xl md:rounded-[2rem] shadow-2xl ring-2 ring-slate-900/5 dark:ring-white/10 flex flex-col overflow-hidden transform rotate-12 scale-90 origin-bottom-left z-0 blur-[0.5px] opacity-80 transition-all duration-500 hover:opacity-100 hover:blur-none hover:z-20 hover:scale-100">
-            <div className="h-12 border-b border-orange-100 dark:border-white/5 flex items-center justify-center bg-orange-50/50 dark:bg-white/5">
-               <span className="text-[10px] font-medium text-orange-900 dark:text-orange-100">Summary</span>
-            </div>
-            <div className="p-4 space-y-4">
-               <div className="p-3 bg-gradient-to-br from-orange-500 to-red-500 rounded-xl text-white shadow-lg shadow-orange-500/20">
-                  <div className="h-2 w-1/2 bg-white/40 rounded-full mb-2"></div>
-                  <div className="h-2 w-1/3 bg-white/20 rounded-full"></div>
-               </div>
-               <div className="space-y-2">
-                  <div className="flex justify-between">
-                     <div className="h-2 w-16 bg-slate-200 dark:bg-white/10 rounded-full"></div>
-                     <div className="h-2 w-8 bg-slate-200 dark:bg-white/10 rounded-full"></div>
-                  </div>
-                  <div className="flex justify-between">
-                     <div className="h-2 w-20 bg-slate-100 dark:bg-white/5 rounded-full"></div>
-                     <div className="h-2 w-8 bg-slate-100 dark:bg-white/5 rounded-full"></div>
-                  </div>
-                  <div className="w-full h-px bg-slate-100 dark:bg-white/5 my-2"></div>
-                  <div className="flex justify-between items-center mt-4">
-                     <div className="h-3 w-12 bg-slate-900 dark:bg-white rounded-full"></div>
-                     <div className="h-3 w-16 bg-slate-900 dark:bg-white rounded-full"></div>
-                  </div>
-               </div>
-            </div>
-            <div className="mt-auto p-4 bg-white dark:bg-zinc-950 border-t border-slate-100 dark:border-white/5">
-               <div className="w-full h-10 bg-slate-900 dark:bg-white rounded-lg flex items-center justify-center text-white dark:text-black text-[10px] font-medium">
-                  PAY NOW
-               </div>
-            </div>
-         </div>
-
-         {/* Screen 2: Time Selection (Center - Main) */}
-         <div className="relative w-[50%] max-w-[240px] aspect-[9/18] bg-white dark:bg-zinc-900 rounded-2xl md:rounded-[2.5rem] shadow-2xl ring-4 ring-white dark:ring-zinc-800 flex flex-col overflow-hidden transform hover:scale-[1.02] transition-transform duration-500 z-10">
-
-            {/* Header */}
-            <div className="h-14 flex items-center justify-between px-5 pt-2 shrink-0 border-b border-slate-50 dark:border-white/5">
-               <div className="w-8 h-8 rounded-full bg-slate-100 dark:bg-white/10 flex items-center justify-center">
-                  <div className="w-1.5 h-1.5 border-l-2 border-b-2 border-slate-900 dark:border-white rotate-45 ml-0.5"></div>
-               </div>
-               <span className="text-xs font-medium text-slate-900 dark:text-white">Date & Time</span>
-               <div className="w-8 h-8"></div>
-            </div>
-
-            {/* Content */}
-            <div className="flex-1 px-5 pb-5 flex flex-col gap-4 overflow-hidden">
-               {/* Month Tabs */}
-               <div className="flex gap-2 mt-4 overflow-hidden">
-                  <div className="w-10 h-14 rounded-xl bg-slate-50 dark:bg-white/5 border border-slate-100 dark:border-white/5 flex flex-col items-center justify-center shrink-0">
-                     <span className="text-[10px] opacity-40">FEB</span>
-                     <span className="text-sm font-medium opacity-40">1</span>
-                  </div>
-                  <div className="w-10 h-14 rounded-xl bg-[#78350f] dark:bg-[#d97706] text-white shadow-lg flex flex-col items-center justify-center shrink-0 transform scale-105 border border-amber-900/10">
-                     <span className="text-[10px] font-semibold opacity-80">FEB</span>
-                     <span className="text-sm font-medium">2</span>
-                  </div>
-                  <div className="w-10 h-14 rounded-xl bg-slate-50 dark:bg-white/5 border border-slate-100 dark:border-white/5 flex flex-col items-center justify-center shrink-0">
-                     <span className="text-[10px] opacity-40">FEB</span>
-                     <span className="text-sm font-medium opacity-40">3</span>
-                  </div>
-                  <div className="w-10 h-14 rounded-xl bg-slate-50 dark:bg-white/5 border border-slate-100 dark:border-white/5 flex flex-col items-center justify-center shrink-0">
-                     <span className="text-[10px] opacity-40">FEB</span>
-                     <span className="text-sm font-medium opacity-40">4</span>
-                  </div>
-               </div>
-
-               <div className="w-full h-px bg-slate-100 dark:bg-white/5"></div>
-
-               {/* Time Title */}
-               <div className="flex items-center gap-2">
-                  <div className="w-3 h-3 rounded-full border border-slate-900 dark:border-white"></div>
-                  <span className="text-sm font-medium">Select Time</span>
-               </div>
-
-               {/* Time Grid - Dense */}
-               <div className="flex-1 overflow-visible space-y-2">
-                  <div className="grid grid-cols-2 gap-2">
-                     <div className="h-9 rounded-lg bg-slate-50 dark:bg-white/5 flex items-center justify-center opacity-40">
-                        <span className="text-[9px]">8:00 AM</span>
+         {/* Tarikh & Masa (Main Screen) */}
+         <div
+            onClick={() => setActiveFrame('first')}
+            className={`relative h-[88%] max-h-[452px] aspect-[9/18.8] w-auto rounded-[2rem] border border-slate-200 bg-[#f9fafb] shadow-[0_20px_60px_rgba(15,23,42,0.22)] overflow-hidden cursor-pointer transition-all duration-300 ${activeFrame === 'first' ? 'z-20 -translate-x-3' : 'z-10 -translate-x-8 scale-[0.95] opacity-95'}`}
+         >
+            <div className="h-full flex flex-col">
+               <div className="px-3 pt-2.5 pb-1.5 border-b border-slate-200 bg-white">
+                  <div className="flex items-center justify-between mb-2">
+                     <div className="w-6 h-6 rounded-full bg-slate-100 flex items-center justify-center text-slate-700">
+                        <ArrowLeftRight size={10} className="rotate-180" />
                      </div>
-                     <div className="h-9 rounded-lg bg-[#92400e] dark:bg-[#d97706] shadow-lg text-white flex items-center justify-center border border-amber-900/10">
-                        <span className="text-[9px] font-medium">8:45 AM</span>
+                     <span className="text-[9px] font-bold text-slate-900">Tarikh &amp; Masa</span>
+                     <div className="flex items-center gap-1">
+                        <div className="w-3 h-1 rounded-full bg-black"></div>
+                        <div className="w-3 h-1 rounded-full bg-black"></div>
+                        <div className="w-1.5 h-1.5 rounded-full bg-slate-300"></div>
+                        <div className="w-1.5 h-1.5 rounded-full bg-slate-300"></div>
+                        <div className="w-1.5 h-1.5 rounded-full bg-slate-300"></div>
                      </div>
-                     <div className="h-9 rounded-lg bg-white border border-slate-100 dark:border-white/5 flex items-center justify-center">
-                        <span className="text-[9px]">9:30 AM</span>
+                  </div>
+
+                  <div className="rounded-xl bg-[#f5f6f8] border border-slate-200 p-2 flex items-center gap-2">
+                     <img src="/img/duo.PNG" alt="SF3 NOIR GEN-Z" className="w-12 h-9 rounded-lg object-cover" loading="lazy" />
+                     <div className="min-w-0 flex-1">
+                        <p className="text-[8px] font-bold text-slate-900 leading-tight truncate">SF3 NOIR GEN-Z</p>
+                        <p className="text-[7px] text-slate-500 truncate">Pilih Tarikh &amp; Masa</p>
                      </div>
-                     <div className="h-9 rounded-lg bg-white border border-slate-100 dark:border-white/5 flex items-center justify-center">
-                        <span className="text-[9px]">10:15 AM</span>
-                     </div>
-                     <div className="h-9 rounded-lg bg-white border border-slate-100 dark:border-white/5 flex items-center justify-center">
-                        <span className="text-[9px]">11:00 AM</span>
-                     </div>
-                     <div className="h-9 rounded-lg bg-white border border-slate-100 dark:border-white/5 flex items-center justify-center">
-                        <span className="text-[9px]">11:45 AM</span>
+                     <div className="text-right">
+                        <p className="text-[7.5px] font-bold text-slate-900">RM160</p>
+                        <p className="text-[6.5px] text-slate-500 underline">Tukar</p>
                      </div>
                   </div>
                </div>
 
-               {/* Bottom Actions */}
-               <div className="mt-auto space-y-2">
-                  <div className="flex items-center justify-between px-1">
-                     <span className="text-[8px] font-medium uppercase text-slate-400">Total</span>
-                     <span className="text-lg font-black text-amber-900 dark:text-amber-500">RM180.00</span>
+               <div className="flex-1 px-3 py-2 overflow-hidden">
+                  <h4 className="text-[11px] font-black text-slate-900 leading-tight">Pilih Tarikh &amp; Masa</h4>
+                  <p className="text-[6.8px] text-slate-500 mt-0.5">Sila pilih tarikh dan masa slot untuk sesi fotografi anda.</p>
+
+                  <div className="mt-2.5 relative">
+                     <div className="grid grid-cols-7 gap-1">
+                        {days.map((day) => (
+                           <div key={`${day.month}-${day.date}`} className={`h-[52px] rounded-xl border flex flex-col items-center justify-center ${day.active ? 'bg-[#0b1730] border-[#0b1730] text-white' : 'bg-white border-slate-200 text-slate-900'}`}>
+                              <span className={`text-[6px] font-bold tracking-[0.08em] ${day.active ? 'text-white/80' : 'text-slate-500'}`}>{day.month}</span>
+                              <span className="text-[14px] font-black leading-none mt-1">{day.date}</span>
+                              <span className={`text-[7px] mt-1 ${day.active ? 'text-white/80' : 'text-slate-500'}`}>{day.day}</span>
+                           </div>
+                        ))}
+                     </div>
+                     <div className="absolute -left-2 top-1/2 -translate-y-1/2 w-6 h-6 rounded-full bg-white border border-slate-200 shadow-sm flex items-center justify-center text-slate-500">
+                        <ArrowLeftRight size={10} className="rotate-180" />
+                     </div>
+                     <div className="absolute -right-2 top-1/2 -translate-y-1/2 w-6 h-6 rounded-full bg-white border border-slate-200 shadow-sm flex items-center justify-center text-slate-500">
+                        <ArrowLeftRight size={10} />
+                     </div>
                   </div>
-                  <div className="w-full h-10 bg-[#78350f] dark:bg-[#d97706] rounded-lg shadow-xl flex items-center justify-center group cursor-pointer hover:scale-[1.02] transition-transform">
-                     <span className="text-white font-medium text-[10px] uppercase tracking-wider flex items-center gap-1">
-                        Next <span className="transform group-hover:translate-x-0.5 transition-transform">→</span>
-                     </span>
+
+                  <div className="mt-3.5 flex items-center justify-between">
+                     <div className="flex items-center gap-1.5 text-slate-900">
+                        <Clock size={10} />
+                        <span className="text-[9px] font-bold">Pilih Masa</span>
+                     </div>
+                     <span className="text-[6.5px] font-semibold tracking-[0.08em] text-slate-400">PILIH 1 SLOT</span>
+                  </div>
+
+                  <div className="mt-2 space-y-1">
+                     {timeSlots.map((row, rowIndex) => (
+                        <div key={`slot-row-${rowIndex}`} className="grid grid-cols-2 gap-1">
+                           {row.map((slot, colIndex) => {
+                              const isDisabled = (rowIndex === 6 && colIndex === 1) || rowIndex === 8;
+                              return (
+                                 <div
+                                    key={slot}
+                                    className={`h-8 rounded-lg border flex items-center justify-center text-[8px] font-semibold ${isDisabled ? 'bg-slate-100 border-slate-100 text-slate-300' : 'bg-white border-slate-200 text-slate-600'}`}
+                                 >
+                                    {slot}
+                                 </div>
+                              );
+                           })}
+                        </div>
+                     ))}
+                  </div>
+               </div>
+
+               <div className="px-3 py-2 border-t border-slate-200 bg-white mt-auto">
+                  <div className="flex items-end justify-between">
+                     <div>
+                        <p className="text-[6.5px] font-bold text-slate-400 tracking-[0.1em]">JUMLAH ANGGARAN</p>
+                        <p className="text-[15px] font-black leading-none text-slate-900 mt-1">RM160</p>
+                     </div>
+                     <button className="h-10 px-5 rounded-2xl bg-slate-400 text-white text-[9px] font-bold tracking-[0.08em] flex items-center gap-2">
+                        SETERUSNYA
+                        <span className="text-sm">→</span>
+                     </button>
                   </div>
                </div>
             </div>
          </div>
 
+         {/* Ringkasan (Secondary Screen) */}
+         <div
+            onClick={() => setActiveFrame('second')}
+            className={`absolute top-[6%] right-[2%] h-[88%] max-h-[452px] aspect-[9/18.8] w-auto rounded-[2rem] border border-slate-200 bg-[#f5f6f8] shadow-[0_20px_60px_rgba(15,23,42,0.2)] overflow-hidden origin-bottom-left cursor-pointer transition-all duration-300 ${activeFrame === 'second' ? 'z-30 rotate-[2deg] scale-[0.98] translate-y-1' : 'z-10 rotate-[8deg] scale-[0.92] translate-x-4'}`}
+         >
+            <div className="h-full flex flex-col">
+               <div className="px-3 pt-2.5 pb-1.5 border-b border-slate-200 bg-white">
+                  <div className="flex items-center justify-between">
+                     <div className="w-6 h-6 rounded-full bg-slate-100 flex items-center justify-center text-slate-700">
+                        <ArrowLeftRight size={10} className="rotate-180" />
+                     </div>
+                     <span className="text-[9px] font-bold text-slate-900">Ringkasan</span>
+                     <div className="flex items-center gap-1">
+                        {Array.from({ length: 6 }).map((_, i) => (
+                           <div key={`summary-step-${i}`} className="w-3 h-1 rounded-full bg-black"></div>
+                        ))}
+                     </div>
+                  </div>
+               </div>
+
+               <div className="flex-1 px-3 pt-2 pb-2.5 overflow-hidden">
+                  <h4 className="text-[14px] font-black text-slate-900 leading-tight">Ringkasan</h4>
+                  <p className="text-[7px] text-slate-500 mt-0.5">Sila semak ringkasan tempahan sebelum membuat pembayaran.</p>
+
+                  <div className="mt-2 rounded-2xl border border-slate-200 bg-white overflow-hidden">
+                     <div className="p-2">
+                        <div className="flex items-start justify-between">
+                           <div>
+                              <p className="text-[10px] font-black text-slate-900">asd</p>
+                              <div className="flex items-center gap-2 mt-1 text-[7px] text-slate-500">
+                                 <span className="flex items-center gap-1"><Phone size={8} />+60131231231</span>
+                                 <span>|</span>
+                                 <span className="flex items-center gap-1"><Mail size={8} />asdasd@asd.com</span>
+                              </div>
+                           </div>
+                           <button className="w-7 h-7 rounded-full border border-slate-200 text-slate-600 flex items-center justify-center bg-white">
+                              <Plus size={10} className="rotate-45" />
+                           </button>
+                        </div>
+                     </div>
+
+                     <div className="h-6 bg-[#f8efe4] text-[#c35a28] text-[8px] font-bold flex items-center justify-center gap-1">
+                        <Clock size={9} />
+                        SLOT DIKUNCI : 9:26
+                     </div>
+
+                     <div className="p-2">
+                        <div className="flex items-start justify-between">
+                           <div>
+                              <p className="text-[8px] font-black text-slate-900">SF1 EMERALD LOUGE</p>
+                              <p className="text-[7px] text-slate-500 mt-1 flex items-center gap-1"><CalendarIcon size={8} />8 Mac 2026</p>
+                              <p className="text-[8px] font-semibold text-slate-600 mt-1">12:30 PM - 12:50 PM</p>
+                           </div>
+                           <p className="text-[12px] font-black text-slate-900">RM160</p>
+                        </div>
+
+                        <div className="border-t border-slate-100 mt-2 pt-2">
+                           <div className="flex items-center gap-1.5">
+                              <div className="flex-1 h-7 rounded-xl border border-slate-200 bg-[#f8fafc] px-2 text-[8px] text-slate-400 flex items-center">
+                                 Ada kupon?
+                              </div>
+                              <button className="h-7 px-3 rounded-xl bg-slate-400 text-white text-[8px] font-bold">Guna</button>
+                           </div>
+
+                           <div className="border-t border-slate-100 mt-2 pt-2 space-y-1">
+                              <p className="text-[7px] font-bold tracking-[0.08em] text-slate-400">RINGKASAN JUMLAH</p>
+                              <div className="flex items-center justify-between text-[8px]">
+                                 <span className="font-semibold text-slate-700">Jumlah keseluruhan</span>
+                                 <span className="font-black text-slate-900">RM160</span>
+                              </div>
+                              <div className="flex items-center justify-between text-[8px]">
+                                 <span className="text-slate-500">Deposit (bayar sekarang)</span>
+                                 <span className="font-black text-slate-900">RM50</span>
+                              </div>
+                              <p className="text-[6.5px] text-right text-slate-400">RM50 setiap sesi × 1 sesi</p>
+                              <div className="flex items-center justify-between text-[8px]">
+                                 <span className="text-slate-500">Baki (bayar di studio)</span>
+                                 <span className="font-black text-slate-900">RM110</span>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+
+                  <div className="mt-2 rounded-2xl bg-[#091430] text-white px-2.5 py-2">
+                     <div className="flex items-start justify-between">
+                        <div>
+                           <p className="text-[7px] font-bold tracking-[0.06em]">JUMLAH PERLU DIBAYAR</p>
+                           <p className="text-[7px] text-white/70 mt-1">Baki pembayaran boleh dibayar di studio.</p>
+                        </div>
+                        <p className="text-[16px] font-black leading-none">RM50</p>
+                     </div>
+                  </div>
+               </div>
+
+               <div className="px-3 py-2 border-t border-slate-200 bg-white">
+                  <div className="flex items-end justify-between">
+                     <div>
+                        <p className="text-[6.5px] font-bold text-slate-400 tracking-[0.1em]">JUMLAH ANGGARAN</p>
+                        <p className="text-[15px] font-black leading-none text-slate-900 mt-1">RM50</p>
+                     </div>
+                     <button className="h-10 px-4 rounded-2xl bg-[#091430] text-white text-[9px] font-bold tracking-[0.08em] flex items-center gap-2">
+                        BAYAR RM50
+                        <span className="text-sm">→</span>
+                     </button>
+                  </div>
+               </div>
+            </div>
+         </div>
       </div>
    );
 };
@@ -504,77 +714,89 @@ const ControlCentreMockup = () => (
 const AutoPilotMockup = () => (
    <div className="w-full h-full bg-[#EFE7DE] dark:bg-[#0b141a] flex flex-col font-sans overflow-hidden relative rounded-xl border border-slate-200 dark:border-white/10 shadow-sm transition-all duration-300">
       {/* Window Frame for Desktop WhatsApp look */}
-      <div className="h-7 bg-slate-100 dark:bg-zinc-800 border-b border-slate-200 dark:border-white/5 flex items-center px-3 gap-2 shrink-0 z-20">
+      <div className="h-6 bg-slate-100 dark:bg-zinc-800 border-b border-slate-200 dark:border-white/5 flex items-center px-2.5 gap-2 shrink-0 z-20">
          <div className="flex gap-1.5 opacity-60">
             <div className="w-2.5 h-2.5 rounded-full bg-slate-400"></div>
             <div className="w-2.5 h-2.5 rounded-full bg-slate-400"></div>
             <div className="w-2.5 h-2.5 rounded-full bg-slate-400"></div>
          </div>
-         <div className="ml-2 w-full max-w-[120px] h-5 bg-white dark:bg-zinc-900 rounded flex items-center px-2 border border-slate-200 dark:border-white/5">
+         <div className="ml-1.5 w-full max-w-[108px] h-[18px] bg-white dark:bg-zinc-900 rounded flex items-center px-1.5 border border-slate-200 dark:border-white/5">
             <span className="text-[9px] text-slate-400 flex items-center gap-1 font-medium">WhatsApp Web</span>
          </div>
       </div>
 
       {/* WhatsApp Header - Realistic Teal */}
-      <div className="h-16 bg-[#008069] dark:bg-[#202c33] flex items-center px-4 gap-3 shrink-0 shadow-sm z-10">
+      <div className="h-12 bg-[#008069] dark:bg-[#202c33] flex items-center px-3 gap-2 shrink-0 shadow-sm z-10">
          {/* Profile Pic Placeholder */}
-         <div className="w-10 h-10 rounded-full bg-white flex items-center justify-center text-[#008069] font-bold text-sm ring-1 ring-white/20">SF</div>
+         <img
+            src="/img/logo-bg.png"
+            alt="SesiFoto profile"
+            className="w-8 h-8 rounded-full object-cover ring-1 ring-white/20"
+            loading="lazy"
+         />
          <div className="flex-1 text-left">
-            <p className="text-white text-sm font-semibold leading-tight">SesiFoto Admin</p>
-            <p className="text-white/80 text-[11px] leading-tight">Akaun Perniagaan</p>
+            <p className="text-white text-[13px] font-semibold leading-tight">SesiFoto</p>
          </div>
          {/* Header Icons actions */}
-         <div className="flex gap-4 text-white/70">
-            <Search size={18} />
-            <div className="w-1 h-1 rounded-full bg-white/70 shadow-[0_6px_0_0_currentColor,0_-6px_0_0_currentColor]"></div>
+         <div className="flex items-center gap-3 text-white/80">
+            <Search size={15} strokeWidth={2.2} />
+            <MoreVertical size={15} strokeWidth={2.2} />
          </div>
       </div>
 
       {/* Chat Area - Doodle Background */}
-      <div className="flex-1 p-4 overflow-hidden relative flex flex-col items-center justify-start">
+      <div className="flex-1 p-3 overflow-hidden relative flex flex-col items-center justify-start">
          <div className="absolute inset-0 opacity-[0.4] dark:opacity-[0.05] bg-[url('https://user-images.githubusercontent.com/15075759/28719144-86dc0f70-73b1-11e7-911d-60d70fcded21.png')] bg-repeat"></div>
 
          {/* Date Divider */}
-         <div className="relative z-10 my-3">
-            <span className="bg-[#E1F2FB] dark:bg-[#1e2a30] text-[#5b6a73] dark:text-[#8696a0] text-[10px] font-medium px-3 py-1.5 rounded-lg shadow-sm uppercase tracking-wide">
+         <div className="relative z-10 my-2">
+            <span className="bg-[#E1F2FB] dark:bg-[#1e2a30] text-[#5b6a73] dark:text-[#8696a0] text-[9px] font-medium px-2.5 py-1 rounded-lg shadow-sm uppercase tracking-wide">
                Hari Ini
             </span>
          </div>
 
-         {/* Message 1 (System - Received) - White Bubble on Left */}
+         {/* Message 1 (System - Received) */}
          <div className="flex justify-start w-full relative z-10 px-2">
-            <div className="bg-white dark:bg-[#202c33] p-[10px] rounded-lg rounded-tl-none shadow-[0_1px_0.5px_rgba(0,0,0,0.13)] max-w-[95%] text-sm text-[#111b21] dark:text-[#e9edef] leading-[1.3] relative">
+            <div className="bg-[#2f3438] p-3 rounded-lg rounded-tl-none shadow-[0_1px_0.5px_rgba(0,0,0,0.13)] max-w-[94%] text-sm text-[#f3f4f6] leading-[1.45] relative">
                {/* Tail Triangle */}
-               <div className="absolute top-0 -left-2 w-0 h-0 border-[8px] border-transparent border-t-white dark:border-t-[#202c33] border-r-white dark:border-r-[#202c33]"></div>
+               <div className="absolute top-0 -left-[7px] w-0 h-0 border-[7px] border-transparent border-t-[#2f3438] border-r-[#2f3438]"></div>
 
-               {/* Greeting */}
-               <p className="mb-2">Salam Sejahtera, <span className="font-bold">Aiman</span>. 👋</p>
-
-               {/* Body */}
-               <p className="mb-2">Berikut adalah butiran tempahan anda:</p>
-
-               {/* Details Box (Simulating Monospace/Quote slightly) */}
-               <div className="mb-3 space-y-1 text-[13px] border-l-4 border-slate-200 dark:border-slate-700 pl-2 text-slate-600 dark:text-slate-300">
-                  <p>🗓️ Tarikh: <strong className="text-black dark:text-white">12 Mac 2026</strong></p>
-                  <p>⏰ Masa: <strong className="text-black dark:text-white">10:00 Pagi</strong></p>
-                  <p>📸 Tema: <strong className="text-black dark:text-white">Raya Family</strong></p>
-               </div>
-
-               {/* Location Link */}
-               <p className="mb-2">Lokasi Studio:</p>
-               <p className="text-[#027eb5] text-[13px] mb-3 cursor-pointer hover:underline truncate">
-                  https://maps.google.com/sesifoto-kl
+               <p className="mb-2 text-[15px] font-bold leading-tight text-[#f8f9fa]">
+                  Booking Reminder
                </p>
 
-               {/* Footer */}
-               <p className="text-[13px] italic text-slate-500 dark:text-slate-400">
-                  Sila hadir 15 minit awal untuk persiapan. Terima kasih! 🙏
+               <p className="mb-2 text-[12px] leading-[1.45] text-[#f8f9fa]">
+                  Hi <span className="font-bold">Ammar</span>,
                </p>
 
-               {/* Time Stamp */}
-               <div className="text-[10px] text-[#667781] dark:text-[#8696a0] text-right mt-1 flex justify-end items-center gap-1">
-                  <span>10:32 AM</span>
+               <p className="mb-2 text-[12px] leading-[1.45] text-[#f8f9fa]">
+                  This is a reminder for your booking at <span className="font-bold">SesiFoto Studio.</span>
+               </p>
+
+               <div className="mb-2 space-y-0 text-[12px] leading-[1.45] text-[#f8f9fa]">
+                  <p>Session ID: <span className="font-bold">RAYA-0023</span></p>
+                  <p>Date: <span className="font-bold">29/2/2026</span></p>
+                  <p>Time: <span className="font-bold">12:30-1:00</span></p>
+                  <p>Theme: <span className="font-bold">Klasik Gen-Z</span></p>
+                  <p>Number of Pax: <span className="font-bold">5</span></p>
                </div>
+
+               <p className="mb-2 text-[12px] leading-[1.45] text-[#f8f9fa]">
+                  Location:
+                  <br />
+                  Menara TRX, Tun Razak Exchange, 55188 Kuala Lumpur, Malaysia
+               </p>
+
+               <p className="mb-2 text-[12px] leading-[1.45] text-[#f8f9fa]">
+                  Contact <span className="font-bold text-[#25d366] underline">+60 12-345 6789</span> for any assistance.
+               </p>
+
+               <p className="mb-0 text-[11px] italic leading-[1.45] text-[#aeb7bd]">
+                  Please arrive early to avoid missing your session.
+               </p>
+               <p className="mt-1 text-[9px] leading-none text-right text-[#aeb7bd]">
+                  11:26 AM
+               </p>
             </div>
          </div>
 

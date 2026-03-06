@@ -8,6 +8,30 @@ import { useLanguage } from '../contexts/LanguageContext';
 import { useTheme } from '../contexts/ThemeContext';
 import StudioLogo from './StudioLogo';
 
+const SVG_STUDIOS = [
+    { src: "/img/artsy.svg", name: "ARTSY STUDIO", link: "https://studiorayakuantan.sesifoto.my" },
+    { src: "/img/candyfilm.svg", name: "CANDYFILM STUDIO", link: "https://studiorayashahalam.sesifoto.my" },
+    { src: "/img/filll the frame.svg", name: "FILL THE FRAME STUDIO", link: "https://filltheframestudio.sesifoto.my" },
+    { src: "/img/fovra.svg", name: "FOVRA STUDIO", link: "https://fovrastudio.sesifoto.my" },
+    { src: "/img/kotak.svg", name: "Studio Raya Kotak", link: "https://studiorayakotak.sesifoto.my" },
+    { src: "/img/memora.svg", name: "Memora Studio", link: "https://memorastudio.sesifoto.my" },
+    { src: "/img/mendoniaa.svg", name: "Studio Mendoniaaa Raya 3.0", link: "https://mendoniaaaraya.sesifoto.my" },
+    { src: "/img/picxel.svg", name: "Picxel Studio", link: "https://picxelstudio.sesifoto.my" },
+    { src: "/img/portret lux.svg", name: "Potret Raya Luxe", link: "https://potretrayaluxe2026edition.sesifoto.my" },
+    { src: "/img/pov.svg", name: "pov studio", link: "https://povstudio.sesifoto.my" },
+    { src: "/img/prominence.svg", name: "prominence production", link: "https://studioraya26.sesifoto.my" },
+    { src: "/img/rawsoul.svg", name: "Rawsoul Studio", link: "https://rawsoulstudio.sesifoto.my" },
+    { src: "/img/recce.svg", name: "Recce Studio", link: "https://reccestudio.sesifoto.my" },
+    { src: "/img/rona.svg", name: "RONA STUDIO", link: "https://rona.sesifoto.my" },
+    { src: "/img/rswc.svg", name: "RAYA STUDIO By RSWC", link: "https://rswcrayastudio.sesifoto.my" },
+    { src: "/img/spd.svg", name: "Spdproduction", link: "https://spdproduction.sesifoto.my" },
+    { src: "/img/stitch shutter.svg", name: "Stitch & Shutter Studio", link: "https://stitchshutter.sesifoto.my" },
+    { src: "/img/studio deru.svg", name: "Studio Deru", link: "https://studioderu.sesifoto.my" },
+    { src: "/img/studio perlis.svg", name: "STUDIO PERLIS", link: "https://perlis.sesifoto.my" },
+    { src: "/img/usulfoto.svg", name: "Usul Foto", link: "https://usulfoto.sesifoto.my" },
+    { src: "/img/vd.svg", name: "Visual Diaries Photography", link: "https://www.instagram.com/the_visualdiaries/" }
+];
+
 const Hero: React.FC = () => {
     const { t, isChanging } = useLanguage();
     const { theme } = useTheme();
@@ -66,8 +90,8 @@ const Hero: React.FC = () => {
 
                 {/* Title */}
                 <div style={{ transitionDelay: '100ms' }} className={`${getDelayClass(100)} relative z-10`}>
-                    <h1 className="text-5xl md:text-6xl lg:text-7xl font-medium tracking-tight leading-[0.95] mb-8 transform scale-y-105 relative">
-                        <span className="inline-block font-semibold bg-gradient-to-r from-orange-600 via-slate-800 to-slate-900 dark:from-[#ffffff] dark:to-[#e4e4e4] bg-clip-text text-transparent">
+                    <h1 className="text-5xl md:text-6xl lg:text-7xl font-medium tracking-tight leading-[1.3] mb-8 transform scale-y-105 relative">
+                        <span className="inline-block font-semibold bg-gradient-to-r from-orange-600 via-slate-800 to-slate-900 dark:from-[#ffffff] dark:to-[#e4e4e4] bg-clip-text text-transparent pb-2">
                             {t.hero.titleLine1}
                         </span>
                         <br />
@@ -87,7 +111,7 @@ const Hero: React.FC = () => {
                 {/* Buttons */}
                 <div style={{ transitionDelay: '300ms' }} className={`${getDelayClass(300)} relative z-10 mb-20`}>
                     <div className="flex flex-col sm:flex-row items-center gap-4 justify-center w-full relative">
-                        <a href="https://wa.link/rxj90f" target="_blank" rel="noopener noreferrer" className="relative group overflow-hidden px-10 py-4 bg-studio-primary text-white rounded-full font-bold text-lg hover:bg-studio-primary-hover transition-all hover:scale-105 active:scale-95 shadow-[0_10px_40px_-10px_rgba(255,107,44,0.4)]">
+                        <a href="https://office.sesifoto.my/register" target="_blank" rel="noopener noreferrer" className="relative group overflow-hidden px-10 py-4 bg-studio-primary text-white rounded-full font-bold text-lg hover:bg-studio-primary-hover transition-all hover:scale-105 active:scale-95 shadow-[0_10px_40px_-10px_rgba(255,107,44,0.4)]">
                             <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700"></div>
                             <div className="relative z-10 flex items-center gap-2">
                                 <Zap className="w-5 h-5 fill-current" />
@@ -246,57 +270,64 @@ const Hero: React.FC = () => {
 
             </div>
 
-            {/* TRUSTED BY TITLE - Centred in main container */}
-            <p className="text-center text-sm font-bold text-slate-400 dark:text-zinc-600 uppercase tracking-widest mt-6 mb-6 relative z-10 animate-fade-in">
-                {t.hero.trustedLabel}
-            </p>
+            {/* TRUSTED BY TITLE & NOTE - Centred in main container */}
+            <div className="relative z-10 flex flex-col md:flex-row items-center justify-center mt-6 mb-4 md:mb-6 gap-2 md:gap-4 px-4">
+                <p className="text-center text-sm font-bold text-slate-400 dark:text-zinc-600 uppercase tracking-widest animate-fade-in relative">
+                    {t.hero.trustedLabel}
+                </p>
+
+                {/* Hand-written Note & Arrow to Directory */}
+                <div className="relative flex items-center -rotate-3 hover:-rotate-1 transition-transform cursor-pointer pointer-events-auto mt-2 md:mt-0 opacity-90 hover:opacity-100">
+                    <svg width="24" height="24" viewBox="0 0 100 100" fill="none" className="text-orange-500 mr-2" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M10 50 Q 50 20 90 50" stroke="currentColor" strokeWidth="4" strokeLinecap="round" fill="none" />
+                        <path d="M75 35 L 90 50 L 70 65" stroke="currentColor" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" fill="none" />
+                    </svg>
+                    <a href="/directory" className="font-['Caveat',_'Comic_Sans_MS',_cursive] text-xl md:text-2xl text-orange-500 dark:text-orange-400 hover:text-orange-600 dark:hover:text-orange-300 transition-colors whitespace-nowrap tracking-wide leading-none pt-1">
+                        See all studio at Directory
+                    </a>
+                </div>
+            </div>
 
             {/* TRUSTED BY MARQUEE - Full Width Seamless Scroll */}
             <div className="w-screen relative left-1/2 -translate-x-[50%] mb-0">
                 {/* Animation Definition */}
                 <style>{`
+                    @import url('https://fonts.googleapis.com/css2?family=Caveat:wght@600&display=swap');
                     @keyframes marqueeScroll {
                         0% { transform: translateX(0); }
-                        100% { transform: translateX(-45%); }
+                        /* Translate exactly to the end of the first group (50% + half of gap-6 which is 0.75rem) */
+                        100% { transform: translateX(calc(-50% - 0.75rem)); } 
                     }
                     .hero-marquee-scroll {
-                        animation: marqueeScroll 50s linear infinite;
+                        animation: marqueeScroll 90s linear infinite; /* Even slower for luxury feel */
                     }
                     .hero-marquee-scroll:hover {
                         animation-play-state: paused;
                     }
                 `}</style>
 
-                <div className="relative w-full pt-6 pb-20 overflow-hidden">
+                <div className="relative w-full pt-4 pb-20 overflow-hidden">
                     {/* Scrolling Content - Multiple Copies for Full Coverage */}
-                    <div className="flex hero-marquee-scroll w-max -ml-4 hover:[animation-play-state:paused] items-start">
-                        {[...Array(6)].map((_, groupIndex) => (
-                            <div key={groupIndex} className="flex items-center gap-16 md:gap-20 pr-16 md:pr-20 flex-shrink-0">
-                                <StudioLogo
-                                    src="/img/vd-t.png"
-                                    name="Visual Diaries Photography"
-                                    link="https://www.instagram.com/the_visualdiaries/"
-                                />
-                                <StudioLogo
-                                    src="/img/rangka.png"
-                                    name="Rangka Studio"
-                                    link="https://www.instagram.com/rangkastudio"
-                                />
-                                <StudioLogo
-                                    src="/img/sedetik.png"
-                                    name="Sedetik Studio"
-                                    link="https://www.instagram.com/sedetik.studio/"
-                                />
-                                <StudioLogo
-                                    src="/img/duo.PNG"
-                                    name="The Duo Studio"
-                                    link="https://linktr.ee/theduostudio.co"
-                                />
-                                <StudioLogo
-                                    src="/img/gr.png"
-                                    name="Golden Ring Studios"
-                                    link="https://www.instagram.com/goldenring.studios/"
-                                />
+                    <div className="flex hero-marquee-scroll w-max hover:[animation-play-state:paused] items-center text-center gap-6">
+                        {/* 2 copies for continuous scrolling coverage */}
+                        {[...Array(2)].map((_, groupIndex) => (
+                            <div key={groupIndex} className="flex items-center gap-6 flex-shrink-0">
+                                {/* Current Hardcoded Studios */}
+                                <StudioLogo src="/img/vd-t.png" name="Visual Diaries Photography" link="https://www.instagram.com/the_visualdiaries/" />
+                                <StudioLogo src="/img/rangka.png" name="Rangka Studio" link="https://www.instagram.com/rangkastudio" />
+                                <StudioLogo src="/img/sedetik.png" name="Sedetik Studio" link="https://www.instagram.com/sedetik.studio/" />
+                                <StudioLogo src="/img/duo.PNG" name="The Duo Studio" link="https://linktr.ee/theduostudio.co" />
+                                <StudioLogo src="/img/gr.png" name="Golden Ring Studios" link="https://www.instagram.com/goldenring.studios/" />
+
+                                {/* 21 Placeholder SVGs */}
+                                {SVG_STUDIOS.map((studio, i) => (
+                                    <StudioLogo
+                                        key={`svg-${i}`}
+                                        src={studio.src}
+                                        name={studio.name}
+                                        link={studio.link}
+                                    />
+                                ))}
                             </div>
                         ))}
                     </div>

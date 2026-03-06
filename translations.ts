@@ -20,8 +20,10 @@ export const translations = {
       features: 'Features',
       pricing: 'Pricing',
       faq: 'FAQ',
+      directory: 'Directory',
       signin: 'Sign in',
       getStarted: 'Get Started',
+      news: 'News',
       support: 'Support'
     },
     announcement: {
@@ -347,8 +349,10 @@ export const translations = {
       features: 'Ciri-ciri',
       pricing: 'Harga',
       faq: 'Soalan Lazim',
+      directory: 'Direktori',
       signin: 'Log Masuk',
       getStarted: 'Mula Sekarang',
+      news: 'Berita',
       support: 'Bantuan'
     },
     announcement: {
