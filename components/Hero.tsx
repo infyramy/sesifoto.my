@@ -90,8 +90,8 @@ const Hero: React.FC = () => {
 
                 {/* Title */}
                 <div style={{ transitionDelay: '100ms' }} className={`${getDelayClass(100)} relative z-10`}>
-                    <h1 className="text-5xl md:text-6xl lg:text-7xl font-medium tracking-tight leading-[1.3] mb-8 transform scale-y-105 relative">
-                        <span className="inline-block font-semibold bg-gradient-to-r from-orange-600 via-slate-800 to-slate-900 dark:from-[#ffffff] dark:to-[#e4e4e4] bg-clip-text text-transparent pb-2">
+                    <h1 className="text-5xl md:text-6xl lg:text-7xl font-medium tracking-tight leading-none md:leading-[1.3] mb-8 transform scale-y-105 relative">
+                        <span className="inline-block font-semibold bg-gradient-to-r from-orange-600 via-slate-800 to-slate-900 dark:from-[#ffffff] dark:to-[#e4e4e4] bg-clip-text text-transparent pb-0 md:pb-2">
                             {t.hero.titleLine1}
                         </span>
                         <br />
@@ -111,48 +111,75 @@ const Hero: React.FC = () => {
                 {/* Buttons */}
                 <div style={{ transitionDelay: '300ms' }} className={`${getDelayClass(300)} relative z-10 mb-20`}>
                     <div className="flex flex-col sm:flex-row items-center gap-4 justify-center w-full relative">
-                        <a href="https://office.sesifoto.my/register" target="_blank" rel="noopener noreferrer" className="relative group overflow-hidden px-10 py-4 bg-studio-primary text-white rounded-full font-bold text-lg hover:bg-studio-primary-hover transition-all hover:scale-105 active:scale-95 shadow-[0_10px_40px_-10px_rgba(255,107,44,0.4)]">
+                        <a href="https://office.sesifoto.my/register" target="_blank" rel="noopener noreferrer" className="relative group overflow-hidden w-[220px] sm:w-auto px-6 sm:px-10 py-3 sm:py-4 bg-studio-primary text-white rounded-full font-bold text-base sm:text-lg hover:bg-studio-primary-hover transition-all hover:scale-105 active:scale-95 shadow-[0_10px_40px_-10px_rgba(255,107,44,0.4)] text-center flex items-center justify-center">
                             <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700"></div>
                             <div className="relative z-10 flex items-center gap-2">
-                                <Zap className="w-5 h-5 fill-current" />
+                                <Zap className="w-4 h-4 sm:w-5 sm:h-5 fill-current" />
                                 {t.hero.startTrial}
                             </div>
                         </a>
-                        <a href="https://office.sesifoto.my/login" className="relative group px-10 py-4 bg-white dark:bg-studio-card text-slate-700 dark:text-white rounded-full font-bold text-lg hover:bg-slate-50 dark:hover:bg-studio-base transition-all border border-slate-200 dark:border-studio-border shadow-sm hover:scale-105 active:scale-95 text-center flex items-center justify-center">
+                        <a href="https://office.sesifoto.my/login" className="relative group w-[220px] sm:w-auto px-6 sm:px-10 py-3 sm:py-4 bg-white dark:bg-studio-card text-slate-700 dark:text-white rounded-full font-bold text-base sm:text-lg hover:bg-slate-50 dark:hover:bg-studio-base transition-all border border-slate-200 dark:border-studio-border shadow-sm hover:scale-105 active:scale-95 text-center flex items-center justify-center">
                             <span className="relative z-10">{t.hero.viewShowreel}</span>
                         </a>
                     </div>
                 </div>
 
-                {/* SOCIAL PROOF STATS - CLEAN CENTER ALIGNED */}
-                <div style={{ transitionDelay: '400ms' }} className={`${getDelayClass(400)} relative z-10 mb-20 grid grid-cols-3 gap-2 md:gap-8 w-full max-w-5xl pt-8 px-2 md:px-0`}>
+                {/* TRUSTED BY MARQUEE - Full Width Seamless Scroll */}
+                <div className="relative w-screen max-w-none ml-[calc(50%-50vw)] mr-[calc(50%-50vw)] mb-6">
+                    {/* Animation Definition */}
+                    <style>{`
+                        @import url('https://fonts.googleapis.com/css2?family=Caveat:wght@600&display=swap');
+                        @keyframes marqueeScroll {
+                            0% { transform: translateX(0); }
+                            /* Translate exactly to the end of the first group (50% + half of gap-6 which is 0.75rem) */
+                            100% { transform: translateX(calc(-50% - 0.75rem)); } 
+                        }
+                        .hero-marquee-scroll {
+                            animation: marqueeScroll 90s linear infinite; /* Even slower for luxury feel */
+                        }
+                        .hero-marquee-scroll:hover {
+                            animation-play-state: paused;
+                        }
+                    `}</style>
 
-                    {/* Stat 1 */}
-                    <div className="flex flex-col items-center justify-center border-r md:border-r border-slate-200 dark:border-white/10">
-                        <span className="text-xl sm:text-2xl md:text-5xl font-black text-slate-900 dark:text-white mb-1 md:mb-2 tracking-tight leading-none">{t.hero.stats.studios.value}</span>
-                        <p className="uppercase font-bold text-slate-400 dark:text-zinc-600 text-[8px] sm:text-[10px] md:text-xs tracking-wider text-center leading-tight">
-                            {t.hero.stats.studios.label}<br className="hidden md:block" />
-                            <span className="opacity-70 block md:inline">{t.hero.stats.studios.subLabel}</span>
-                        </p>
+                    <div className="relative w-full pt-0 pb-8 overflow-x-hidden overflow-y-visible">
+                        {/* Scrolling Content - Multiple Copies for Full Coverage */}
+                        <div className="flex hero-marquee-scroll w-max hover:[animation-play-state:paused] items-center text-center gap-6 select-none [touch-action:pan-y]">
+                            {/* 2 copies for continuous scrolling coverage */}
+                            {[...Array(2)].map((_, groupIndex) => (
+                                <div key={groupIndex} className="flex items-center gap-6 flex-shrink-0">
+                                    {/* Current Hardcoded Studios */}
+                                    <StudioLogo src="/img/vd-t.png" name="Visual Diaries Photography" link="https://www.instagram.com/the_visualdiaries/" />
+                                    <StudioLogo src="/img/rangka.png" name="Rangka Studio" link="https://www.instagram.com/rangkastudio" />
+                                    <StudioLogo
+                                        src="/img/sedetik.png"
+                                        name="Sedetik Studio"
+                                        link="https://www.instagram.com/sedetik.studio/"
+                                        wrapperClassName="min-w-[86px] md:min-w-[112px] w-[86px] md:w-[112px] h-10 md:h-14"
+                                        imgClassName="max-h-10 md:max-h-14"
+                                    />
+                                    <StudioLogo
+                                        src="/img/duo.PNG"
+                                        name="The Duo Studio"
+                                        link="https://linktr.ee/theduostudio.co"
+                                        wrapperClassName="min-w-[86px] md:min-w-[112px] w-[86px] md:w-[112px] h-10 md:h-14"
+                                        imgClassName="max-h-10 md:max-h-14"
+                                    />
+                                    <StudioLogo src="/img/gr.png" name="Golden Ring Studios" link="https://www.instagram.com/goldenring.studios/" />
+
+                                    {/* 21 Placeholder SVGs */}
+                                    {SVG_STUDIOS.map((studio, i) => (
+                                        <StudioLogo
+                                            key={`svg-${i}`}
+                                            src={studio.src}
+                                            name={studio.name}
+                                            link={studio.link}
+                                        />
+                                    ))}
+                                </div>
+                            ))}
+                        </div>
                     </div>
-
-                    {/* Stat 2 */}
-                    <div className="flex flex-col items-center justify-center border-r md:border-r border-slate-200 dark:border-white/10">
-                        <span className="text-xl sm:text-2xl md:text-5xl font-black text-slate-900 dark:text-white mb-1 md:mb-2 tracking-tight leading-none">{t.hero.stats.sales.value}</span>
-                        <p className="uppercase font-bold text-slate-400 dark:text-zinc-600 text-[8px] sm:text-[10px] md:text-xs tracking-wider leading-tight text-center">
-                            {t.hero.stats.sales.label}<br className="hidden md:block" />
-                            <span className="opacity-70 block md:inline">{t.hero.stats.sales.subLabel}</span>
-                        </p>
-                    </div>
-
-                    {/* Stat 3 */}
-                    <div className="flex flex-col items-center justify-center">
-                        <span className="text-xl sm:text-2xl md:text-5xl font-black text-slate-900 dark:text-white mb-1 md:mb-2 tracking-tight leading-none">{t.hero.stats.origin.value}</span>
-                        <p className="uppercase font-bold text-slate-400 dark:text-zinc-600 text-[8px] sm:text-[10px] md:text-xs tracking-wider text-center leading-tight">
-                            {t.hero.stats.origin.label}
-                        </p>
-                    </div>
-
                 </div>
 
 
@@ -270,69 +297,47 @@ const Hero: React.FC = () => {
 
             </div>
 
-            {/* TRUSTED BY TITLE & NOTE - Centred in main container */}
-            <div className="relative z-10 flex flex-col md:flex-row items-center justify-center mt-6 mb-4 md:mb-6 gap-2 md:gap-4 px-4">
-                <p className="text-center text-sm font-bold text-slate-400 dark:text-zinc-600 uppercase tracking-widest animate-fade-in relative">
-                    {t.hero.trustedLabel}
-                </p>
+            {/* SOCIAL PROOF STATS - CLEAN CENTER ALIGNED */}
+            <div style={{ transitionDelay: '400ms' }} className={`${getDelayClass(400)} relative z-10 mt-10 md:mt-14 mb-4 grid grid-cols-3 gap-2 md:gap-8 w-full max-w-5xl mx-auto px-2 md:px-0`}>
 
-                {/* Hand-written Note & Arrow to Directory */}
-                <div className="relative flex items-center -rotate-3 hover:-rotate-1 transition-transform cursor-pointer pointer-events-auto mt-2 md:mt-0 opacity-90 hover:opacity-100">
-                    <svg width="24" height="24" viewBox="0 0 100 100" fill="none" className="text-orange-500 mr-2" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M10 50 Q 50 20 90 50" stroke="currentColor" strokeWidth="4" strokeLinecap="round" fill="none" />
-                        <path d="M75 35 L 90 50 L 70 65" stroke="currentColor" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" fill="none" />
-                    </svg>
-                    <a href="/directory" className="font-['Caveat',_'Comic_Sans_MS',_cursive] text-xl md:text-2xl text-orange-500 dark:text-orange-400 hover:text-orange-600 dark:hover:text-orange-300 transition-colors whitespace-nowrap tracking-wide leading-none pt-1">
-                        See all studio at Directory
-                    </a>
+                {/* Stat 1 */}
+                <div className="flex flex-col items-center justify-center border-r md:border-r border-slate-200 dark:border-white/10">
+                    <span className="text-xl sm:text-2xl md:text-5xl font-black text-slate-900 dark:text-white mb-1 md:mb-2 tracking-tight leading-none">
+                        <span className="hidden md:inline">{t.hero.stats.studios.value}</span>
+                        <span className="md:hidden">{t.hero.stats.studios.mobileValue ?? t.hero.stats.studios.value}</span>
+                    </span>
+                    <p className="uppercase font-bold text-slate-400 dark:text-zinc-600 text-[8px] sm:text-[10px] md:text-xs tracking-wider text-center leading-tight">
+                        {t.hero.stats.studios.label}<br className="hidden md:block" />
+                        <span className="opacity-70 block md:inline">{t.hero.stats.studios.subLabel}</span>
+                    </p>
                 </div>
+
+                {/* Stat 2 */}
+                <div className="flex flex-col items-center justify-center border-r md:border-r border-slate-200 dark:border-white/10">
+                    <span className="text-xl sm:text-2xl md:text-5xl font-black text-slate-900 dark:text-white mb-1 md:mb-2 tracking-tight leading-none">
+                        <span className="hidden md:inline">{t.hero.stats.sales.value}</span>
+                        <span className="md:hidden flex flex-col items-center leading-none">
+                            <span>RM</span>
+                            <span>{t.hero.stats.sales.mobileValue ?? t.hero.stats.sales.value.replace(/^RM\s*/, '')}</span>
+                        </span>
+                    </span>
+                    <p className="uppercase font-bold text-slate-400 dark:text-zinc-600 text-[8px] sm:text-[10px] md:text-xs tracking-wider leading-tight text-center">
+                        {t.hero.stats.sales.label}<br className="hidden md:block" />
+                        <span className="opacity-70 block md:inline">{t.hero.stats.sales.subLabel}</span>
+                    </p>
+                </div>
+
+                {/* Stat 3 */}
+                <div className="flex flex-col items-center justify-center">
+                    <span className="text-xl sm:text-2xl md:text-5xl font-black text-slate-900 dark:text-white mb-1 md:mb-2 tracking-tight leading-none">{t.hero.stats.origin.value}</span>
+                    <p className="uppercase font-bold text-slate-400 dark:text-zinc-600 text-[8px] sm:text-[10px] md:text-xs tracking-wider text-center leading-tight">
+                        {t.hero.stats.origin.label}
+                    </p>
+                </div>
+
             </div>
 
-            {/* TRUSTED BY MARQUEE - Full Width Seamless Scroll */}
-            <div className="w-screen relative left-1/2 -translate-x-[50%] mb-0">
-                {/* Animation Definition */}
-                <style>{`
-                    @import url('https://fonts.googleapis.com/css2?family=Caveat:wght@600&display=swap');
-                    @keyframes marqueeScroll {
-                        0% { transform: translateX(0); }
-                        /* Translate exactly to the end of the first group (50% + half of gap-6 which is 0.75rem) */
-                        100% { transform: translateX(calc(-50% - 0.75rem)); } 
-                    }
-                    .hero-marquee-scroll {
-                        animation: marqueeScroll 90s linear infinite; /* Even slower for luxury feel */
-                    }
-                    .hero-marquee-scroll:hover {
-                        animation-play-state: paused;
-                    }
-                `}</style>
-
-                <div className="relative w-full pt-4 pb-20 overflow-hidden">
-                    {/* Scrolling Content - Multiple Copies for Full Coverage */}
-                    <div className="flex hero-marquee-scroll w-max hover:[animation-play-state:paused] items-center text-center gap-6">
-                        {/* 2 copies for continuous scrolling coverage */}
-                        {[...Array(2)].map((_, groupIndex) => (
-                            <div key={groupIndex} className="flex items-center gap-6 flex-shrink-0">
-                                {/* Current Hardcoded Studios */}
-                                <StudioLogo src="/img/vd-t.png" name="Visual Diaries Photography" link="https://www.instagram.com/the_visualdiaries/" />
-                                <StudioLogo src="/img/rangka.png" name="Rangka Studio" link="https://www.instagram.com/rangkastudio" />
-                                <StudioLogo src="/img/sedetik.png" name="Sedetik Studio" link="https://www.instagram.com/sedetik.studio/" />
-                                <StudioLogo src="/img/duo.PNG" name="The Duo Studio" link="https://linktr.ee/theduostudio.co" />
-                                <StudioLogo src="/img/gr.png" name="Golden Ring Studios" link="https://www.instagram.com/goldenring.studios/" />
-
-                                {/* 21 Placeholder SVGs */}
-                                {SVG_STUDIOS.map((studio, i) => (
-                                    <StudioLogo
-                                        key={`svg-${i}`}
-                                        src={studio.src}
-                                        name={studio.name}
-                                        link={studio.link}
-                                    />
-                                ))}
-                            </div>
-                        ))}
-                    </div>
-                </div>
-            </div>
+            <div className="pointer-events-none absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-b from-transparent via-studio-paper/70 to-studio-paper dark:via-studio-black/60 dark:to-studio-black"></div>
         </section >
     );
 };

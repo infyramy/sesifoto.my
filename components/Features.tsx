@@ -2,7 +2,7 @@ import React from 'react';
 import GlassCard from './ui/GlassCard';
 import Reveal from './ui/Reveal';
 import { useLanguage } from '../contexts/LanguageContext';
-import { Globe, LayoutDashboard, Calendar, CalendarClock, BarChart3, CheckCircle2, ShieldCheck, Zap, Smartphone, FileSpreadsheet, Ticket, ArrowLeftRight, Download, Search, Plus, Clock, ChevronsUpDown, Banknote, Filter, Users, MoreHorizontal, MoreVertical, Calendar as CalendarIcon, Mail, Phone } from 'lucide-react';
+import { Globe, LayoutDashboard, Calendar, CalendarClock, BarChart3, CheckCircle2, ShieldCheck, Zap, Smartphone, FileSpreadsheet, Ticket, ArrowLeftRight, Download, Search, Plus, Clock, ChevronsUpDown, Banknote, Filter, Users, MessageCircle, MoreHorizontal, MoreVertical, Calendar as CalendarIcon, Mail, Phone } from 'lucide-react';
 
 const Features: React.FC = () => {
    const { t, isChanging } = useLanguage();
@@ -19,19 +19,44 @@ const Features: React.FC = () => {
       }
    };
 
-   // Map icons for Bento Grid
-   const getBentoIcon = (index: number) => {
-      switch (index) {
-         case 0: return <ShieldCheck className="w-5 h-5 text-emerald-500" />;
-         case 1: return <Zap className="w-5 h-5 text-amber-500" />;
-         case 2: return <Smartphone className="w-5 h-5 text-blue-500" />;
-         case 3: return <Download className="w-5 h-5 text-green-600" />;
-         case 4: return <Ticket className="w-5 h-5 text-pink-500" />;
-         case 5: return <ArrowLeftRight className="w-5 h-5 text-indigo-500" />;
-         case 6: return <FileSpreadsheet className="w-5 h-5 text-cyan-500" />;
-         case 7: return <Search className="w-5 h-5 text-slate-500" />;
-         default: return <CheckCircle2 className="w-5 h-5 text-slate-400" />;
+   // Map bento icon by title so visual meaning stays correct even if card order changes
+   const getBentoIcon = (title: string, tier?: string) => {
+      const normalized = title.toLowerCase();
+
+      if (normalized.includes('borang') || normalized.includes('booking form')) {
+         return <LayoutDashboard className="w-5 h-5" />;
       }
+      if (normalized.includes('eksport') || normalized.includes('export')) {
+         return <Download className="w-5 h-5" />;
+      }
+      if (normalized.includes('resit') || normalized.includes('receipt') || normalized.includes('invoice')) {
+         return <FileSpreadsheet className="w-5 h-5" />;
+      }
+      if (normalized.includes('carian') || normalized.includes('search')) {
+         return <Search className="w-5 h-5" />;
+      }
+      if (normalized.includes('calendar')) {
+         return <Calendar className="w-5 h-5" />;
+      }
+      if (normalized.includes('telegram')) {
+         return <MessageCircle className="w-5 h-5" />;
+      }
+      if (normalized.includes('baucar') || normalized.includes('voucher')) {
+         return <Ticket className="w-5 h-5" />;
+      }
+      if (normalized.includes('whatsapp')) {
+         return <MessageCircle className="w-5 h-5" />;
+      }
+      if (normalized.includes('jurugambar') || normalized.includes('photographer') || normalized.includes('payout')) {
+         return <Users className="w-5 h-5" />;
+      }
+      if (normalized.includes('lead')) {
+         return <Filter className="w-5 h-5" />;
+      }
+
+      return tier === 'prime'
+         ? <Filter className="w-5 h-5" />
+         : <ShieldCheck className="w-5 h-5" />;
    };
 
    // Map colors for the icon container background (Main Pillars)
@@ -100,10 +125,10 @@ const Features: React.FC = () => {
                            {/* Shiny Orange Corner Glow - Alternating */}
                            <div className={`absolute -top-24 ${index % 2 === 0 ? '-left-24' : '-right-24'} w-64 h-64 bg-orange-500/10 dark:bg-orange-500/20 blur-[80px] rounded-full pointer-events-none transition-all duration-500 group-hover:bg-orange-500/20 dark:group-hover:bg-orange-500/30`}></div>
 
-                           <div className={`flex flex-col ${isLeft ? 'lg:flex-row' : 'lg:flex-row-reverse'} items-center gap-12 lg:gap-16 group relative z-10`}>
+                           <div className={`flex flex-col ${isLeft ? 'md:flex-row' : 'md:flex-row-reverse'} items-center gap-10 md:gap-8 lg:gap-16 group relative z-10`}>
 
                               {/* TEXT CONTENT */}
-                              <div className="flex-1 w-full lg:w-1/2">
+                              <div className="flex-1 w-full md:w-7/12 lg:w-1/2">
                                  <div className={`inline-flex items-center justify-center p-3 rounded-xl border mb-8 ${getIconBg(index)}`}>
                                     {getIcon(index)}
                                  </div>
@@ -140,8 +165,8 @@ const Features: React.FC = () => {
                                  )}
                               </div>
 
-                              <div className="flex-1 w-full lg:w-1/2">
-                                 <div className="relative w-full aspect-square max-w-[500px] mx-auto flex items-center justify-center">
+                              <div className="flex-1 w-full md:w-5/12 lg:w-1/2">
+                                 <div className="relative w-full aspect-square max-w-[420px] md:max-w-[320px] lg:max-w-[500px] mx-auto flex items-center justify-center">
 
                                     {/* CONDITIONAL MOCKUPS FOR ALL FEATURES */}
                                     {index === 0 && <BookingSiteMockup />}
@@ -210,21 +235,60 @@ const Features: React.FC = () => {
                      </div>
                   </Reveal>
 
-                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-5" style={{ gridAutoRows: '1fr' }}>
-                     {t.features.bentoGrid.items.map((item: any, index: number) => (
-                        <Reveal key={index} delay={index * 50} width="100%" className="flex h-full">
-                           <GlassCard className="w-full h-full p-5 md:p-6 flex flex-col items-start gap-6 bg-slate-50 dark:bg-zinc-900 border border-slate-200 dark:border-white/10 hover:border-slate-300 dark:hover:border-white/25 transition-all duration-300 group hover:shadow-md hover:-translate-y-1">
-                              <div className="w-12 h-12 md:w-14 md:h-14 rounded-2xl bg-gradient-to-br from-slate-50 to-slate-100 dark:from-white/5 dark:to-white/10 border border-slate-200 dark:border-white/10 flex items-center justify-center shrink-0 group-hover:scale-110 group-hover:rotate-3 transition-transform duration-500 shadow-sm mb-4">
-                                 {getBentoIcon(index)}
+                  {(() => {
+                     const items = t.features.bentoGrid.items || [];
+                     const allPackageItems = items.filter((item: any) => item.tier !== 'prime');
+                     const primeOnlyItems = items.filter((item: any) => item.tier === 'prime');
+                     return (
+                        <div className="space-y-10">
+                           <div>
+                              <div className="mb-5">
+                                 <span className="inline-flex items-center rounded-full px-3 py-1 text-xs font-bold tracking-wide uppercase bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 border border-emerald-500/30">
+                                    {t.features.bentoGrid.groupAllTitle}
+                                 </span>
                               </div>
-                              <div className="flex-1 w-full">
-                                 <h4 className="font-medium text-xl text-slate-900 dark:text-white mb-2">{item.title}</h4>
-                                 <p className="text-slate-600 dark:text-slate-300 leading-relaxed font-medium text-sm md:text-base opacity-90">{item.description}</p>
+                              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-5" style={{ gridAutoRows: '1fr' }}>
+                                 {allPackageItems.map((item: any, index: number) => (
+                                    <Reveal key={`all-${index}`} delay={index * 50} width="100%" className="flex h-full">
+                                       <GlassCard className="w-full h-full p-5 md:p-6 flex flex-col items-start gap-6 bg-slate-50 dark:bg-zinc-900 border border-slate-200 dark:border-white/10 hover:border-slate-300 dark:hover:border-white/25 transition-all duration-300 group hover:shadow-md hover:-translate-y-1">
+                                          <div className="w-12 h-12 md:w-14 md:h-14 rounded-2xl bg-gradient-to-br from-slate-50 to-slate-100 dark:from-white/5 dark:to-white/10 border border-slate-200 dark:border-white/10 text-studio-primary dark:text-studio-primary flex items-center justify-center shrink-0 group-hover:scale-110 group-hover:rotate-3 transition-transform duration-500 shadow-sm mb-4">
+                                             {getBentoIcon(item.title, item.tier)}
+                                          </div>
+                                          <div className="flex-1 w-full">
+                                             <h4 className="font-medium text-xl text-slate-900 dark:text-white mb-2">{item.title}</h4>
+                                             <p className="text-lg text-slate-600 dark:text-slate-400 mb-6 leading-relaxed">{item.description}</p>
+                                          </div>
+                                       </GlassCard>
+                                    </Reveal>
+                                 ))}
                               </div>
-                           </GlassCard>
-                        </Reveal>
-                     ))}
-                  </div>
+                           </div>
+
+                           <div className="pt-8 border-t border-slate-200 dark:border-white/10">
+                              <div className="mb-5">
+                                 <span className="inline-flex items-center rounded-full px-3 py-1 text-xs font-bold tracking-wide uppercase bg-studio-primary/15 text-studio-primary border border-studio-primary/30">
+                                    {t.features.bentoGrid.groupPrimeTitle}
+                                 </span>
+                              </div>
+                              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-5" style={{ gridAutoRows: '1fr' }}>
+                                 {primeOnlyItems.map((item: any, index: number) => (
+                                    <Reveal key={`prime-${index}`} delay={index * 50} width="100%" className="flex h-full">
+                                       <GlassCard className="w-full h-full p-5 md:p-6 flex flex-col items-start gap-6 bg-slate-50 dark:bg-zinc-900 border border-studio-primary/20 dark:border-studio-primary/30 hover:border-studio-primary/40 transition-all duration-300 group hover:shadow-md hover:-translate-y-1">
+                                          <div className="w-12 h-12 md:w-14 md:h-14 rounded-2xl bg-gradient-to-br from-orange-50 to-orange-100 dark:from-studio-primary/10 dark:to-orange-500/10 border border-orange-200 dark:border-studio-primary/30 text-orange-600 dark:text-orange-400 flex items-center justify-center shrink-0 group-hover:scale-110 group-hover:rotate-3 transition-transform duration-500 shadow-sm mb-4">
+                                             {getBentoIcon(item.title, item.tier)}
+                                          </div>
+                                          <div className="flex-1 w-full">
+                                             <h4 className="font-medium text-xl text-slate-900 dark:text-white mb-2">{item.title}</h4>
+                                             <p className="text-lg text-slate-600 dark:text-slate-400 mb-6 leading-relaxed">{item.description}</p>
+                                          </div>
+                                       </GlassCard>
+                                    </Reveal>
+                                 ))}
+                              </div>
+                           </div>
+                        </div>
+                     );
+                  })()}
                </div>
             )}
 
@@ -238,36 +302,73 @@ const Features: React.FC = () => {
 // ==========================================
 
 const RemotionLoopMockup: React.FC<{ src: string; title: string; poster?: string }> = ({ src, title, poster }) => {
-   const webmSrc = src.replace(/\.mp4$/, '.webm');
-   const cacheKey = '20260306b';
+   const cacheKey = '20260307c';
+   const mp4Src = `${src}?v=${cacheKey}`;
+   const webmSrc = `${src.replace(/\.mp4$/, '.webm')}?v=${cacheKey}`;
+   const containerRef = React.useRef<HTMLDivElement | null>(null);
    const videoRef = React.useRef<HTMLVideoElement | null>(null);
-   const [resolvedSrc, setResolvedSrc] = React.useState(`${src}?v=${cacheKey}`);
+   const [isMobile, setIsMobile] = React.useState(false);
+   const [supportsWebm, setSupportsWebm] = React.useState(false);
+   const [forceMp4, setForceMp4] = React.useState(false);
+   const [isVisible, setIsVisible] = React.useState(false);
+   const [shouldLoad, setShouldLoad] = React.useState(false);
+   const resolvedSrc = !isMobile && supportsWebm && !forceMp4 ? webmSrc : mp4Src;
+
+   React.useEffect(() => {
+      setForceMp4(false);
+      setShouldLoad(false);
+      setIsVisible(false);
+   }, [mp4Src]);
 
    React.useEffect(() => {
       if (typeof navigator === 'undefined') return;
       const ua = navigator.userAgent;
-      const isIOS =
+      const isIOSDevice =
          /iPad|iPhone|iPod/.test(ua) ||
          (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+      const isAndroid = /Android/i.test(ua);
+      const isMobileDevice = isIOSDevice || isAndroid || /Mobile/i.test(ua);
+      setIsMobile(isMobileDevice);
 
-      if (isIOS) {
-         setResolvedSrc(`${src}?v=${cacheKey}`);
+      if (isMobileDevice) {
+         setSupportsWebm(false);
          return;
       }
 
       const probe = document.createElement('video');
-      const webmSupport = probe.canPlayType('video/webm; codecs="vp9"');
-      if (webmSupport === 'probably' || webmSupport === 'maybe') {
-         setResolvedSrc(`${webmSrc}?v=${cacheKey}`);
+      const webmSupport = probe.canPlayType('video/webm; codecs="vp9, opus"');
+      setSupportsWebm(webmSupport === 'probably' || webmSupport === 'maybe');
+   }, []);
+
+   React.useEffect(() => {
+      const container = containerRef.current;
+      if (!container) return;
+
+      if (typeof IntersectionObserver === 'undefined') {
+         setShouldLoad(true);
+         setIsVisible(true);
          return;
       }
 
-      setResolvedSrc(`${src}?v=${cacheKey}`);
-   }, [src, webmSrc]);
+      const observer = new IntersectionObserver(
+         (entries) => {
+            const entry = entries[0];
+            const nowVisible = entry.isIntersecting && entry.intersectionRatio >= 0.2;
+            setIsVisible(nowVisible);
+            if (entry.isIntersecting) {
+               setShouldLoad(true);
+            }
+         },
+         { threshold: [0, 0.2, 0.5, 1] }
+      );
+
+      observer.observe(container);
+      return () => observer.disconnect();
+   }, []);
 
    React.useEffect(() => {
       const video = videoRef.current;
-      if (!video) return;
+      if (!video || !shouldLoad) return;
 
       const forceInlineLoopPlay = () => {
          video.muted = true;
@@ -284,29 +385,34 @@ const RemotionLoopMockup: React.FC<{ src: string; title: string; poster?: string
       };
 
       const onVisibility = () => {
-         if (document.visibilityState === 'visible') {
+         if (document.visibilityState === 'visible' && isVisible) {
             forceInlineLoopPlay();
          }
       };
 
-      video.addEventListener('loadedmetadata', forceInlineLoopPlay);
+      if (isVisible) {
+         forceInlineLoopPlay();
+      } else {
+         video.pause();
+      }
+
+      video.addEventListener('loadeddata', forceInlineLoopPlay);
       video.addEventListener('canplay', forceInlineLoopPlay);
       document.addEventListener('visibilitychange', onVisibility);
-      forceInlineLoopPlay();
 
       return () => {
-         video.removeEventListener('loadedmetadata', forceInlineLoopPlay);
+         video.removeEventListener('loadeddata', forceInlineLoopPlay);
          video.removeEventListener('canplay', forceInlineLoopPlay);
          document.removeEventListener('visibilitychange', onVisibility);
       };
-   }, [resolvedSrc]);
+   }, [isVisible, resolvedSrc, shouldLoad]);
 
    return (
-      <div className="w-full h-full bg-transparent">
-         <div className="relative w-full h-full overflow-hidden bg-transparent">
+      <div ref={containerRef} className="w-full h-full bg-transparent rounded-[30px]">
+         <div className="relative w-full h-full overflow-hidden rounded-[30px] bg-transparent">
             <video
                ref={videoRef}
-               src={resolvedSrc}
+               src={shouldLoad ? resolvedSrc : undefined}
                autoPlay
                muted
                loop
@@ -317,10 +423,16 @@ const RemotionLoopMockup: React.FC<{ src: string; title: string; poster?: string
                controlsList="nodownload nofullscreen noremoteplayback"
                tabIndex={-1}
                draggable={false}
-               preload="auto"
-               className="w-full h-full object-contain pointer-events-none select-none touch-none bg-transparent"
+               preload={isMobile ? "none" : "metadata"}
+               poster={poster}
+               className="w-full h-full object-contain pointer-events-none select-none bg-transparent"
                aria-label={title}
                onContextMenu={(event) => event.preventDefault()}
+               onError={() => {
+                  if (resolvedSrc !== mp4Src) {
+                     setForceMp4(true);
+                  }
+               }}
             />
          </div>
       </div>

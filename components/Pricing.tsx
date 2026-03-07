@@ -36,10 +36,10 @@ const Pricing: React.FC = () => {
       <div className={`max-w-7xl mx-auto transition-all duration-500 ${isChanging ? 'opacity-0 blur-sm' : 'opacity-100 blur-0'} relative z-10`}>
         <div className="text-center max-w-3xl mx-auto mb-12 md:mb-20 px-6 flex flex-col items-center">
           <Reveal>
-            <h2 className="text-3xl md:text-5xl font-medium font-serif mb-6 bg-gradient-to-r from-orange-600 via-slate-800 to-slate-900 dark:from-white dark:to-slate-300 bg-clip-text text-transparent pb-2">
+            <h2 className="text-3xl md:text-5xl font-medium font-serif mb-3 leading-tight bg-gradient-to-r from-orange-600 via-slate-800 to-slate-900 dark:from-white dark:to-slate-300 bg-clip-text text-transparent pb-2">
               {t.pricing.title}
             </h2>
-            <p className="text-lg text-slate-600 dark:text-slate-400 font-light">
+            <p className="text-lg text-slate-600 dark:text-slate-400 font-light leading-snug">
               {t.pricing.subtitle}
             </p>
           </Reveal>

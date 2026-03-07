@@ -1,9 +1,8 @@
 import React from "react";
-import { AbsoluteFill, Img } from "remotion";
+import { AbsoluteFill } from "remotion";
 import { KpiCard } from "./KpiCard";
 import { ChartCard } from "./ChartCard";
-import frameBackground from "../Frame 1.png";
-const cardSize = 1000;
+const cardSize = 1080;
 
 const containerStyle: React.CSSProperties = {
     paddingTop: 44,
@@ -15,8 +14,10 @@ const containerStyle: React.CSSProperties = {
     display: "flex",
     flexDirection: "column",
     fontFamily: "'Satoshi', sans-serif",
-    borderRadius: 32,
-    boxShadow: "0 40px 100px -20px rgba(0,0,0,0.8)",
+    borderRadius: 36,
+    boxShadow: "none",
+    background:
+        "radial-gradient(120% 120% at 15% 0%, #dd7a12 0%, #c76506 62%, #a94e03 100%)",
     position: "relative",
     overflow: "hidden",
 };
@@ -64,20 +65,10 @@ export const AnimatedDashboard: React.FC = () => {
                     display: "flex",
                     justifyContent: "center",
                     alignItems: "center",
-                    backgroundColor: "transparent", // Removed black canvas background
+                    backgroundColor: "#c55d06",
                 }}
             >
                 <div style={containerStyle}>
-                    <Img
-                        src={frameBackground}
-                        style={{
-                            position: "absolute",
-                            inset: 0,
-                            width: "100%",
-                            height: "100%",
-                            objectFit: "cover",
-                        }}
-                    />
                     <div style={{ position: "relative", zIndex: 1 }}>
                         <div style={topRowStyle}>
                             {/* Delay 0: Pops in first */}

@@ -1,11 +1,15 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useLayoutEffect, useRef } from 'react';
 import { User, Store, Camera, CheckCircle2, Calendar, CreditCard, Clock, TrendingUp, Users, List, Bell } from 'lucide-react';
 import { useLanguage } from '../contexts/LanguageContext';
+
+const AUTO_ROTATE_MS = 5000;
 
 const UserBenefits = () => {
     const { t } = useLanguage();
     const [activeTab, setActiveTab] = useState<'customer' | 'owner' | 'photographer'>('customer');
     const [isAutoPlaying, setIsAutoPlaying] = useState(true);
+    const activePillRef = useRef<HTMLDivElement | null>(null);
+    const [activePillSize, setActivePillSize] = useState({ width: 0, height: 0 });
 
     // Auto-rotate tabs every 5 seconds if user hasn't interacted
     useEffect(() => {
@@ -16,9 +20,30 @@ const UserBenefits = () => {
                 if (current === 'owner') return 'photographer';
                 return 'customer';
             });
-        }, 5000);
+        }, AUTO_ROTATE_MS);
         return () => clearInterval(interval);
     }, [isAutoPlaying]);
+
+    useLayoutEffect(() => {
+        const pillEl = activePillRef.current;
+        if (!pillEl) return;
+
+        const updatePillSize = () => {
+            const { width, height } = pillEl.getBoundingClientRect();
+            setActivePillSize({ width, height });
+        };
+
+        updatePillSize();
+
+        if (typeof ResizeObserver !== 'undefined') {
+            const observer = new ResizeObserver(updatePillSize);
+            observer.observe(pillEl);
+            return () => observer.disconnect();
+        }
+
+        window.addEventListener('resize', updatePillSize);
+        return () => window.removeEventListener('resize', updatePillSize);
+    }, [activeTab]);
 
     const handleTabClick = (tab: 'customer' | 'owner' | 'photographer') => {
         setIsAutoPlaying(false);
@@ -81,15 +106,15 @@ const UserBenefits = () => {
                 <div className="max-w-md mx-auto mb-16 relative">
                     <style>
                         {`
-                        @keyframes progress {
-                            from { width: 0%; }
-                            to { width: 100%; }
+                        @keyframes pillBorderProgress {
+                            to { stroke-dashoffset: 0; }
                         }
                         `}
                     </style>
                     <div className="bg-slate-100 dark:bg-white/5 p-1.5 rounded-full grid grid-cols-3 relative isolate">
                         {/* Sliding Background Pill */}
                         <div
+                            ref={activePillRef}
                             className="absolute top-1.5 bottom-1.5 bg-white dark:bg-zinc-700 rounded-full shadow-sm transition-all duration-300 ease-out -z-10"
                             style={{
                                 width: 'calc(33.333% - 4px)',
@@ -97,22 +122,30 @@ const UserBenefits = () => {
                             }}
                         >
                             {/* SVG Border Progress - Attached to the Pill for Perfect Shape */}
-                            {isAutoPlaying && (
-                                <svg key={activeTab} className="absolute inset-0 w-full h-full pointer-events-none rounded-full" style={{ overflow: 'visible' }}>
+                            {isAutoPlaying && activePillSize.width > 0 && activePillSize.height > 0 && (
+                                <svg
+                                    key={`${activeTab}-${Math.round(activePillSize.width)}-${Math.round(activePillSize.height)}`}
+                                    className="absolute inset-0 w-full h-full pointer-events-none"
+                                    viewBox={`0 0 ${activePillSize.width} ${activePillSize.height}`}
+                                    preserveAspectRatio="none"
+                                >
                                     <rect
-                                        x="1"
-                                        y="1"
-                                        width="calc(100% - 2px)"
-                                        height="calc(100% - 2px)"
-                                        rx="9999"
+                                        x="1.25"
+                                        y="1.25"
+                                        width={Math.max(activePillSize.width - 2.5, 0)}
+                                        height={Math.max(activePillSize.height - 2.5, 0)}
+                                        rx={Math.max((activePillSize.height - 2.5) / 2, 0)}
                                         fill="none"
                                         stroke="currentColor"
-                                        strokeWidth="2"
+                                        strokeWidth="2.5"
                                         className="text-orange-500 dark:text-orange-400"
-                                        strokeDasharray="400"
-                                        strokeDashoffset="400"
+                                        pathLength={100}
+                                        strokeDasharray="100"
+                                        strokeDashoffset="100"
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
                                         style={{
-                                            animation: 'borderProgress 5000ms linear forwards'
+                                            animation: `pillBorderProgress ${AUTO_ROTATE_MS}ms linear forwards`
                                         }}
                                     />
                                 </svg>
@@ -137,13 +170,6 @@ const UserBenefits = () => {
                             </button>
                         ))}
                     </div>
-                    <style>
-                        {`
-                            @keyframes borderProgress {
-                                to { stroke-dashoffset: 0; }
-                            }
-                        `}
-                    </style>
                 </div>
 
                 {/* Dynamic Content Area */}

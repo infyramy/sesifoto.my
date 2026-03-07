@@ -3,6 +3,7 @@ import { AlertTriangle, CheckCircle2, MessageCircle, Info, Mail, Send, Settings,
 
 export interface NewsItem {
     id: string;
+    isVisible: boolean;
     title: {
         en: string;
         bm: string;
@@ -57,6 +58,7 @@ const AlternativeCard = ({ icon, title, desc }: { icon: React.ReactNode, title: 
 export const NEWS_DATA: NewsItem[] = [
     {
         id: 'founder-story-2026',
+        isVisible: false,
         title: {
             en: "A Note from the Founder: The Untold Story of SesiFoto",
             bm: "Catatan Pengasas: Cerita Sebenar di Sebalik SesiFoto"
@@ -371,6 +373,7 @@ export const NEWS_DATA: NewsItem[] = [
     },
     {
         id: 'studio-directory',
+        isVisible: true,
         title: {
             en: 'New Feature: Public Studio Directory is Now Live',
             bm: 'Ciri Baharu: Direktori Studio Awam Kini Aktif'
@@ -503,6 +506,7 @@ export const NEWS_DATA: NewsItem[] = [
     },
     {
         id: 'whatsapp-update',
+        isVisible: true,
         title: {
             en: 'Official Announcement: SesiFoto Official WhatsApp API Integration',
             bm: 'Pengumuman Rasmi: Integrasi WhatsApp API Rasmi SesiFoto'
@@ -858,3 +862,5 @@ export const NEWS_DATA: NewsItem[] = [
         }
     }
 ];
+
+export const VISIBLE_NEWS_DATA = NEWS_DATA.filter((item) => item.isVisible);

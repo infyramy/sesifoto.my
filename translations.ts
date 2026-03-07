@@ -56,7 +56,7 @@ export const translations = {
       titleLine1: 'Simplify Booking Management',
       titleLine2: 'For Your Photo Studio.',
       subtitle: 'Manage bookings, payments, and customers in one system—customers book and pay themselves, you simply monitor the dashboard.',
-      startTrial: 'Start Now',
+      startTrial: 'Start Using',
       viewShowreel: 'Login →',
       noCard: 'No credit card',
       trialDays: '14-day free trial',
@@ -64,17 +64,19 @@ export const translations = {
       screenshotTitle: 'Golden Hour Session',
       screenshotRev: 'Monthly Rev',
       screenshotPaid: 'Invoice Paid',
-      trustedLabel: 'Trusted by Photography Studios in 🇲🇾',
+      viewAllStudios: 'See All Studios',
       stats: {
         studios: {
-          value: '10+',
-          label: 'Studios Empowered',
-          subLabel: '(Raya 2025)'
+          value: '10k+',
+          mobileValue: '10k+',
+          label: 'Bookings Managed',
+          subLabel: '(Raya 2026)'
         },
         sales: {
-          value: 'RM 300k+',
+          value: 'RM 1.5M+',
+          mobileValue: '1.5M+',
           label: 'Sales Managed',
-          subLabel: '(Last Raya)'
+          subLabel: '(Raya 2026)'
         },
         origin: {
           value: '100%',
@@ -121,17 +123,21 @@ export const translations = {
         }
       ],
       bentoGrid: {
-        title: "Powerful Utilities",
-        subtitle: "Everything else you need to run smoothly.",
+        title: "Essential Studio Capabilities",
+        subtitle: "Practical features for day-to-day studio operations, arranged by package for clear comparison.",
+        groupAllTitle: "Available In All Packages",
+        groupPrimeTitle: "Available In Prime Package",
         items: [
-          { title: "Secure Database", description: "Customer data is encrypted and safe." },
-          { title: "Fast Performance", description: "Optimized for speed on all devices." },
-          { title: "Mobile Optimized", description: "Looks great on iPhone & Android." },
-          { title: "Export Data", description: "Download your bookings to Excel/CSV." },
-          { title: "Promo Codes", description: "Create vouchers for marketing campaigns." },
-          { title: "Status Management", description: "Track Paid, Pending, and Refund statuses." },
-          { title: "Auto-Receipt", description: "System generates digital receipts instantly." },
-          { title: "Search & Filter", description: "Find any booking in seconds." }
+          { title: "Booking Form", description: "Friendly UI/UX booking form designed to be easy even for older users, with a mobile app-like flow.", tier: "all" },
+          { title: "Export Data", description: "Download booking records to Excel/CSV.", tier: "all" },
+          { title: "Auto Receipt", description: "Generate invoice and digital receipt automatically.", tier: "all" },
+          { title: "Smart Search", description: "Find customer details in seconds.", tier: "all" },
+          { title: "Google Calendar Sync", description: "Sync booking schedule directly with Google Calendar.", tier: "all" },
+          { title: "Telegram Alert", description: "Free booking alerts for studio owner via Telegram.", tier: "all" },
+          { title: "Voucher Management", description: "Create vouchers and discounts for customers.", tier: "prime" },
+          { title: "WhatsApp Notification", description: "Owner booking alerts, customer notifications, and 1-day reminders.", tier: "prime" },
+          { title: "Photographer & Payout", description: "Manage photographers and auto-calculate payout rate by assigned booking.", tier: "prime" },
+          { title: "Lead Management", description: "Track bookings made through lead referral links.", tier: "prime" }
         ]
       }
     },
@@ -351,7 +357,7 @@ export const translations = {
       faq: 'Soalan Lazim',
       directory: 'Direktori',
       signin: 'Log Masuk',
-      getStarted: 'Mula Sekarang',
+      getStarted: 'Daftar Sekarang',
       news: 'Berita',
       support: 'Bantuan'
     },
@@ -384,7 +390,7 @@ export const translations = {
       titleLine1: 'Mudahkan Urusan Tempahan',
       titleLine2: 'Studio Foto Anda.',
       subtitle: 'Urus tempahan, bayaran dan pelanggan dalam satu sistem — pelanggan tempah dan bayar sendiri, anda cuma pantau dashboard.',
-      startTrial: 'Mula Sekarang',
+      startTrial: 'Daftar Sekarang',
       viewShowreel: 'Log Masuk →',
       noCard: 'Tiada kad kredit',
       trialDays: '14-hari percubaan percuma',
@@ -392,17 +398,19 @@ export const translations = {
       screenshotTitle: 'Sesi Golden Hour',
       screenshotRev: 'Hasil Bulanan',
       screenshotPaid: 'Invois Dibayar',
-      trustedLabel: 'Dipercayai oleh Studio Foto di 🇲🇾',
+      viewAllStudios: 'Lihat Semua Studio',
       stats: {
         studios: {
-          value: '10+',
-          label: 'Studio Dibantu',
-          subLabel: '(Raya 2025)'
+          value: '10k+',
+          mobileValue: '10k+',
+          label: 'Tempahan Diurus',
+          subLabel: '(Raya 2026)'
         },
         sales: {
-          value: 'RM 300k+',
-          label: 'Jualan Diuruskan',
-          subLabel: '(Raya Lepas)'
+          value: 'RM 1.5+ Juta',
+          mobileValue: '1.5+ Juta',
+          label: 'Jualan Diurus',
+          subLabel: '(Raya 2026)'
         },
         origin: {
           value: '100%',
@@ -449,17 +457,21 @@ export const translations = {
         }
       ],
       bentoGrid: {
-        title: "Fungsi Tambahan",
-        subtitle: "Kelengkapan lain untuk melancarkan operasi bisnes.",
+        title: "Fungsi Teras Operasi Studio",
+        subtitle: "Fungsi praktikal untuk urusan harian studio, disusun mengikut pakej supaya mudah dinilai dan dibandingkan.",
+        groupAllTitle: "Tersedia Dalam Semua Pakej",
+        groupPrimeTitle: "Tersedia Dalam Pakej Prime",
         items: [
-          { title: "Data Selamat", description: "Pangkalan data pelanggan disulitkan dan selamat." },
-          { title: "Prestasi Pantas", description: "Dioptimumkan untuk kelajuan akses maksimum." },
-          { title: "Mesra Mudah Alih", description: "Paparan responsif untuk iPhone & Android." },
-          { title: "Eksport Data", description: "Muat turun rekod tempahan ke Excel/CSV." },
-          { title: "Kod Promo", description: "Cipta baucar diskaun untuk kempen pemasaran." },
-          { title: "Status Tempahan", description: "Jejak status Bayaran, Pending, atau Refund." },
-          { title: "Resit Automatik", description: "Penjanaan invois & resit digital segera." },
-          { title: "Carian Pintar", description: "Cari maklumat pelanggan dalam masa saat." }
+          { title: "Borang Tempahan", description: "Direka khas untuk skrin mobile dengan UI/UX yang dioptimumkan.", tier: "all" },
+          { title: "Eksport Data", description: "Muat turun rekod tempahan dalam format Excel atau CSV.", tier: "all" },
+          { title: "Resit Automatik", description: "Sistem menjana invois dan resit digital secara automatik selepas bayaran diterima.", tier: "all" },
+          { title: "Carian Pintar", description: "Cari maklumat pelanggan dan tempahan dengan pantas dalam beberapa saat.", tier: "all" },
+          { title: "Google Calendar Sync", description: "Sync jadual tempahan terus ke Google Calendar.", tier: "all" },
+          { title: "Integrasi Telegram", description: "Integrasi Telegram untuk notifikasi tempahan baharu.", tier: "all" },
+          { title: "Pengurusan Baucar", description: "Bina dan urus baucar diskaun untuk promosi pelanggan.", tier: "prime" },
+          { title: "Notifikasi WhatsApp", description: "Hantar notifikasi kepada pemilik dan pelanggan serta peringatan 1 hari sebelum sesi.", tier: "prime" },
+          { title: "Pengurusan Jurugambar & Payout", description: "Tetapkan kadar bayaran jurugambar dan kira payout secara automatik mengikut tugasan.", tier: "prime" },
+          { title: "Pengurusan Lead", description: "Jejak tempahan daripada pautan rujukan untuk mengukur prestasi lead.", tier: "prime" }
         ]
       }
     },
@@ -470,7 +482,7 @@ export const translations = {
       roles: {
         customer: {
           tab: "Pelanggan",
-          title: "Untuk Pelanggan (Customer)",
+          title: "Untuk Pelanggan",
           description: "Pengalaman tempahan yang pantas, mudah, dan telus tanpa perlu menunggu balasan WhatsApp.",
           points: [
             { title: "Tempah & Bayar Terus", desc: "Pilih slot, bayar deposit via FPX/Card, dan dapat resit serta-merta." },
@@ -554,8 +566,8 @@ export const translations = {
       ]
     },
     pricing: {
-      title: 'Pakej Tersedia',
-      subtitle: 'Pilih pakej yang sesuai dengan tahap pertumbuhan studio anda.',
+      title: 'Pilih Pakej Anda',
+      subtitle: 'Pilih pakej yang sesuai dengan keperluan studio anda.',
       popular: 'Disyorkan',
       plans: [
         {
@@ -573,7 +585,7 @@ export const translations = {
             "<i>Custom Subdomain</i>",
             "Laporan Asas"
           ],
-          cta: "Mula Sekarang"
+          cta: "Daftar Sekarang"
         },
         {
           name: "Pakej Prime",
@@ -588,7 +600,7 @@ export const translations = {
             "Laporan Terperinci",
             "Sokongan Keutamaan"
           ],
-          cta: "Mula Sekarang",
+          cta: "Daftar Sekarang",
           popular: true
         }
       ]
@@ -599,7 +611,7 @@ export const translations = {
       items: [
         {
           question: "Bagaimanakah cara untuk mula menggunakan sistem ini?",
-          answer: "Prosesnya mudah sahaja. 1) Daftar akaun. 2) Lengkapkan maklumat studio & pakej. 3) Hubungkan akaun CHIP. Selesai!<br/><br/><strong>Bilakah pelanggan boleh mula menempah?</strong> Serta-merta. Sebaik sahaja anda melengkapkan langkah di atas dan berkongsi pautan tempahan, sistem sedia menerima tempahan 24 jam sehari."
+          answer: "Prosesnya mudah sahaja:<ol style=\"list-style: decimal; padding-left: 1.25rem; margin-top: 0.5rem;\"><li>Daftar akaun.</li><li>Lengkapkan maklumat studio & pakej.</li><li>Hubungkan akaun CHIP.</li></ol><br/><strong>Bilakah pelanggan boleh mula menempah?</strong> Serta-merta*.<br/><span style=\"font-size: 0.9em; opacity: 0.9;\">* Hanya selepas butiran akaun CHIP disahkan (verified) untuk mula menerima pembayaran.</span>"
         },
         {
           question: "Apakah perbezaan utama berbanding pengurusan manual?",
@@ -632,7 +644,7 @@ export const translations = {
         badge: 'Sedia Untuk Raya 2026?',
         titleLine1: 'Maksimumkan Potensi Studio Anda',
         titleLine2: 'Untuk Raya 2026.',
-        primaryCta: 'Mula Sekarang'
+        primaryCta: 'Daftar Sekarang'
       },
       preFooterTitle: 'Sedia Untuk Raya 2026?',
       preFooterSubtitle: 'Maksimumkan Potensi Studio Anda Untuk Raya 2026. Jangan Terlepas. Setup Sistem Hari Ini.',

@@ -8,7 +8,7 @@ export const AnimatedOperatingHours: React.FC = () => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
   const floatY = Math.sin((frame / (fps * 3.2)) * Math.PI * 2) * 8;
-  const cardSize = 1000;
+  const cardSize = 1080;
 
   return (
     <>
@@ -38,7 +38,7 @@ export const AnimatedOperatingHours: React.FC = () => {
         style={{
           alignItems: "center",
           justifyContent: "center",
-          backgroundColor: "transparent",
+          backgroundColor: "#b45708",
           fontFamily: "'Satoshi', sans-serif",
         }}
       >
@@ -46,11 +46,10 @@ export const AnimatedOperatingHours: React.FC = () => {
           style={{
             width: cardSize,
             height: cardSize,
-            borderRadius: 38,
+            borderRadius: 36,
             background:
               "radial-gradient(120% 120% at 0% 0%, #D87415 0%, #A34A06 68%, #7A3202 100%)",
-            boxShadow:
-              "inset 0 1px 0 rgba(255,255,255,0.16), 0 35px 80px rgba(43, 20, 4, 0.42)",
+            boxShadow: "none",
             position: "relative",
             overflow: "hidden",
             display: "flex",
@@ -74,9 +73,9 @@ export const AnimatedOperatingHours: React.FC = () => {
           <div
             style={{
               position: "relative",
-              width: 900,
-              height: 760,
-              transform: `translateX(90px) translateY(${floatY + 70}px) scale(1.2)`,
+              width: 940,
+              height: 790,
+              transform: `translateX(70px) translateY(${floatY + 62}px) scale(1.15)`,
               transformOrigin: "center",
             }}
           >

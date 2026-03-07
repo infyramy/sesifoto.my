@@ -4,7 +4,7 @@ import Navbar from './Navbar';
 import Footer from './Footer';
 import StudioBackground from './StudioBackground';
 import Reveal from './ui/Reveal';
-import { NEWS_DATA } from '../data/news';
+import { VISIBLE_NEWS_DATA } from '../data/news';
 import { ArrowLeft, Calendar } from 'lucide-react';
 
 import NotFound from './NotFound';
@@ -14,7 +14,7 @@ import { useLanguage } from '../contexts/LanguageContext';
 const NewsDetailPage: React.FC = () => {
     const { slug } = useParams<{ slug: string }>();
     const { t, language } = useLanguage();
-    const newsItem = NEWS_DATA.find(item => item.slug === slug);
+    const newsItem = VISIBLE_NEWS_DATA.find(item => item.slug === slug);
 
     if (!newsItem) {
         return <NotFound hideCtaBanner={true} />;

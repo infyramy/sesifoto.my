@@ -1,13 +1,12 @@
 import React from "react";
-import { AbsoluteFill, Img } from "remotion";
+import { AbsoluteFill } from "remotion";
 import { Header } from "./Header";
 import { SessionHighlights } from "./SessionHighlights";
 import { CustomerInfo } from "./CustomerInfo";
 import { PhotographerInfo } from "./PhotographerInfo";
 import { AddonsSection } from "./AddonsSection";
-import frameBackground from "../Frame 1.png";
 
-const cardSize = 1000;
+const cardSize = 1080;
 
 export const AnimatedBookingCard: React.FC = () => {
     return (
@@ -16,29 +15,21 @@ export const AnimatedBookingCard: React.FC = () => {
                 display: "flex",
                 justifyContent: "center",
                 alignItems: "center",
-                backgroundColor: "transparent",
+                backgroundColor: "#c55d06",
             }}
         >
             <div
                 style={{
                     width: cardSize,
                     height: cardSize,
-                    borderRadius: 40,
+                    borderRadius: 36,
                     overflow: "hidden",
                     position: "relative",
-                    boxShadow: "0 40px 100px -20px rgba(0,0,0,0.8)",
+                    boxShadow: "none",
+                    background:
+                        "radial-gradient(120% 120% at 15% 0%, #dd7a12 0%, #c76506 62%, #a94e03 100%)",
                 }}
             >
-                <Img
-                    src={frameBackground}
-                    style={{
-                        position: "absolute",
-                        inset: 0,
-                        width: "100%",
-                        height: "100%",
-                        objectFit: "cover",
-                    }}
-                />
                 {/* Inner Dark Dashboard Card properly indented from top left per mockup */}
                 <div
                     style={{

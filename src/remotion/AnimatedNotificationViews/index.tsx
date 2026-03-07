@@ -108,7 +108,7 @@ export const AnimatedNotificationViews: React.FC = () => {
 
       <AbsoluteFill
         style={{
-          backgroundColor: "transparent",
+          backgroundColor: "#b45506",
           alignItems: "center",
           justifyContent: "center",
           fontFamily: "'Satoshi', sans-serif",
@@ -116,12 +116,12 @@ export const AnimatedNotificationViews: React.FC = () => {
       >
         <div
           style={{
-            width: 1000,
-            height: 1000,
-            borderRadius: 38,
+            width: 1080,
+            height: 1080,
+            borderRadius: 36,
             background:
               "radial-gradient(120% 120% at 15% 0%, #d97916 0%, #c76506 62%, #ae5202 100%)",
-            boxShadow: "0 40px 100px -20px rgba(0,0,0,0.8)",
+            boxShadow: "none",
             position: "relative",
             overflow: "hidden",
           }}

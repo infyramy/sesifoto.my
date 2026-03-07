@@ -5,7 +5,7 @@ import StudioBackground from './StudioBackground';
 import NewsCard from './NewsCard';
 import Reveal from './ui/Reveal';
 
-import { NEWS_DATA } from '../data/news';
+import { VISIBLE_NEWS_DATA } from '../data/news';
 
 import { useLanguage } from '../contexts/LanguageContext';
 import { Filter as FilterIcon } from 'lucide-react';
@@ -15,8 +15,8 @@ const NewsPage: React.FC = () => {
   const { t } = useLanguage();
 
   const filteredNews = filter === 'all'
-    ? NEWS_DATA
-    : NEWS_DATA.filter(news => news.category === filter);
+    ? VISIBLE_NEWS_DATA
+    : VISIBLE_NEWS_DATA.filter(news => news.category === filter);
 
   return (
     <div className="min-h-screen overflow-x-hidden font-sans bg-slate-50 dark:bg-black">

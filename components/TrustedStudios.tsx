@@ -100,10 +100,6 @@ const TrustedStudios: React.FC = () => {
 
       <div className={`max-w-7xl mx-auto px-6 relative z-10 transition-all duration-500 ${isChanging ? 'opacity-0 blur-sm' : 'opacity-100 blur-0'}`}>
         <div className="border-t border-b border-slate-200/60 dark:border-white/5 py-10 bg-white/40 dark:bg-black/20 backdrop-blur-md rounded-2xl">
-          <p className="text-center text-xs font-bold tracking-[0.2em] text-slate-400 dark:text-slate-500 uppercase mb-8">
-            {t.hero.trustedLabel}
-          </p>
-
           {/* Desktop & Mobile Unified View (Centered Flex) */}
           {/* Since we have few items, a centered flex works well for both, wrapping on small screens */}
           <div className="flex flex-wrap justify-center items-center gap-8 md:gap-16">

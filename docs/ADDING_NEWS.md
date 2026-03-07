@@ -1,86 +1,108 @@
-# How to Add News to SesiFoto
+# Agent Skill: Add News (Strict Input Mode)
 
-This project now supports **bilingual news content** (English & Bahasa Melayu). Follow these steps to add a new update, announcement, or feature release.
+This is the single source of truth for adding a new news post into SesiFoto.
 
-## 1. Open Data File
-Navigate to: `src/data/news.tsx`
+File to edit:
+- `data/news.tsx`
 
-## 2. Add New Item
-Scroll to the `NEWS_DATA` array and append a new object. Use the following structure:
+## Core Rules (Must Follow)
+- Do not assume missing data.
+- Collect all required fields from the user first.
+- Insert exactly what user provides for date, titles, summaries, and content.
+- `isVisible` is mandatory on every post object.
+- Do not add post type words into title (for example: do not auto-add `Announcement:` / `Feature:` / `Article:` in title).
+
+## Required User Inputs (Ask First)
+Ask the user and wait for complete answers before editing code:
+1. `category` (post type): `announcement` | `feature` | `article`
+2. `isVisible` (toggle): `true` (show) or `false` (hide)
+3. `date` (exact display format user wants, example: `16 Feb 2026`)
+4. `slug` (URL path segment, unique)
+5. `id` (unique internal id)
+6. `title.en`
+7. `title.bm`
+8. `summary.en`
+9. `summary.bm`
+10. `content.en` (full content)
+11. `content.bm` (full content)
+12. content layout style (how content should look):
+   - simple paragraphs (`<div className="space-y-6">` + `<p>`), or
+   - rich sections (headers, cards, alerts, lists), with explicit structure from user
+
+## Intake Prompt Template (Use This)
+Use this exact checklist when requesting input:
+
+```text
+Please provide these fields for the new post:
+1) category: announcement | feature | article
+2) isVisible: true | false
+3) date:
+4) id:
+5) slug:
+6) title.en:
+7) title.bm:
+8) summary.en:
+9) summary.bm:
+10) content.en:
+11) content.bm:
+12) content layout style: simple paragraphs or rich sections (state exact structure)
+
+Note: I will publish exactly what you provide and will not auto-add type words into the title.
+```
+
+## Data Shape (Must Match)
 
 ```tsx
 {
-    id: 'unique-id-for-item', // e.g., 'raya-2026-launch'
-    slug: 'unique-url-slug',  // e.g., 'raya-2026-launch'
-    date: '12 Feb 2026',
-    category: 'announcement', // Options: 'announcement', 'feature', 'article'
-    
-    // Title in both languages
-    title: {
-        en: 'English Title Here',
-        bm: 'Tajuk Bahasa Melayu Di Sini'
-    },
-
-    // Short summary for the card view
-    summary: {
-        en: 'Short summary for the card view (English).',
-        bm: 'Ringkasan pandek untuk paparan kad (BM).'
-    },
-
-    // Full Content
-    content: {
-        // CONTENT FOR BAHASA MELAYU
-        bm: (
-            <div className="space-y-6">
-               <p>Perenggan pertama dalam Bahasa Melayu...</p>
-               <h3 className="text-xl font-bold">Subtajuk</h3>
-               <p>Perenggan seterusnya...</p>
-            </div>
-        ),
-        
-        // CONTENT FOR ENGLISH
-        en: (
-            <div className="space-y-6">
-               <p>First paragraph in English...</p>
-               <h3 className="text-xl font-bold">Subtitle</h3>
-               <p>Next paragraph...</p>
-            </div>
-        )
-    }
+  id: 'unique-id',
+  isVisible: true,
+  title: {
+    en: 'English title',
+    bm: 'Tajuk BM'
+  },
+  date: '16 Feb 2026',
+  category: 'announcement',
+  slug: 'unique-slug',
+  summary: {
+    en: 'English summary',
+    bm: 'Ringkasan BM'
+  },
+  content: {
+    en: (
+      <div className="space-y-6">
+        <p>...</p>
+      </div>
+    ),
+    bm: (
+      <div className="space-y-6">
+        <p>...</p>
+      </div>
+    )
+  }
 }
 ```
 
-## 3. Using Rich Components
-You can use the helper components defined in `news.tsx` to make the content look professional.
+## Implementation Steps
+1. Open `data/news.tsx`.
+2. Confirm all required inputs are present.
+3. Append a new object in `NEWS_DATA` using exact user data.
+4. Ensure `isVisible` is present and matches user choice.
+5. Ensure title is unchanged from user input (no auto prefix/suffix based on type).
+6. Preserve existing JSX style unless user explicitly asks for a different layout style.
 
-### Section Header with Icon
-```tsx
-<SectionHeader icon={<CheckCircle2 className="w-6 h-6 text-green-500" />} title="Section Title" />
-```
+## Validation Checklist
+- Build passes: `npm run build`
+- Post appears in `/news` only when `isVisible: true`
+- Direct detail URL is available only when `isVisible: true`
+- EN/BM title, summary, and content render exactly as user gave
+- Category badge matches `category`
 
-### Warning/Alert Box
-```tsx
-<div className="bg-amber-50 dark:bg-amber-900/10 border border-amber-200 dark:border-amber-800/30 rounded-2xl p-6">
-  <div className="flex gap-4">
-    <WarningIcon />
-    <div>
-      <h3 className="text-lg font-bold text-amber-800 dark:text-amber-500">Alert Title</h3>
-      <p>Alert description text...</p>
-    </div>
-  </div>
-</div>
-```
-
-### Pricing/Info Cards
-```tsx
-<div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-    <PricingCard price="RM50" messages="800" bookings="~266" t="simple" />
-</div>
-```
-
-## 4. Verification
-1.  Save the file.
-2.  Go to `http://localhost:5173/news`.
-3.  Check if the new item appears in the list.
-4.  Switch languages (EN/BM) to ensure the title and summary change.
-5.  Click into the article and ensure the content changes when switching languages.
+## Rejection Conditions (Ask User Again)
+Stop and request correction if any of these are missing:
+- `category`
+- `isVisible`
+- `date`
+- `id`
+- `slug`
+- any EN/BM title, summary, or content
+- content layout style instruction
