@@ -125,8 +125,8 @@ export const translations = {
       bentoGrid: {
         title: "Essential Studio Capabilities",
         subtitle: "Practical features for day-to-day studio operations, arranged by package for clear comparison.",
-        groupAllTitle: "Available In All Packages",
-        groupPrimeTitle: "Available In Prime Package",
+        groupAllTitle: "for all",
+        groupPrimeTitle: "for prime user",
         items: [
           { title: "Booking Form", description: "Friendly UI/UX booking form designed to be easy even for older users, with a mobile app-like flow.", tier: "all" },
           { title: "Export Data", description: "Download booking records to Excel/CSV.", tier: "all" },
@@ -457,21 +457,21 @@ export const translations = {
         }
       ],
       bentoGrid: {
-        title: "Fungsi Teras Operasi Studio",
-        subtitle: "Fungsi praktikal untuk urusan harian studio, disusun mengikut pakej supaya mudah dinilai dan dibandingkan.",
-        groupAllTitle: "Tersedia Dalam Semua Pakej",
-        groupPrimeTitle: "Tersedia Dalam Pakej Prime",
+        title: "Fungsi Penting Untuk Operasi Studio",
+        subtitle: "Semua fungsi utama yang anda perlukan untuk urus tempahan, pelanggan dan operasi studio dengan lebih lancar.",
+        groupAllTitle: "for all",
+        groupPrimeTitle: "prime only",
         items: [
-          { title: "Borang Tempahan", description: "Direka khas untuk skrin mobile dengan UI/UX yang dioptimumkan.", tier: "all" },
-          { title: "Eksport Data", description: "Muat turun rekod tempahan dalam format Excel atau CSV.", tier: "all" },
-          { title: "Resit Automatik", description: "Sistem menjana invois dan resit digital secara automatik selepas bayaran diterima.", tier: "all" },
-          { title: "Carian Pintar", description: "Cari maklumat pelanggan dan tempahan dengan pantas dalam beberapa saat.", tier: "all" },
-          { title: "Google Calendar Sync", description: "Sync jadual tempahan terus ke Google Calendar.", tier: "all" },
-          { title: "Integrasi Telegram", description: "Integrasi Telegram untuk notifikasi tempahan baharu.", tier: "all" },
-          { title: "Pengurusan Baucar", description: "Bina dan urus baucar diskaun untuk promosi pelanggan.", tier: "prime" },
-          { title: "Notifikasi WhatsApp", description: "Hantar notifikasi kepada pemilik dan pelanggan serta peringatan 1 hari sebelum sesi.", tier: "prime" },
-          { title: "Pengurusan Jurugambar & Payout", description: "Tetapkan kadar bayaran jurugambar dan kira payout secara automatik mengikut tugasan.", tier: "prime" },
-          { title: "Pengurusan Lead", description: "Jejak tempahan daripada pautan rujukan untuk mengukur prestasi lead.", tier: "prime" }
+          { title: "Borang Tempahan", description: "Mesra telefon yang memudahkan pelanggan isi tempahan dengan cepat, tanpa terlalu bergantung pada bantuan admin.", tier: "all" },
+          { title: "Eksport Data", description: "Muat turun data dalam format Excel atau CSV bila diperlukan untuk semakan, simpanan atau laporan yang lebih mudah.", tier: "all" },
+          { title: "Resit Automatik", description: "Resit dihantar secara automatik selepas bayaran dibuat, supaya kerja follow up manual dapat dikurangkan.", tier: "all" },
+          { title: "Carian Pantas", description: "Cari pelanggan atau kod booking dengan cepat, supaya urusan semakan dan respon kepada pelanggan jadi lebih lancar.", tier: "all" },
+          { title: "Integrasi Google Calendar", description: "Setiap booking masuk ke kalendar SesiFoto dan boleh disync ke Google Calendar, supaya jadual lebih teratur dan slot tidak bertindih.", tier: "all" },
+          { title: "Notifikasi Telegram", description: "Terima notifikasi booking baharu terus di Telegram, supaya anda boleh bersedia dengan cepat.", tier: "all" },
+          { title: "Pengurusan Baucar", description: "Cipta kod promosi mengikut kempen supaya tawaran lebih tersusun dan prestasi setiap kempen lebih mudah dipantau.", tier: "prime" },
+          { title: "Automasi WhatsApp", description: "Notifikasi dan peringatan sesi dihantar secara automatik ke pada pelanggan untuk bantu kurangkan risiko pelanggan terlupa atau tidak hadir.", tier: "prime" },
+          { title: "Urus Jurugambar & Kiraan Upah", description: "Agihan tugasan dan kiraan upah per slot dibuat secara automatik supaya pengurusan team jadi lebih kemas dan teratur.", tier: "prime" },
+          { title: "Pengurusan Lead", description: "Jejak sumber booking daripada referral supaya prestasi rujukan lebih jelas dan mudah dipantau.", tier: "prime" }
         ]
       }
     },
