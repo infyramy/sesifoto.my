@@ -96,6 +96,8 @@
 
 .hero-marquee-scroll {
   animation: marqueeScroll 90s linear infinite;
+  will-change: transform;
+  backface-visibility: hidden;
 }
 
 .hero-marquee-scroll:hover {

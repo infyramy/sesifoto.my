@@ -7,23 +7,20 @@ const StudioBackground: React.FC = () => {
     if (typeof window === 'undefined' || typeof navigator === 'undefined') return;
 
     const reducedMotionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
-    const coarsePointerQuery = window.matchMedia('(hover: none), (pointer: coarse)');
 
     const update = () => {
       const connection = (navigator as Navigator & { connection?: { saveData?: boolean; effectiveType?: string } }).connection;
       const saveData = Boolean(connection?.saveData);
       const effectiveType = connection?.effectiveType ?? '';
       const slowConnection = effectiveType === '2g' || effectiveType === 'slow-2g' || effectiveType === '3g';
-      setDisableHeavyBackground(reducedMotionQuery.matches || coarsePointerQuery.matches || saveData || slowConnection);
+      setDisableHeavyBackground(reducedMotionQuery.matches || saveData || slowConnection);
     };
 
     update();
     reducedMotionQuery.addEventListener?.('change', update);
-    coarsePointerQuery.addEventListener?.('change', update);
 
     return () => {
       reducedMotionQuery.removeEventListener?.('change', update);
-      coarsePointerQuery.removeEventListener?.('change', update);
     };
   }, []);
 

@@ -7,11 +7,11 @@ interface RevealProps {
   className?: string;
 }
 
-export const Reveal: React.FC<RevealProps> = ({ 
-  children, 
-  width = 'fit-content', 
+export const Reveal: React.FC<RevealProps> = ({
+  children,
+  width = 'fit-content',
   delay = 0,
-  className = "" 
+  className = ""
 }) => {
   const ref = useRef<HTMLDivElement>(null);
   const [isVisible, setIsVisible] = useState(false);
@@ -21,23 +21,20 @@ export const Reveal: React.FC<RevealProps> = ({
     if (typeof window === 'undefined' || typeof navigator === 'undefined') return;
 
     const reducedMotionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
-    const coarsePointerQuery = window.matchMedia('(hover: none), (pointer: coarse)');
 
     const updateMotionMode = () => {
       const connection = (navigator as Navigator & { connection?: { saveData?: boolean; effectiveType?: string } }).connection;
       const saveData = Boolean(connection?.saveData);
       const effectiveType = connection?.effectiveType ?? '';
       const slowConnection = effectiveType === '2g' || effectiveType === 'slow-2g' || effectiveType === '3g';
-      setDisableMotion(reducedMotionQuery.matches || coarsePointerQuery.matches || saveData || slowConnection);
+      setDisableMotion(reducedMotionQuery.matches || saveData || slowConnection);
     };
 
     updateMotionMode();
     reducedMotionQuery.addEventListener?.('change', updateMotionMode);
-    coarsePointerQuery.addEventListener?.('change', updateMotionMode);
 
     return () => {
       reducedMotionQuery.removeEventListener?.('change', updateMotionMode);
-      coarsePointerQuery.removeEventListener?.('change', updateMotionMode);
     };
   }, []);
 
@@ -61,12 +58,12 @@ export const Reveal: React.FC<RevealProps> = ({
   }, [disableMotion]);
 
   return (
-    <div 
-      ref={ref} 
-      style={{ width, transitionDelay: `${delay}ms` }} 
+    <div
+      ref={ref}
+      style={{ width, transitionDelay: `${delay}ms` }}
       className={`
-        ${disableMotion ? 'transition-opacity duration-200' : 'transform transition-all duration-1000 ease-[cubic-bezier(0.25,0.46,0.45,0.94)]'}
-        ${isVisible ? 'opacity-100 translate-y-0 filter blur-0' : (disableMotion ? 'opacity-0' : 'opacity-0 translate-y-12 filter blur-sm')}
+        ${disableMotion ? 'transition-opacity duration-200' : 'transform transition-[opacity,transform] duration-700 ease-[cubic-bezier(0.25,0.46,0.45,0.94)] will-change-[opacity,transform]'}
+        ${isVisible ? 'opacity-100 translate-y-0' : (disableMotion ? 'opacity-0' : 'opacity-0 translate-y-8')}
         ${className}
       `}
     >

@@ -47,7 +47,6 @@ const Hero: React.FC = () => {
         if (typeof window === 'undefined' || typeof navigator === 'undefined') return;
 
         const reducedMotionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
-        const coarsePointerQuery = window.matchMedia('(hover: none), (pointer: coarse)');
 
         const updateMotionMode = () => {
             const connection = (navigator as Navigator & { connection?: { saveData?: boolean; effectiveType?: string } }).connection;
@@ -56,18 +55,16 @@ const Hero: React.FC = () => {
             const slowConnection = effectiveType === '2g' || effectiveType === 'slow-2g' || effectiveType === '3g';
 
             setDisableHeavyMotion(
-                reducedMotionQuery.matches || coarsePointerQuery.matches || saveData || slowConnection
+                reducedMotionQuery.matches || saveData || slowConnection
             );
         };
 
         updateMotionMode();
 
         reducedMotionQuery.addEventListener?.('change', updateMotionMode);
-        coarsePointerQuery.addEventListener?.('change', updateMotionMode);
 
         return () => {
             reducedMotionQuery.removeEventListener?.('change', updateMotionMode);
-            coarsePointerQuery.removeEventListener?.('change', updateMotionMode);
         };
     }, []);
 
@@ -75,7 +72,7 @@ const Hero: React.FC = () => {
         if (disableHeavyMotion) {
             return `transition-opacity duration-300 ${loaded ? 'opacity-100' : 'opacity-0'}`;
         }
-        return `transform transition-all duration-1000 ease-[cubic-bezier(0.2,0.8,0.2,1)] ${loaded ? 'opacity-100 translate-y-0 filter blur-0' : 'opacity-0 translate-y-12 filter blur-sm'}`;
+        return `transform transition-[opacity,transform] duration-1000 ease-[cubic-bezier(0.2,0.8,0.2,1)] will-change-[opacity,transform] ${loaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`;
     };
 
     return (
@@ -160,7 +157,7 @@ const Hero: React.FC = () => {
                 <div className="relative w-screen max-w-none ml-[calc(50%-50vw)] mr-[calc(50%-50vw)] mb-6">
                     <div className="relative z-[60] w-full pt-0 pb-8 overflow-x-clip overflow-y-visible [overscroll-behavior-x:none]">
                         {/* Scrolling Content - Multiple Copies for Full Coverage */}
-                        <div className={`flex w-max items-center text-center gap-6 select-none ${disableHeavyMotion ? '' : 'hero-marquee-scroll hover:[animation-play-state:paused]'} ${disableHeavyMotion ? '[touch-action:auto]' : '[touch-action:none]'}`}>
+                        <div className={`flex w-max items-center text-center gap-6 select-none will-change-transform ${disableHeavyMotion ? '' : 'hero-marquee-scroll hover:[animation-play-state:paused]'} ${disableHeavyMotion ? '[touch-action:auto]' : '[touch-action:none]'}`}>
                             {/* 2 copies for continuous scrolling coverage */}
                             {[...Array(disableHeavyMotion ? 1 : 2)].map((_, groupIndex) => (
                                 <div key={groupIndex} className="flex items-center gap-6 flex-shrink-0">
@@ -329,12 +326,8 @@ const Hero: React.FC = () => {
 
                 {/* Stat 2 */}
                 <div className="flex flex-col items-center justify-center px-2 sm:px-4 md:px-8">
-                    <span className="text-xl sm:text-2xl md:text-5xl font-black text-slate-900 dark:text-white mb-1 md:mb-2 tracking-tight leading-none">
-                        <span className="hidden md:inline">{t.hero.stats.sales.value}</span>
-                        <span className="md:hidden flex flex-col items-center leading-none">
-                            <span>RM</span>
-                            <span>{t.hero.stats.sales.mobileValue ?? t.hero.stats.sales.value.replace(/^RM\s*/, '')}</span>
-                        </span>
+                    <span className="text-xl sm:text-2xl md:text-5xl font-black text-slate-900 dark:text-white mb-1 md:mb-2 tracking-tight leading-none whitespace-nowrap">
+                        {t.hero.stats.sales.value}
                     </span>
                     <p className="uppercase font-bold text-slate-400 dark:text-zinc-600 text-[8px] sm:text-[10px] md:text-xs tracking-wider leading-tight text-center">
                         {t.hero.stats.sales.label}<br className="hidden md:block" />

@@ -313,124 +313,84 @@ const Features: React.FC = () => {
 // FEATURE MOCKUPS
 // ==========================================
 
-const RemotionLoopMockup: React.FC<{ src: string; title: string; poster?: string }> = ({ src, title, poster }) => {
+const RemotionLoopMockup: React.FC<{ src: string; title: string; poster?: string }> = ({ src, title }) => {
    const cacheKey = '20260307d';
-   const mp4Src = `${src}?v=${cacheKey}`;
-   const resolvedSrc = mp4Src;
+   const resolvedSrc = `${src}?v=${cacheKey}`;
    const containerRef = React.useRef<HTMLDivElement | null>(null);
    const videoRef = React.useRef<HTMLVideoElement | null>(null);
-   const [isVisible, setIsVisible] = React.useState(false);
-   const [shouldLoad, setShouldLoad] = React.useState(false);
-   const [allowAutoplay, setAllowAutoplay] = React.useState(true);
 
+   // Force muted + inline attributes on mount (required for autoplay policy)
    React.useEffect(() => {
-      setShouldLoad(false);
-      setIsVisible(false);
-   }, [mp4Src]);
-
-   React.useEffect(() => {
-      if (typeof navigator === 'undefined' || typeof window === 'undefined') return;
-      const prefersReducedMotion = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches ?? false;
-      const connection = (navigator as Navigator & { connection?: { saveData?: boolean; effectiveType?: string } }).connection;
-      const saveData = Boolean(connection?.saveData);
-      const slowConnection = connection?.effectiveType === '2g' || connection?.effectiveType === 'slow-2g';
-      const isMobileDevice = /iPad|iPhone|iPod|Android|Mobile/i.test(navigator.userAgent);
-
-      // Keep videos smooth on low-end devices by using poster-only mode.
-      // On phones/tablets, keep feature cards in poster mode to avoid jank.
-      setAllowAutoplay(!(prefersReducedMotion || saveData || isMobileDevice || slowConnection));
+      const video = videoRef.current;
+      if (!video) return;
+      video.muted = true;
+      video.defaultMuted = true;
+      video.playsInline = true;
+      video.setAttribute('playsinline', 'true');
+      video.setAttribute('webkit-playsinline', 'true');
    }, []);
 
+   // Play when any pixel is visible, pause when fully off-screen
    React.useEffect(() => {
       const container = containerRef.current;
-      if (!container) return;
+      const video = videoRef.current;
+      if (!container || !video) return;
 
       if (typeof IntersectionObserver === 'undefined') {
-         setShouldLoad(true);
-         setIsVisible(true);
+         video.play().catch(() => { });
          return;
       }
 
       const observer = new IntersectionObserver(
-         (entries) => {
-            const entry = entries[0];
-            const nowVisible = entry.isIntersecting && entry.intersectionRatio >= 0.2;
-            setIsVisible(nowVisible);
+         ([entry]) => {
             if (entry.isIntersecting) {
-               setShouldLoad(true);
+               video.play().catch(() => { });
+            } else {
+               video.pause();
             }
          },
-         { threshold: [0, 0.2, 0.5, 1] }
+         { threshold: 0 }
       );
 
       observer.observe(container);
       return () => observer.disconnect();
    }, []);
 
+   // Resume when tab becomes visible if still in viewport
    React.useEffect(() => {
       const video = videoRef.current;
-      if (!video || !shouldLoad || !allowAutoplay) return;
-
-      const forceInlineLoopPlay = () => {
-         video.muted = true;
-         video.defaultMuted = true;
-         video.playsInline = true;
-         video.setAttribute('playsinline', 'true');
-         video.setAttribute('webkit-playsinline', 'true');
-         const playPromise = video.play();
-         if (playPromise && typeof playPromise.catch === 'function') {
-            playPromise.catch(() => {
-               // Autoplay can still be blocked by iOS low power mode.
-            });
-         }
-      };
-
+      if (!video) return;
       const onVisibility = () => {
-         if (document.visibilityState === 'visible' && isVisible) {
-            forceInlineLoopPlay();
-         }
+         if (document.visibilityState !== 'visible') return;
+         const container = containerRef.current;
+         if (!container) return;
+         const rect = container.getBoundingClientRect();
+         if (rect.bottom > 0 && rect.top < window.innerHeight) video.play().catch(() => { });
       };
-
-      if (isVisible) {
-         forceInlineLoopPlay();
-      } else {
-         video.pause();
-      }
-
-      video.addEventListener('loadeddata', forceInlineLoopPlay);
-      video.addEventListener('canplay', forceInlineLoopPlay);
       document.addEventListener('visibilitychange', onVisibility);
-
-      return () => {
-         video.removeEventListener('loadeddata', forceInlineLoopPlay);
-         video.removeEventListener('canplay', forceInlineLoopPlay);
-         document.removeEventListener('visibilitychange', onVisibility);
-      };
-   }, [allowAutoplay, isVisible, resolvedSrc, shouldLoad]);
+      return () => document.removeEventListener('visibilitychange', onVisibility);
+   }, []);
 
    return (
-      <div ref={containerRef} className="w-full h-full bg-transparent rounded-[30px]">
-         <div className="relative w-full h-full overflow-hidden rounded-[30px] bg-transparent">
-            <video
-               ref={videoRef}
-               src={shouldLoad && allowAutoplay ? resolvedSrc : undefined}
-               autoPlay={allowAutoplay}
-               muted
-               loop={allowAutoplay}
-               playsInline
-               controls={false}
-               disablePictureInPicture
-               disableRemotePlayback
-               controlsList="nodownload nofullscreen noremoteplayback"
-               tabIndex={-1}
-               draggable={false}
-               preload="none"
-               poster={poster}
-               className="w-full h-full object-contain pointer-events-none select-none bg-transparent"
-               aria-label={title}
-               onContextMenu={(event) => event.preventDefault()}
-            />
-         </div>
+      <div ref={containerRef} className="w-full h-full rounded-[30px] overflow-hidden bg-transparent">
+         <video
+            ref={videoRef}
+            src={resolvedSrc}
+            muted
+            loop
+            playsInline
+            autoPlay
+            controls={false}
+            disablePictureInPicture
+            disableRemotePlayback
+            controlsList="nodownload nofullscreen noremoteplayback"
+            tabIndex={-1}
+            draggable={false}
+            preload="auto"
+            className="w-full h-full object-contain pointer-events-none select-none bg-transparent"
+            aria-label={title}
+            onContextMenu={(e) => e.preventDefault()}
+         />
       </div>
    );
 };

@@ -16,23 +16,20 @@ const UserBenefits = () => {
         if (typeof window === 'undefined' || typeof navigator === 'undefined') return;
 
         const reducedMotionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
-        const coarsePointerQuery = window.matchMedia('(hover: none), (pointer: coarse)');
 
         const updateMotionMode = () => {
             const connection = (navigator as Navigator & { connection?: { saveData?: boolean; effectiveType?: string } }).connection;
             const saveData = Boolean(connection?.saveData);
             const effectiveType = connection?.effectiveType ?? '';
             const slowConnection = effectiveType === '2g' || effectiveType === 'slow-2g' || effectiveType === '3g';
-            setDisableHeavyMotion(reducedMotionQuery.matches || coarsePointerQuery.matches || saveData || slowConnection);
+            setDisableHeavyMotion(reducedMotionQuery.matches || saveData || slowConnection);
         };
 
         updateMotionMode();
         reducedMotionQuery.addEventListener?.('change', updateMotionMode);
-        coarsePointerQuery.addEventListener?.('change', updateMotionMode);
 
         return () => {
             reducedMotionQuery.removeEventListener?.('change', updateMotionMode);
-            coarsePointerQuery.removeEventListener?.('change', updateMotionMode);
         };
     }, []);
 
@@ -203,41 +200,51 @@ const UserBenefits = () => {
 
 
 
-                        {/* Left: Text Content */}
-                        <div className={disableHeavyMotion ? '' : 'animate-fade-in-up'}>
-                            <div className={`inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-bold mb-6 ${benefits[activeTab].badgeColor}`}>
-                                {benefits[activeTab].icon}
-                                <span className="uppercase tracking-wider">{t.userBenefits.roles[activeTab].badge}</span>
-                            </div>
-
-                            <h3 className="text-3xl md:text-4xl font-bold text-slate-900 dark:text-white mb-6">
-                                {benefits[activeTab].title}
-                            </h3>
-
-                            <p className="text-lg text-slate-600 dark:text-slate-400 mb-8 leading-relaxed">
-                                {benefits[activeTab].description}
-                            </p>
-
-                            <div className="space-y-6">
-                                {benefits[activeTab].points.map((point: any, i: number) => (
-                                    <div key={i} className="flex gap-4 group">
-                                        <div className={`mt-1 w-8 h-8 rounded-full flex items-center justify-center shrink-0 ${benefits[activeTab].bgColor} ${benefits[activeTab].color}`}>
-                                            <CheckCircle2 size={16} strokeWidth={3} />
-                                        </div>
-                                        <div>
-                                            <h4 className="font-bold text-slate-900 dark:text-white text-base mb-1">
-                                                {point.title}
-                                            </h4>
-                                            <p className="text-slate-600 dark:text-slate-400 text-sm leading-relaxed">
-                                                {point.desc}
-                                            </p>
-                                        </div>
+                        {/* Left: Text Content — always rendered, crossfade via CSS */}
+                        <div className="relative">
+                            {(['customer', 'owner', 'photographer'] as const).map((tab) => (
+                                <div
+                                    key={tab}
+                                    className={`transition-[opacity,transform] duration-500 ease-out will-change-[opacity,transform] ${activeTab === tab
+                                            ? 'opacity-100 translate-y-0 relative'
+                                            : 'opacity-0 translate-y-2 absolute inset-0 pointer-events-none'
+                                        }`}
+                                >
+                                    <div className={`inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-bold mb-6 ${benefits[tab].badgeColor}`}>
+                                        {benefits[tab].icon}
+                                        <span className="uppercase tracking-wider">{t.userBenefits.roles[tab].badge}</span>
                                     </div>
-                                ))}
-                            </div>
+
+                                    <h3 className="text-3xl md:text-4xl font-bold text-slate-900 dark:text-white mb-6">
+                                        {benefits[tab].title}
+                                    </h3>
+
+                                    <p className="text-lg text-slate-600 dark:text-slate-400 mb-8 leading-relaxed">
+                                        {benefits[tab].description}
+                                    </p>
+
+                                    <div className="space-y-6">
+                                        {benefits[tab].points.map((point: any, i: number) => (
+                                            <div key={i} className="flex gap-4 group">
+                                                <div className={`mt-1 w-8 h-8 rounded-full flex items-center justify-center shrink-0 ${benefits[tab].bgColor} ${benefits[tab].color}`}>
+                                                    <CheckCircle2 size={16} strokeWidth={3} />
+                                                </div>
+                                                <div>
+                                                    <h4 className="font-bold text-slate-900 dark:text-white text-base mb-1">
+                                                        {point.title}
+                                                    </h4>
+                                                    <p className="text-slate-600 dark:text-slate-400 text-sm leading-relaxed">
+                                                        {point.desc}
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
+                            ))}
                         </div>
 
-                        {/* Right: Dynamic Mockup */}
+                        {/* Right: Dynamic Mockup — all three always in DOM, CSS crossfade */}
                         <div className="relative h-[400px] lg:h-[500px] flex items-center justify-center">
 
                             {/* Animated Background Blob */}
@@ -247,7 +254,8 @@ const UserBenefits = () => {
                                 }`}></div>
 
                             {/* CUSTOMER MOCKUP */}
-                            {activeTab === 'customer' && (
+                            <div className={`absolute inset-0 flex items-center justify-center transition-[opacity,transform] duration-500 ease-out will-change-[opacity,transform] ${activeTab === 'customer' ? 'opacity-100 scale-100' : 'opacity-0 scale-95 pointer-events-none'
+                                }`}>
                                 <div className={`relative w-[280px] ${disableHeavyMotion ? '' : 'animate-float-slow'}`}>
                                     {/* Mobile Card */}
                                     <div className="bg-white dark:bg-zinc-900 rounded-[2.5rem] border-[6px] border-slate-900 dark:border-zinc-800 shadow-2xl p-4 overflow-hidden relative z-10">
@@ -294,11 +302,12 @@ const UserBenefits = () => {
                                         </div>
                                     </div>
                                 </div>
-                            )}
+                            </div>
 
                             {/* OWNER MOCKUP */}
-                            {activeTab === 'owner' && (
-                                <div className={`relative w-[320px] ${disableHeavyMotion ? '' : 'animate-fade-in'}`}>
+                            <div className={`absolute inset-0 flex items-center justify-center transition-[opacity,transform] duration-500 ease-out will-change-[opacity,transform] ${activeTab === 'owner' ? 'opacity-100 scale-100' : 'opacity-0 scale-95 pointer-events-none'
+                                }`}>
+                                <div className="relative w-[320px]">
                                     {/* Dashboard Widget */}
                                     <div className="bg-white dark:bg-zinc-950 rounded-2xl border border-slate-200 dark:border-white/10 shadow-2xl p-5 relative z-10">
                                         <div className="flex justify-between items-center mb-6">
@@ -344,11 +353,12 @@ const UserBenefits = () => {
                                         </div>
                                     </div>
                                 </div>
-                            )}
+                            </div>
 
                             {/* PHOTOGRAPHER MOCKUP */}
-                            {activeTab === 'photographer' && (
-                                <div className={`relative w-[300px] ${disableHeavyMotion ? '' : 'animate-fade-in'}`}>
+                            <div className={`absolute inset-0 flex items-center justify-center transition-[opacity,transform] duration-500 ease-out will-change-[opacity,transform] ${activeTab === 'photographer' ? 'opacity-100 scale-100' : 'opacity-0 scale-95 pointer-events-none'
+                                }`}>
+                                <div className="relative w-[300px]">
                                     {/* Shotlist Card */}
                                     <div className="bg-white dark:bg-zinc-950 rounded-2xl border border-slate-200 dark:border-white/10 shadow-2xl overflow-hidden relative z-10">
                                         <div className="bg-slate-900 p-4 flex justify-between items-center">
@@ -399,7 +409,7 @@ const UserBenefits = () => {
                                         </div>
                                     </div>
                                 </div>
-                            )}
+                            </div>
 
                         </div>
                     </div>

@@ -83,7 +83,7 @@ const AppRoutes: React.FC = () => {
 
   return (
     <RouteTransitionProvider value={transitionContextValue}>
-      <Suspense fallback={<div className="min-h-screen bg-studio-paper dark:bg-studio-black" />}>
+      <Suspense fallback={null}>
         <Routes>
           <Route path="/" element={<LandingPage />} />
           <Route path="/salespage" element={<SalesPage />} />
