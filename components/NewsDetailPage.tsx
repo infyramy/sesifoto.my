@@ -1,6 +1,5 @@
 import React from 'react';
 import { useParams, Link } from 'react-router-dom';
-import Navbar from './Navbar';
 import Footer from './Footer';
 import StudioBackground from './StudioBackground';
 import Reveal from './ui/Reveal';
@@ -24,8 +23,6 @@ const NewsDetailPage: React.FC = () => {
         <div className="min-h-screen overflow-x-hidden font-sans bg-slate-50 dark:bg-black">
             <StudioBackground />
             <div className="relative z-10 flex flex-col min-h-screen">
-                <Navbar />
-
                 <main className="flex-grow container mx-auto px-4 py-24 md:py-32">
 
                     {/* Back Button */}

@@ -1,5 +1,4 @@
 import React from 'react';
-import Navbar from './Navbar';
 import Hero from './Hero';
 import Features from './Features';
 import Pricing from './Pricing';
@@ -18,7 +17,6 @@ const LandingPage: React.FC = () => {
             <StudioBackground />
 
             <div className="relative z-10 flex flex-col gap-0">
-                <Navbar />
                 <main>
                     <Hero />
                     <SpecialAnnouncement />

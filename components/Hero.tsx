@@ -88,20 +88,20 @@ const Hero: React.FC = () => {
                 {/* 2. Content Legibility Overlay (Theme Aware) */}
                 <div className="absolute inset-0 bg-gradient-to-b from-white/90 via-white/80 to-studio-paper dark:from-black/70 dark:via-black/50 dark:to-studio-black"></div>
 
-                {/* 3. Subtle Noise Texture */}
-                <div
-                    className="absolute inset-0 opacity-[0.15] dark:opacity-[0.2] mix-blend-overlay dark:mix-blend-soft-light"
-                    style={{
-                        backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")`,
-                        backgroundRepeat: 'repeat'
-                    }}
-                ></div>
-
-                {/* Gradient Orbs */}
-                <div className={`absolute top-[-10%] left-[-10%] w-[600px] h-[600px] bg-studio-primary/5 rounded-full blur-[100px] mix-blend-overlay dark:mix-blend-screen ${disableHeavyMotion ? '' : 'animate-pulse-slow'}`}></div>
-                <div className={`absolute top-[20%] right-[-10%] w-[500px] h-[500px] bg-studio-primary/10 rounded-full blur-[100px] delay-1000 mix-blend-overlay dark:mix-blend-screen ${disableHeavyMotion ? '' : 'animate-pulse-slow'}`}></div>
-                <div className={`absolute bottom-[-10%] left-[20%] w-[600px] h-[600px] bg-orange-400/5 rounded-full blur-[100px] delay-2000 mix-blend-overlay dark:mix-blend-screen ${disableHeavyMotion ? '' : 'animate-pulse-slow'}`}></div>
-
+                <div className="absolute inset-0 bg-transparent dark:bg-zinc-950 transition-colors duration-500">
+                    <div
+                        className="absolute inset-0 opacity-[0.15] dark:opacity-[0.2] md:mix-blend-overlay mix-blend-normal dark:mix-blend-soft-light transform-gpu"
+                        style={{
+                            backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.5' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")`,
+                            backgroundRepeat: 'repeat'
+                        }}
+                    ></div>
+                </div>
+                <div className="absolute inset-0 dark:opacity-70 opacity-0 transition-opacity duration-500">
+                    <div className={`absolute top-[-10%] left-[-10%] w-[600px] h-[600px] bg-studio-primary/5 rounded-full blur-[100px] md:mix-blend-overlay mix-blend-normal dark:mix-blend-screen transform-gpu ${disableHeavyMotion ? '' : 'animate-pulse-slow'}`}></div>
+                    <div className={`absolute top-[20%] right-[-10%] w-[500px] h-[500px] bg-studio-primary/10 rounded-full blur-[100px] shadow-sm transform-gpu delay-1000 md:mix-blend-overlay mix-blend-normal dark:mix-blend-screen ${disableHeavyMotion ? '' : 'animate-pulse-slow'}`}></div>
+                    <div className={`absolute bottom-[-10%] left-[20%] w-[600px] h-[600px] bg-orange-400/5 rounded-full blur-[100px] shadow-sm transform-gpu delay-2000 md:mix-blend-overlay mix-blend-normal dark:mix-blend-screen ${disableHeavyMotion ? '' : 'animate-pulse-slow'}`}></div>
+                </div>
                 {/* MOBILE ONLY: Intense Orange Left Glow (SaaS Style) */}
                 <div className="md:hidden absolute top-[10%] -left-[100px] w-[300px] h-[500px] bg-[radial-gradient(ellipse_at_center,rgba(255,107,44,0.4)_0%,rgba(255,107,44,0)_70%)] blur-[40px] z-0"></div>
             </div>

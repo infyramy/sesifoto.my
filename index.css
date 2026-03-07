@@ -81,6 +81,13 @@
   transition: 0.7s ease-in-out;
 }
 
+html {
+  overflow-y: scroll;
+  scroll-behavior: smooth;
+}
+
+
+
 .animation-delay-2000 {
   animation-delay: 2s;
 }
@@ -89,6 +96,7 @@
   0% {
     transform: translateX(0);
   }
+
   100% {
     transform: translateX(calc(-50% - 0.75rem));
   }
@@ -106,6 +114,7 @@
 
 /* Reduce input delay and GPU work on low-power devices */
 @media (prefers-reduced-motion: reduce) {
+
   *,
   *::before,
   *::after {
@@ -120,4 +129,3 @@
     transform: none !important;
   }
 }
-

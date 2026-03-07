@@ -20,7 +20,8 @@ const Testimonials: React.FC = () => {
       <div className="absolute inset-0 bg-gradient-to-b from-slate-50 via-white/50 to-slate-50 dark:from-zinc-950 dark:via-black/20 dark:to-zinc-950 pointer-events-none" />
 
       {/* Theme-Aware Gradient Orb - Middle Right */}
-      <div className="absolute top-1/2 right-0 translate-x-1/3 -translate-y-1/2 w-[800px] h-[800px] bg-studio-primary/10 rounded-full blur-[120px] mix-blend-screen pointer-events-none" />
+      <div className="absolute top-1/2 right-0 translate-x-1/3 -translate-y-1/2 w-[800px] h-[800px] bg-studio-primary/10 rounded-full blur-[120px] md:mix-blend-screen mix-blend-normal transform-gpu pointer-events-none" />
+      <div className="absolute bottom-[-20%] left-[-10%] w-[600px] h-[600px] bg-orange-400/5 rounded-full blur-[100px] md:mix-blend-screen mix-blend-normal transform-gpu pointer-events-none" />
 
       <div className={`transition-all duration-500 relative z-10 ${isChanging ? 'opacity-0 blur-sm' : 'opacity-100 blur-0'}`}>
 
@@ -57,8 +58,8 @@ const Testimonials: React.FC = () => {
                   key={index}
                   onClick={() => setActiveTestimonial(index)}
                   className={`relative flex flex-col items-center p-2 rounded-2xl border transition-all duration-300 ease-out text-center group shrink-0 ${activeTestimonial === index
-                      ? 'bg-white dark:bg-zinc-800 border-studio-primary/30 ring-2 ring-studio-primary shadow-lg scale-100 opacity-100 z-10'
-                      : 'bg-slate-50 dark:bg-white/5 border-transparent scale-90 opacity-60 grayscale hover:opacity-80 hover:scale-100'
+                    ? 'bg-white dark:bg-zinc-800 border-studio-primary/30 ring-2 ring-studio-primary shadow-lg scale-100 opacity-100 z-10'
+                    : 'bg-slate-50 dark:bg-white/5 border-transparent scale-90 opacity-60 grayscale hover:opacity-80 hover:scale-100'
                     }`}
                 >
                   <img

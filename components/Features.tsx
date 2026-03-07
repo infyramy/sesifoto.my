@@ -2,8 +2,230 @@ import React from 'react';
 import GlassCard from './ui/GlassCard';
 import Reveal from './ui/Reveal';
 import { useLanguage } from '../contexts/LanguageContext';
-import { Globe, LayoutDashboard, Calendar, CalendarClock, BarChart3, CheckCircle2, ShieldCheck, FileSpreadsheet, Ticket, ArrowLeftRight, Download, Search, Clock, ChevronsUpDown, Filter, Users, MessageCircle, MoreHorizontal, MoreVertical, Calendar as CalendarIcon } from 'lucide-react';
+import { Globe, LayoutDashboard, Calendar, CalendarClock, BarChart3, CheckCircle2, ShieldCheck, FileSpreadsheet, Ticket, ArrowLeftRight, Download, Search, Clock, ChevronsUpDown, Filter, Users, MessageCircle, MoreHorizontal, MoreVertical, Calendar as CalendarIcon, PhoneCall } from 'lucide-react';
 import { sanitizeRichHtml } from '../utils/sanitizeHtml';
+
+const BentoIllustration = ({ title, bgClass, textClass, icon }: { title: string, bgClass: string, textClass: string, icon: React.ReactNode }) => {
+   const normalized = title.toLowerCase();
+
+   const Wrapper = ({ children, align = 'center' }: { children: React.ReactNode, align?: 'center' | 'end' | 'start' }) => (
+      <div className={`w-full h-36 rounded-t-2xl opacity-90 bg-gradient-to-br ${bgClass} overflow-hidden flex items-${align} justify-center p-4 relative`}>
+         <div className={`absolute top-4 left-4 w-9 h-9 rounded-xl bg-white/70 dark:bg-black/30 backdrop-blur-md flex items-center justify-center shadow-sm border border-white/50 dark:border-white/10 z-30 ${textClass}`}>
+            {icon}
+         </div>
+         {children}
+      </div>
+   );
+
+   if (normalized.includes('borang') || normalized.includes('booking form')) {
+      return (
+         <Wrapper align="end">
+            <div className="w-36 h-28 bg-white/95 dark:bg-zinc-800/95 rounded-t-xl shadow-xl p-3 flex flex-col gap-2 relative z-10 transition-transform group-hover:-translate-y-2 duration-500">
+               <div className="w-16 h-2 bg-slate-200 dark:bg-zinc-600 rounded"></div>
+               <div className="w-full h-5 bg-slate-100 dark:bg-zinc-700/50 rounded"></div>
+               <div className="w-full h-5 bg-slate-100 dark:bg-zinc-700/50 rounded"></div>
+               <div className="w-full h-7 bg-orange-500 rounded mt-auto flex items-center justify-center">
+                  <div className="w-8 h-1 bg-white/50 rounded flex-shrink-0"></div>
+               </div>
+            </div>
+         </Wrapper>
+      );
+   }
+
+   if (normalized.includes('eksport') || normalized.includes('export')) {
+      return (
+         <Wrapper>
+            <div className="w-40 h-24 bg-white/95 dark:bg-zinc-800/95 rounded-lg shadow-xl flex flex-col overflow-hidden relative z-10 transition-transform group-hover:scale-105 duration-500 hover:rotate-1">
+               <div className="h-5 bg-amber-500 flex items-center px-2 gap-1.5">
+                  <div className="w-2.5 h-2.5 bg-white/50 rounded-sm"></div>
+                  <div className="w-16 h-1 bg-white/50 rounded"></div>
+               </div>
+               <div className="flex-1 flex flex-col p-2 gap-1.5">
+                  {[1, 2, 3].map(i => (
+                     <div key={i} className="flex gap-1.5 pb-1">
+                        <div className="h-2 w-8 bg-slate-200 dark:bg-zinc-600 rounded"></div>
+                        <div className="h-2 w-16 bg-slate-100 dark:bg-zinc-700 rounded"></div>
+                        <div className="h-2 w-6 bg-slate-200 dark:bg-zinc-600 rounded"></div>
+                     </div>
+                  ))}
+               </div>
+            </div>
+         </Wrapper>
+      );
+   }
+
+   if (normalized.includes('resit') || normalized.includes('receipt') || normalized.includes('invoice')) {
+      return (
+         <Wrapper>
+            <div className="w-28 bg-white/95 dark:bg-zinc-800/95 rounded-lg shadow-xl p-4 flex flex-col items-center gap-2 relative z-10 transition-transform group-hover:-translate-y-2 duration-500">
+               <div className="w-6 h-6 bg-rose-500 rounded-full flex items-center justify-center mb-1 shadow-md">
+                  <CheckCircle2 className="w-4 h-4 text-white" />
+               </div>
+               <div className="w-16 h-1.5 bg-slate-300 dark:bg-zinc-500 rounded"></div>
+               <div className="w-12 h-1 bg-slate-200 dark:bg-zinc-600 rounded"></div>
+               <div className="w-full border-t border-dashed border-slate-300 dark:border-zinc-700 my-1"></div>
+               <div className="w-full flex justify-between">
+                  <div className="w-10 h-1 bg-slate-200 dark:bg-zinc-600 rounded"></div>
+                  <div className="w-8 h-1 bg-rose-400 rounded"></div>
+               </div>
+            </div>
+         </Wrapper>
+      );
+   }
+
+   if (normalized.includes('carian') || normalized.includes('search')) {
+      return (
+         <Wrapper>
+            <div className="flex flex-col items-center justify-center w-full gap-3 relative z-10 min-w-full">
+               <div className="w-full max-w-[160px] h-8 bg-white/95 dark:bg-zinc-800/95 rounded-full shadow-lg flex items-center px-3 gap-2 transition-transform group-hover:-translate-y-1 duration-500 mx-auto">
+                  <Search className="w-3.5 h-3.5 text-orange-400" />
+                  <div className="w-16 h-1.5 bg-slate-200 dark:bg-zinc-600 rounded"></div>
+                  <div className="ml-auto w-3 h-3 bg-slate-100 dark:bg-zinc-700 rounded text-[8px] flex items-center justify-center text-slate-400">⌘</div>
+               </div>
+               <div className="w-full max-w-[140px] bg-white/90 dark:bg-zinc-800/90 rounded-xl shadow-lg flex items-center px-2 py-2 gap-2 backdrop-blur-sm -mt-1 opacity-70 group-hover:opacity-100 transition-opacity mx-auto">
+                  <div className="w-5 h-5 rounded-full bg-orange-100 dark:bg-orange-900/50 flex-shrink-0"></div>
+                  <div className="flex flex-col gap-1 w-full">
+                     <div className="w-16 h-1.5 bg-slate-300 dark:bg-zinc-500 rounded"></div>
+                     <div className="w-10 h-1.5 bg-slate-200 dark:bg-zinc-700 rounded"></div>
+                  </div>
+               </div>
+            </div>
+         </Wrapper>
+      );
+   }
+
+   if (normalized.includes('calendar')) {
+      return (
+         <Wrapper>
+            <div className="w-40 h-28 bg-white/95 dark:bg-zinc-800/95 rounded-xl shadow-xl flex flex-col overflow-hidden relative z-10 transition-transform group-hover:scale-105 duration-500 group-hover:-rotate-1">
+               <div className="h-6 bg-red-500 flex items-center px-3 justify-between">
+                  <div className="w-16 h-1.5 bg-white/90 rounded"></div>
+                  <div className="flex gap-1">
+                     <div className="w-1.5 h-1.5 rounded-full bg-white/50"></div>
+                     <div className="w-1.5 h-1.5 rounded-full bg-white/50"></div>
+                  </div>
+               </div>
+               <div className="flex-1 grid grid-cols-4 grid-rows-3 gap-[3px] p-2 bg-slate-50 dark:bg-zinc-900">
+                  {Array.from({ length: 12 }).map((_, i) => (
+                     <div key={i} className={`rounded-sm ${i === 2 || i === 9 ? 'bg-red-400 shadow-sm' : 'bg-white dark:bg-zinc-800'}`}></div>
+                  ))}
+               </div>
+            </div>
+         </Wrapper>
+      );
+   }
+
+   if (normalized.includes('telegram')) {
+      return (
+         <Wrapper>
+            <div className="relative z-10 transition-transform group-hover:-translate-y-2 group-hover:scale-105 duration-500">
+               <div className="w-10 h-10 bg-amber-500 rounded-full flex items-center justify-center shadow-lg absolute -right-3 -bottom-3 z-20 border-2 border-white dark:border-zinc-800 transition-transform duration-300 group-hover:rotate-[15deg]">
+                  <MessageCircle className="w-5 h-5 text-white" />
+               </div>
+               <div className="w-36 bg-white/95 dark:bg-zinc-800/95 rounded-2xl rounded-br-sm shadow-xl p-3 flex flex-col gap-2 relative z-10">
+                  <div className="flex items-center gap-2">
+                     <div className="w-5 h-5 rounded-full bg-amber-100 dark:bg-amber-900/50"></div>
+                     <div className="w-12 h-1.5 bg-slate-300 dark:bg-zinc-500 rounded"></div>
+                  </div>
+                  <div className="w-full h-1.5 bg-slate-200 dark:bg-zinc-600 rounded mt-1"></div>
+                  <div className="w-2/3 h-1.5 bg-slate-200 dark:bg-zinc-600 rounded"></div>
+               </div>
+            </div>
+         </Wrapper>
+      );
+   }
+
+   if (normalized.includes('baucar') || normalized.includes('voucher')) {
+      return (
+         <Wrapper>
+            <div className="w-40 h-20 bg-white/95 dark:bg-zinc-800/95 rounded-xl flex shadow-xl relative overflow-hidden z-10 transition-transform group-hover:scale-105 group-hover:rotate-2 duration-500">
+               <div className="w-5 h-5 rounded-full bg-slate-50 dark:bg-zinc-900 absolute -left-2.5 top-1/2 -translate-y-1/2 shadow-inner"></div>
+               <div className="w-5 h-5 rounded-full bg-slate-50 dark:bg-zinc-900 absolute -right-2.5 top-1/2 -translate-y-1/2 shadow-inner"></div>
+
+               <div className="w-1/3 h-full border-r border-dashed border-slate-300 dark:border-zinc-700 flex items-center justify-center bg-orange-50 dark:bg-orange-500/10">
+                  <span className="text-2xl font-black text-orange-500">%</span>
+               </div>
+               <div className="flex-1 flex flex-col justify-center pl-3 pr-4 gap-2">
+                  <div className="w-12 h-2.5 bg-slate-700 dark:bg-zinc-300 rounded"></div>
+                  <div className="w-full h-1.5 bg-slate-200 dark:bg-zinc-600 rounded"></div>
+                  <div className="flex gap-1 mt-1">
+                     <div className="w-4 h-1 bg-slate-200 dark:bg-zinc-600 rounded"></div>
+                     <div className="w-4 h-1 bg-slate-200 dark:bg-zinc-600 rounded"></div>
+                  </div>
+               </div>
+            </div>
+         </Wrapper>
+      );
+   }
+
+   if (normalized.includes('whatsapp')) {
+      return (
+         <Wrapper>
+            <div className="w-40 bg-white/95 dark:bg-zinc-800/95 rounded-2xl rounded-bl-sm shadow-xl p-3 flex flex-col gap-2 relative z-10 border-l-[4px] border-l-rose-500 transition-transform group-hover:-translate-y-2 duration-500">
+               <div className="flex items-center gap-2">
+                  <div className="w-5 h-5 rounded-full bg-rose-500 flex items-center justify-center"><PhoneCall className="w-2.5 h-2.5 text-white" /></div>
+                  <div className="w-16 h-1.5 bg-slate-700 dark:bg-zinc-300 rounded"></div>
+               </div>
+               <div className="w-full h-1.5 bg-slate-200 dark:bg-zinc-600 rounded mt-1"></div>
+               <div className="w-full h-1.5 bg-slate-200 dark:bg-zinc-600 rounded"></div>
+               <div className="w-16 h-1.5 bg-slate-200 dark:bg-zinc-600 rounded"></div>
+            </div>
+         </Wrapper>
+      );
+   }
+
+   if (normalized.includes('jurugambar') || normalized.includes('photographer') || normalized.includes('payout')) {
+      return (
+         <Wrapper align="end">
+            <div className="w-full max-w-[180px] h-28 bg-white/95 dark:bg-zinc-800/95 rounded-t-xl shadow-xl flex flex-col relative z-10 transition-transform group-hover:-translate-y-2 duration-500">
+               <div className="flex gap-1.5 p-3 pb-2">
+                  <div className="w-5 h-5 rounded-full bg-red-100 dark:bg-red-500/30 relative z-30 shadow-sm border border-white dark:border-zinc-700"></div>
+                  <div className="w-5 h-5 rounded-full bg-red-200 dark:bg-red-500/40 -ml-3 relative z-20 shadow-sm border border-white dark:border-zinc-700"></div>
+                  <div className="w-5 h-5 rounded-full bg-red-300 dark:bg-red-500/50 -ml-3 relative z-10 shadow-sm border border-white dark:border-zinc-700"></div>
+               </div>
+               <div className="flex-1 flex items-end justify-between gap-1.5 p-3 px-4 pt-0">
+                  <div className="w-full h-8 bg-slate-100 dark:bg-zinc-700 rounded-t-md"></div>
+                  <div className="w-full h-12 bg-red-400 rounded-t-md shadow-sm group-hover:h-14 transition-all duration-500"></div>
+                  <div className="w-full h-6 bg-slate-100 dark:bg-zinc-700 rounded-t-md"></div>
+                  <div className="w-full h-10 bg-slate-100 dark:bg-zinc-700 rounded-t-md"></div>
+               </div>
+            </div>
+         </Wrapper>
+      );
+   }
+
+   if (normalized.includes('lead')) {
+      return (
+         <Wrapper>
+            <div className="w-40 bg-white/95 dark:bg-zinc-800/95 rounded-xl shadow-xl p-3 flex flex-col gap-3 relative z-10 transition-transform group-hover:scale-105 duration-500">
+               <div className="flex justify-between items-center">
+                  <div className="w-12 h-2 bg-slate-700 dark:bg-zinc-300 rounded"></div>
+                  <div className="bg-amber-100 dark:bg-amber-500/20 p-1.5 rounded-md"><Filter className="w-3 h-3 text-amber-500" /></div>
+               </div>
+               <div className="flex flex-col gap-1.5 mt-1">
+                  <div className="w-full rounded p-1.5 bg-slate-50 dark:bg-zinc-800/50 flex justify-between items-center">
+                     <div className="w-8 h-1.5 bg-slate-200 dark:bg-zinc-600 rounded"></div>
+                     <div className="w-6 h-1.5 bg-amber-400 rounded"></div>
+                  </div>
+                  <div className="w-full rounded p-1.5 bg-amber-50 dark:bg-amber-500/5 flex justify-between items-center">
+                     <div className="w-10 h-1.5 bg-slate-200 dark:bg-zinc-600 rounded"></div>
+                     <div className="w-8 h-1.5 bg-amber-500 rounded"></div>
+                  </div>
+               </div>
+            </div>
+         </Wrapper>
+      );
+   }
+
+   // Default Generic Layout
+   return (
+      <Wrapper>
+         <div className="w-20 h-20 bg-white/95 dark:bg-zinc-800/95 rounded-2xl shadow-xl flex items-center justify-center relative z-10 transition-transform group-hover:rotate-6 duration-500">
+            <ShieldCheck className="w-8 h-8 text-slate-400" />
+         </div>
+      </Wrapper>
+   );
+};
 
 const Features: React.FC = () => {
    const { t, isChanging } = useLanguage();
@@ -58,6 +280,45 @@ const Features: React.FC = () => {
       return tier === 'prime'
          ? <Filter className="w-5 h-5" />
          : <ShieldCheck className="w-5 h-5" />;
+   };
+
+   const getBentoStyle = (title: string, tier?: string) => {
+      const normalized = title.toLowerCase();
+
+      if (normalized.includes('borang') || normalized.includes('booking form')) {
+         return { bg: "from-orange-50/80 to-orange-100/90 dark:from-orange-500/10 dark:to-orange-500/20", text: "text-orange-600 dark:text-orange-400" };
+      }
+      if (normalized.includes('eksport') || normalized.includes('export')) {
+         return { bg: "from-amber-50/80 to-amber-100/90 dark:from-amber-500/10 dark:to-amber-500/20", text: "text-amber-600 dark:text-amber-400" };
+      }
+      if (normalized.includes('resit') || normalized.includes('receipt') || normalized.includes('invoice')) {
+         return { bg: "from-rose-50/80 to-rose-100/90 dark:from-rose-500/10 dark:to-rose-500/20", text: "text-rose-600 dark:text-rose-400" };
+      }
+      if (normalized.includes('carian') || normalized.includes('search')) {
+         return { bg: "from-orange-50/80 to-amber-50/90 dark:from-orange-500/10 dark:to-amber-500/15", text: "text-orange-600 dark:text-orange-400" };
+      }
+      if (normalized.includes('calendar')) {
+         return { bg: "from-red-50/80 to-red-100/90 dark:from-red-500/10 dark:to-red-500/20", text: "text-red-600 dark:text-red-400" };
+      }
+      if (normalized.includes('telegram')) {
+         return { bg: "from-amber-50/80 to-orange-50/90 dark:from-amber-500/10 dark:to-orange-500/15", text: "text-amber-600 dark:text-amber-400" };
+      }
+      if (normalized.includes('baucar') || normalized.includes('voucher')) {
+         return { bg: "from-orange-100/70 to-orange-200/70 dark:from-orange-500/15 dark:to-orange-500/25", text: "text-orange-600 dark:text-orange-400" };
+      }
+      if (normalized.includes('whatsapp')) {
+         return { bg: "from-rose-50/80 to-orange-50/90 dark:from-rose-500/10 dark:to-orange-500/15", text: "text-rose-600 dark:text-rose-400" };
+      }
+      if (normalized.includes('jurugambar') || normalized.includes('photographer') || normalized.includes('payout')) {
+         return { bg: "from-red-50/80 to-orange-50/90 dark:from-red-500/10 dark:to-orange-500/15", text: "text-red-600 dark:text-red-400" };
+      }
+      if (normalized.includes('lead')) {
+         return { bg: "from-amber-100/60 to-orange-100/70 dark:from-amber-500/15 dark:to-orange-500/20", text: "text-amber-600 dark:text-amber-400" };
+      }
+
+      return tier === 'prime'
+         ? { bg: "from-orange-50/70 to-orange-100/70 dark:from-orange-500/10 dark:to-orange-500/20", text: "text-orange-600 dark:text-orange-400" }
+         : { bg: "from-slate-50/70 to-orange-50/70 dark:from-slate-500/10 dark:to-orange-500/10", text: "text-orange-600 dark:text-orange-400" };
    };
 
    // Map colors for the icon container background (Main Pillars)
@@ -240,12 +501,14 @@ const Features: React.FC = () => {
             {/* NEW BENTO GRID SECTION */}
             {t.features.bentoGrid && (
                <div className="mt-16 md:mt-32 max-w-6xl mx-auto px-6">
-                  <Reveal width="100%">
-                     <div className="text-center mb-16 md:mb-20 w-full max-w-4xl mx-auto">
+                  <div className="text-center mb-16 md:mb-20 w-full max-w-4xl mx-auto">
+                     <Reveal width="100%">
                         <h3 className="text-3xl md:text-4xl font-medium font-serif text-slate-900 dark:text-white mb-3 leading-tight">{t.features.bentoGrid.title}</h3>
+                     </Reveal>
+                     <Reveal delay={100} width="100%">
                         <p className="text-lg text-slate-600 dark:text-slate-400 max-w-2xl mx-auto leading-relaxed">{t.features.bentoGrid.subtitle}</p>
-                     </div>
-                  </Reveal>
+                     </Reveal>
+                  </div>
 
                   {(() => {
                      const items = t.features.bentoGrid.items || [];
@@ -254,48 +517,58 @@ const Features: React.FC = () => {
                      return (
                         <div className="space-y-10">
                            <div>
-                              <div className="mb-5">
-                                 <span className="inline-flex items-center rounded-full px-3 py-1 text-xs font-bold tracking-wide uppercase bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 border border-emerald-500/30">
-                                    {t.features.bentoGrid.groupAllTitle}
-                                 </span>
+                              <div className="mb-5 flex justify-start">
+                                 <Reveal width="auto" delay={0}>
+                                    <span className="inline-flex items-center rounded-full px-3 py-1 text-xs font-bold tracking-wide uppercase bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 border border-emerald-500/30">
+                                       {t.features.bentoGrid.groupAllTitle}
+                                    </span>
+                                 </Reveal>
                               </div>
                               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-5" style={{ gridAutoRows: '1fr' }}>
-                                 {allPackageItems.map((item: any, index: number) => (
-                                    <Reveal key={`all-${index}`} delay={index * 50} width="100%" className="flex h-full">
-                                       <GlassCard className="w-full h-full p-5 md:p-6 flex flex-col items-start gap-6 bg-slate-50 dark:bg-zinc-900 border border-slate-200 dark:border-white/10 hover:border-slate-300 dark:hover:border-white/25 transition-all duration-300 group hover:shadow-md hover:-translate-y-1">
-                                          <div className="w-12 h-12 md:w-14 md:h-14 rounded-2xl bg-gradient-to-br from-slate-50 to-slate-100 dark:from-white/5 dark:to-white/10 border border-slate-200 dark:border-white/10 text-studio-primary dark:text-studio-primary flex items-center justify-center shrink-0 group-hover:scale-110 group-hover:rotate-3 transition-transform duration-500 shadow-sm mb-4">
-                                             {getBentoIcon(item.title, item.tier)}
-                                          </div>
-                                          <div className="flex-1 w-full">
-                                             <h4 className="font-medium text-xl text-slate-900 dark:text-white mb-2">{item.title}</h4>
-                                             <p className="text-lg text-slate-600 dark:text-slate-400 mb-6 leading-relaxed">{item.description}</p>
-                                          </div>
-                                       </GlassCard>
-                                    </Reveal>
-                                 ))}
+                                 {allPackageItems.map((item: any, index: number) => {
+                                    const { bg, text } = getBentoStyle(item.title, item.tier);
+                                    return (
+                                       <Reveal key={`all-${index}`} delay={(index + 1) * 75} width="100%" className="flex h-full">
+                                          <GlassCard className="w-full h-full flex flex-col items-start bg-slate-50 dark:bg-zinc-900 border border-slate-200 dark:border-white/10 hover:border-slate-300 dark:hover:border-white/25 transition-all duration-300 group hover:shadow-lg hover:-translate-y-1 p-0 overflow-hidden">
+                                             <BentoIllustration title={item.title} bgClass={bg} textClass={text} icon={getBentoIcon(item.title, item.tier)} />
+                                             <div className="flex-1 w-full p-5 md:p-6 pb-7 flex flex-col relative z-20 bg-slate-50 dark:bg-zinc-900 border-t border-slate-100 dark:border-zinc-800">
+                                                <div className="flex items-center gap-3 mb-2">
+                                                   <h4 className="font-medium text-lg md:text-xl text-slate-900 dark:text-white leading-tight">{item.title}</h4>
+                                                </div>
+                                                <p className="text-base text-slate-600 dark:text-slate-400 leading-relaxed max-w-sm">{item.description}</p>
+                                             </div>
+                                          </GlassCard>
+                                       </Reveal>
+                                    );
+                                 })}
                               </div>
                            </div>
 
                            <div className="pt-8 border-t border-slate-200 dark:border-white/10">
-                              <div className="mb-5">
-                                 <span className="inline-flex items-center rounded-full px-3 py-1 text-xs font-bold tracking-wide uppercase bg-studio-primary/15 text-studio-primary border border-studio-primary/30">
-                                    {t.features.bentoGrid.groupPrimeTitle}
-                                 </span>
+                              <div className="mb-5 flex justify-start">
+                                 <Reveal width="auto" delay={0}>
+                                    <span className="inline-flex items-center rounded-full px-3 py-1 text-xs font-bold tracking-wide uppercase bg-studio-primary/15 text-studio-primary border border-studio-primary/30">
+                                       {t.features.bentoGrid.groupPrimeTitle}
+                                    </span>
+                                 </Reveal>
                               </div>
                               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-5" style={{ gridAutoRows: '1fr' }}>
-                                 {primeOnlyItems.map((item: any, index: number) => (
-                                    <Reveal key={`prime-${index}`} delay={index * 50} width="100%" className="flex h-full">
-                                       <GlassCard className="w-full h-full p-5 md:p-6 flex flex-col items-start gap-6 bg-slate-50 dark:bg-zinc-900 border border-studio-primary/20 dark:border-studio-primary/30 hover:border-studio-primary/40 transition-all duration-300 group hover:shadow-md hover:-translate-y-1">
-                                          <div className="w-12 h-12 md:w-14 md:h-14 rounded-2xl bg-gradient-to-br from-orange-50 to-orange-100 dark:from-studio-primary/10 dark:to-orange-500/10 border border-orange-200 dark:border-studio-primary/30 text-orange-600 dark:text-orange-400 flex items-center justify-center shrink-0 group-hover:scale-110 group-hover:rotate-3 transition-transform duration-500 shadow-sm mb-4">
-                                             {getBentoIcon(item.title, item.tier)}
-                                          </div>
-                                          <div className="flex-1 w-full">
-                                             <h4 className="font-medium text-xl text-slate-900 dark:text-white mb-2">{item.title}</h4>
-                                             <p className="text-lg text-slate-600 dark:text-slate-400 mb-6 leading-relaxed">{item.description}</p>
-                                          </div>
-                                       </GlassCard>
-                                    </Reveal>
-                                 ))}
+                                 {primeOnlyItems.map((item: any, index: number) => {
+                                    const { bg, text } = getBentoStyle(item.title, item.tier);
+                                    return (
+                                       <Reveal key={`prime-${index}`} delay={(index + 1) * 75} width="100%" className="flex h-full">
+                                          <GlassCard className="w-full h-full flex flex-col items-start bg-slate-50 dark:bg-zinc-900 border border-studio-primary/20 dark:border-studio-primary/30 hover:border-studio-primary/40 transition-all duration-300 group hover:shadow-lg hover:-translate-y-1 p-0 overflow-hidden shadow-[0_0_15px_rgba(234,88,12,0.05)]">
+                                             <BentoIllustration title={item.title} bgClass={bg} textClass={text} icon={getBentoIcon(item.title, item.tier)} />
+                                             <div className="flex-1 w-full p-5 md:p-6 pb-7 flex flex-col relative z-20 bg-slate-50 dark:bg-zinc-900 border-t border-slate-100 dark:border-zinc-800">
+                                                <div className="flex items-center gap-3 mb-2">
+                                                   <h4 className="font-medium text-lg md:text-xl text-slate-900 dark:text-white leading-tight">{item.title}</h4>
+                                                </div>
+                                                <p className="text-base text-slate-600 dark:text-slate-400 leading-relaxed max-w-sm">{item.description}</p>
+                                             </div>
+                                          </GlassCard>
+                                       </Reveal>
+                                    );
+                                 })}
                               </div>
                            </div>
                         </div>
@@ -330,30 +603,45 @@ const RemotionLoopMockup: React.FC<{ src: string; title: string; poster?: string
       video.setAttribute('webkit-playsinline', 'true');
    }, []);
 
-   // Play when any pixel is visible, pause when fully off-screen
+   // Play when near viewport, pause when fully off-screen
    React.useEffect(() => {
       const container = containerRef.current;
       const video = videoRef.current;
       if (!container || !video) return;
 
       if (typeof IntersectionObserver === 'undefined') {
-         video.play().catch(() => { });
+         requestAnimationFrame(() => video.play().catch(() => { }));
          return;
       }
 
+      let playReq: number;
       const observer = new IntersectionObserver(
          ([entry]) => {
             if (entry.isIntersecting) {
-               video.play().catch(() => { });
+               playReq = requestAnimationFrame(() => {
+                  try {
+                     const playPromise = video.play();
+                     if (playPromise !== undefined) {
+                        playPromise.catch(() => { });
+                     }
+                  } catch (e) { }
+               });
             } else {
-               video.pause();
+               requestAnimationFrame(() => {
+                  try {
+                     video.pause();
+                  } catch (e) { }
+               });
             }
          },
-         { threshold: 0 }
+         { threshold: 0, rootMargin: '200px' } // Pre-play 200px before it enters the screen
       );
 
       observer.observe(container);
-      return () => observer.disconnect();
+      return () => {
+         cancelAnimationFrame(playReq);
+         observer.disconnect();
+      };
    }, []);
 
    // Resume when tab becomes visible if still in viewport
@@ -372,14 +660,13 @@ const RemotionLoopMockup: React.FC<{ src: string; title: string; poster?: string
    }, []);
 
    return (
-      <div ref={containerRef} className="w-full h-full rounded-[30px] overflow-hidden bg-transparent">
+      <div ref={containerRef} className="w-full h-full rounded-[30px] overflow-hidden bg-transparent transform-gpu">
          <video
             ref={videoRef}
             src={resolvedSrc}
             muted
             loop
             playsInline
-            autoPlay
             controls={false}
             disablePictureInPicture
             disableRemotePlayback
@@ -387,7 +674,7 @@ const RemotionLoopMockup: React.FC<{ src: string; title: string; poster?: string
             tabIndex={-1}
             draggable={false}
             preload="auto"
-            className="w-full h-full object-contain pointer-events-none select-none bg-transparent"
+            className="w-full h-full object-contain pointer-events-none select-none bg-transparent transform-gpu backface-visibility-hidden"
             aria-label={title}
             onContextMenu={(e) => e.preventDefault()}
          />

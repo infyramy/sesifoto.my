@@ -26,7 +26,7 @@ const Pricing: React.FC = () => {
       <div className="absolute inset-x-0 bottom-0 h-56 z-0 pointer-events-none">
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-studio-paper/40 dark:via-studio-black/40 to-studio-paper dark:to-studio-black"></div>
         <div
-          className="absolute inset-0 opacity-[0.015] mix-blend-overlay"
+          className="absolute inset-0 opacity-[0.015] md:mix-blend-overlay mix-blend-normal transform-gpu"
           style={{
             backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 300 300' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='3' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E")`,
             backgroundSize: '150px 150px'
@@ -87,7 +87,7 @@ const Pricing: React.FC = () => {
                         <div className={`w-5 h-5 rounded-full flex items-center justify-center shrink-0 mt-0.5 ${plan.popular ? 'bg-studio-primary/15 dark:bg-studio-primary/25 text-studio-primary ring-2 ring-studio-primary/30' : 'bg-slate-200 dark:bg-white/10 text-slate-500 dark:text-slate-400'}`}>
                           <Check className="w-3 h-3 stroke-[3]" />
                         </div>
-                        <span 
+                        <span
                           className={`${idx === 0 && plan.popular ? 'font-semibold text-slate-800 dark:text-slate-200' : ''}`}
                           dangerouslySetInnerHTML={{ __html: sanitizeRichHtml(feature) }}
                         />

@@ -139,14 +139,8 @@ const Navbar: React.FC = () => {
     linkKey: string
   ) => {
     if (linkKey === 'support') {
-      openSupportPrompt(event);
-      return;
-    }
-
-    if (linkKey === 'news' && isHomePage) {
       event.preventDefault();
-      setIsMobileMenuOpen(false);
-      await startHomeToNewsTransition();
+      openSupportPrompt(event);
       return;
     }
 
@@ -188,58 +182,59 @@ const Navbar: React.FC = () => {
 
             {/* Desktop Nav */}
             <div className="hidden lg:flex items-center gap-8">
-              {isHomePage && (
+              {isHomePage ? (
                 <div className="relative group">
                   <a
                     href="/"
-                    className="text-sm font-medium text-slate-600 dark:text-slate-400 hover:text-studio-primary dark:hover:text-studio-primary transition-colors tracking-wide inline-flex items-center"
+                    className="text-sm font-bold text-studio-primary transition-colors tracking-wide inline-flex items-center"
                   >
                     {t.nav.home}
                   </a>
                   <div className="absolute left-1/2 -translate-x-1/2 top-full pt-3 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200">
                     <div className="min-w-[180px] rounded-2xl bg-studio-paper/95 dark:bg-studio-black/95 backdrop-blur-xl border border-slate-200 dark:border-white/10 shadow-xl p-2">
                       {landingSectionLinks.map((link) => (
-                        <a
+                        <Link
                           key={link.key}
-                          href={link.href}
+                          to={link.href}
                           className="block px-4 py-2.5 rounded-xl text-sm font-medium text-slate-600 dark:text-slate-300 hover:text-studio-primary dark:hover:text-studio-primary hover:bg-slate-100/60 dark:hover:bg-white/5 transition-colors"
                         >
                           {t.nav[link.key as keyof typeof t.nav]}
-                        </a>
+                        </Link>
                       ))}
                     </div>
                   </div>
                 </div>
+              ) : (
+                <Link
+                  to="/"
+                  className="text-sm font-medium text-slate-600 dark:text-slate-400 hover:text-studio-primary dark:hover:text-studio-primary transition-colors tracking-wide inline-flex items-center"
+                >
+                  {t.nav.home}
+                </Link>
               )}
 
               {primaryNavLinks.map((link) => {
+                const isActive = location.pathname.startsWith(link.href);
                 return (
-                  <a
+                  <Link
                     key={link.key}
-                    href={link.href}
+                    to={link.href}
                     onClick={(event) => {
                       void handlePrimaryNavClick(event, link.key);
                     }}
-                    className="text-sm font-medium text-slate-600 dark:text-slate-400 hover:text-studio-primary dark:hover:text-studio-primary transition-colors tracking-wide"
+                    className={`text-sm tracking-wide transition-colors ${isActive
+                      ? 'font-bold text-studio-primary'
+                      : 'font-medium text-slate-600 dark:text-slate-400 hover:text-studio-primary dark:hover:text-studio-primary'
+                      }`}
                   >
                     {t.nav[link.key as keyof typeof t.nav]}
-                  </a>
+                  </Link>
                 );
               })}
             </div>
 
             {/* Actions */}
             <div className="flex items-center gap-3 lg:gap-6">
-
-              {/* Home Link (Only on non-home pages) */}
-              {!isHomePage && (
-                <Link
-                  to="/"
-                  className="hidden lg:block text-sm font-medium text-slate-600 dark:text-slate-400 hover:text-studio-primary dark:hover:text-studio-primary transition-colors mr-2"
-                >
-                  {t.nav.home}
-                </Link>
-              )}
 
               {/* Theme Toggle - Hidden */}
               <button
@@ -284,14 +279,12 @@ const Navbar: React.FC = () => {
                 aria-controls="mobile-navigation-menu"
               >
                 <Menu
-                  className={`absolute w-6 h-6 transition-all duration-300 ease-out ${
-                    isMobileMenuOpen ? 'opacity-0 rotate-90 scale-75' : 'opacity-100 rotate-0 scale-100'
-                  }`}
+                  className={`absolute w-6 h-6 transition-all duration-300 ease-out ${isMobileMenuOpen ? 'opacity-0 rotate-90 scale-75' : 'opacity-100 rotate-0 scale-100'
+                    }`}
                 />
                 <X
-                  className={`absolute w-6 h-6 transition-all duration-300 ease-out ${
-                    isMobileMenuOpen ? 'opacity-100 rotate-0 scale-100' : 'opacity-0 -rotate-90 scale-75'
-                  }`}
+                  className={`absolute w-6 h-6 transition-all duration-300 ease-out ${isMobileMenuOpen ? 'opacity-100 rotate-0 scale-100' : 'opacity-0 -rotate-90 scale-75'
+                    }`}
                 />
               </button>
             </div>
@@ -307,9 +300,8 @@ const Navbar: React.FC = () => {
       >
         <button
           aria-label="Close mobile menu"
-          className={`absolute inset-0 bg-slate-950/72 transition-opacity duration-300 ${
-            isMobileMenuOpen ? 'opacity-100' : 'opacity-0'
-          }`}
+          className={`absolute inset-0 bg-slate-950/72 transition-opacity duration-300 ${isMobileMenuOpen ? 'opacity-100' : 'opacity-0'
+            }`}
           onClick={() => setIsMobileMenuOpen(false)}
         />
 
@@ -344,25 +336,28 @@ const Navbar: React.FC = () => {
               <div className="space-y-1">
                 <Link
                   to="/"
-                  className="flex items-center justify-between min-h-12 py-2 text-lg font-medium text-slate-900 dark:text-slate-100 hover:text-studio-primary dark:hover:text-studio-primary transition-colors"
+                  className={`flex items-center justify-between min-h-12 py-2 text-lg transition-colors ${isHomePage
+                    ? 'font-bold text-studio-primary'
+                    : 'font-medium text-slate-900 dark:text-slate-100 hover:text-studio-primary dark:hover:text-studio-primary'
+                    }`}
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
                   <span>{t.nav.home}</span>
-                  {isHomePage && <ChevronRight className="w-4 h-4 text-slate-400" />}
+                  {isHomePage && <ChevronRight className="w-4 h-4 text-studio-primary" />}
                 </Link>
 
                 {isHomePage && (
                   <div className="ml-2 pl-4 border-l border-slate-200 dark:border-white/10 space-y-0.5">
                     {landingSectionLinks.map((link) => (
-                      <a
+                      <Link
                         key={link.key}
-                        href={link.href}
+                        to={link.href}
                         className="flex items-center justify-between min-h-10 py-1.5 text-base font-medium text-slate-600 dark:text-slate-300 hover:text-studio-primary dark:hover:text-studio-primary transition-colors"
                         onClick={() => setIsMobileMenuOpen(false)}
                       >
                         <span>{t.nav[link.key as keyof typeof t.nav]}</span>
                         <ChevronRight className="w-4 h-4 text-slate-400" />
-                      </a>
+                      </Link>
                     ))}
                   </div>
                 )}
@@ -370,18 +365,22 @@ const Navbar: React.FC = () => {
                 <div className="my-2 border-t border-slate-200 dark:border-white/10"></div>
 
                 {primaryNavLinks.map((link) => {
+                  const isActive = location.pathname.startsWith(link.href);
                   return (
-                    <a
+                    <Link
                       key={link.key}
-                      href={link.href}
-                      className="flex items-center justify-between min-h-12 py-2 text-lg font-medium text-slate-900 dark:text-slate-100 hover:text-studio-primary dark:hover:text-studio-primary transition-colors"
+                      to={link.href}
+                      className={`flex items-center justify-between min-h-12 py-2 text-lg transition-colors ${isActive
+                        ? 'font-bold text-studio-primary'
+                        : 'font-medium text-slate-900 dark:text-slate-100 hover:text-studio-primary dark:hover:text-studio-primary'
+                        }`}
                       onClick={(event) => {
                         void handlePrimaryNavClick(event, link.key);
                       }}
                     >
                       <span>{t.nav[link.key as keyof typeof t.nav]}</span>
-                      <ChevronRight className="w-4 h-4 text-slate-400" />
-                    </a>
+                      {isActive && <ChevronRight className="w-4 h-4 text-studio-primary" />}
+                    </Link>
                   );
                 })}
               </div>
@@ -410,49 +409,49 @@ const Navbar: React.FC = () => {
       </div>
 
       {isSupportPromptOpen && (
-          <div className="fixed inset-0 z-[70] flex items-center justify-center p-3">
-            <button
-              aria-label="Close support prompt"
-              className="absolute inset-0 bg-slate-950/35 backdrop-blur-[2px] animate-[supportBackdropIn_180ms_ease-out]"
-              onClick={() => setIsSupportPromptOpen(false)}
-            />
+        <div className="fixed inset-0 z-[70] flex items-center justify-center p-3">
+          <button
+            aria-label="Close support prompt"
+            className="absolute inset-0 bg-slate-950/35 backdrop-blur-[2px] animate-[supportBackdropIn_180ms_ease-out]"
+            onClick={() => setIsSupportPromptOpen(false)}
+          />
 
-            <div className="relative w-full max-w-[300px] rounded-2xl border border-slate-200 dark:border-white/10 bg-white/95 dark:bg-zinc-900/95 backdrop-blur-xl shadow-2xl overflow-hidden animate-[supportModalIn_220ms_cubic-bezier(0.22,1,0.36,1)]">
-              <div className="p-3.5">
-                <div className="flex items-center gap-2.5 mb-2">
-                  <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-orange-100 to-orange-200 dark:from-orange-500/20 dark:to-orange-400/10 text-studio-primary flex items-center justify-center shadow-sm shrink-0">
-                    <MessageCircle className="w-4 h-4" />
-                  </div>
-                  <h3 className="text-[15px] font-semibold text-slate-900 dark:text-white leading-tight whitespace-nowrap">
-                    {supportPromptCopy.title}
-                  </h3>
+          <div className="relative w-full max-w-[300px] rounded-2xl border border-slate-200 dark:border-white/10 bg-white/95 dark:bg-zinc-900/95 backdrop-blur-xl shadow-2xl overflow-hidden animate-[supportModalIn_220ms_cubic-bezier(0.22,1,0.36,1)]">
+            <div className="p-3.5">
+              <div className="flex items-center gap-2.5 mb-2">
+                <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-orange-100 to-orange-200 dark:from-orange-500/20 dark:to-orange-400/10 text-studio-primary flex items-center justify-center shadow-sm shrink-0">
+                  <MessageCircle className="w-4 h-4" />
                 </div>
+                <h3 className="text-[15px] font-semibold text-slate-900 dark:text-white leading-tight whitespace-nowrap">
+                  {supportPromptCopy.title}
+                </h3>
+              </div>
 
-                <p className="text-slate-600 dark:text-slate-300 text-xs leading-relaxed mb-1">
-                  {supportPromptCopy.description}
-                </p>
-                <p className="text-slate-500 dark:text-slate-400 text-[11px] leading-relaxed">
-                  {supportPromptCopy.note}
-                </p>
+              <p className="text-slate-600 dark:text-slate-300 text-xs leading-relaxed mb-1">
+                {supportPromptCopy.description}
+              </p>
+              <p className="text-slate-500 dark:text-slate-400 text-[11px] leading-relaxed">
+                {supportPromptCopy.note}
+              </p>
 
-                <div className="mt-3 flex items-center gap-2">
-                  <button
-                    onClick={() => setIsSupportPromptOpen(false)}
-                    className="flex-1 px-2.5 py-2 rounded-lg border border-slate-200 dark:border-white/15 text-slate-700 dark:text-slate-200 text-xs font-semibold hover:bg-slate-100 dark:hover:bg-white/5 transition-colors"
-                  >
-                    {supportPromptCopy.cancel}
-                  </button>
-                  <button
-                    onClick={handleSupportContinue}
-                    className="flex-1 inline-flex items-center justify-center gap-1.5 px-2.5 py-2 rounded-lg bg-studio-primary text-white text-xs font-semibold hover:bg-studio-primary-hover transition-colors shadow-lg shadow-studio-primary/30"
-                  >
-                    <span>{supportPromptCopy.continue}</span>
-                    <ExternalLink className="w-3 h-3" />
-                  </button>
-                </div>
+              <div className="mt-3 flex items-center gap-2">
+                <button
+                  onClick={() => setIsSupportPromptOpen(false)}
+                  className="flex-1 px-2.5 py-2 rounded-lg border border-slate-200 dark:border-white/15 text-slate-700 dark:text-slate-200 text-xs font-semibold hover:bg-slate-100 dark:hover:bg-white/5 transition-colors"
+                >
+                  {supportPromptCopy.cancel}
+                </button>
+                <button
+                  onClick={handleSupportContinue}
+                  className="flex-1 inline-flex items-center justify-center gap-1.5 px-2.5 py-2 rounded-lg bg-studio-primary text-white text-xs font-semibold hover:bg-studio-primary-hover transition-colors shadow-lg shadow-studio-primary/30"
+                >
+                  <span>{supportPromptCopy.continue}</span>
+                  <ExternalLink className="w-3 h-3" />
+                </button>
               </div>
             </div>
           </div>
+        </div>
       )}
 
       <style>{`

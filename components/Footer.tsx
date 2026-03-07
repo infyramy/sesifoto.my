@@ -44,7 +44,7 @@ const Footer: React.FC<FooterProps> = ({ hideCtaBanner = false }) => {
               </h2>
               <div className="flex flex-col sm:flex-row gap-3 md:gap-4 mt-2 w-full sm:w-auto">
                 {/* Primary CTA Button */}
-                <a href="https://wa.link/rxj90f" target="_blank" rel="noopener noreferrer" className="relative group px-6 py-3 md:px-8 md:py-4 bg-studio-primary text-white rounded-full font-bold text-base md:text-lg overflow-hidden shadow-lg shadow-orange-500/30 hover:shadow-orange-500/50 transition-all hover:scale-105 active:scale-95">
+                <a href="https://office.sesifoto.my/register" target="_blank" rel="noopener noreferrer" className="relative group px-6 py-3 md:px-8 md:py-4 bg-studio-primary text-white rounded-full font-bold text-base md:text-lg overflow-hidden shadow-lg shadow-orange-500/30 hover:shadow-orange-500/50 transition-all hover:scale-105 active:scale-95 text-center flex items-center justify-center">
                   <div className="absolute inset-0 bg-white/20 group-hover:bg-white/30 transition-colors"></div>
                   <span className="relative z-10">{t.footer.ctaBanner.primaryCta}</span>
                 </a>
@@ -80,10 +80,11 @@ const Footer: React.FC<FooterProps> = ({ hideCtaBanner = false }) => {
 
 
           {/* Footer Links */}
-          <div className="flex gap-6 mb-6 text-sm">
+          <div className="flex flex-wrap justify-center items-center gap-x-6 gap-y-3 mb-6 text-sm font-medium">
             <a href="https://office.sesifoto.my/privacy-policy" target="_blank" rel="noopener noreferrer" className="text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-300 transition-colors">
               Privacy Policy
             </a>
+            <div className="hidden sm:block w-1 h-1 rounded-full bg-slate-300 dark:bg-slate-700"></div>
             <a href="https://office.sesifoto.my/terms-of-service" target="_blank" rel="noopener noreferrer" className="text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-300 transition-colors">
               Terms of Service
             </a>

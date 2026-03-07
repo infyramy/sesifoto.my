@@ -1,6 +1,5 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import Navbar from './Navbar';
 import Footer from './Footer';
 import StudioBackground from './StudioBackground';
 import Reveal from './ui/Reveal';
@@ -11,7 +10,6 @@ const NotFound: React.FC = () => {
         <div className="min-h-screen overflow-x-hidden font-sans bg-slate-50 dark:bg-black">
             <StudioBackground />
             <div className="relative z-10 flex flex-col min-h-screen">
-                <Navbar />
                 <main className="flex-grow flex flex-col items-center justify-center text-center px-4">
                     <Reveal>
                         <div className="w-24 h-24 bg-slate-100 dark:bg-zinc-900 rounded-full flex items-center justify-center mb-6 mx-auto">

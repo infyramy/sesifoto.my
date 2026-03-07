@@ -110,7 +110,7 @@ const UserBenefits = () => {
             {/* Background Ambience */}
             <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
                 {/* Gradient Orb - Middle Left Side */}
-                <div className="absolute top-1/2 left-0 -translate-x-1/3 -translate-y-1/2 w-[600px] h-[600px] bg-studio-primary/20 rounded-full blur-[120px] mix-blend-screen pointer-events-none"></div>
+                <div className="absolute top-1/2 left-0 -translate-x-1/3 -translate-y-1/2 w-[600px] h-[600px] bg-studio-primary/20 rounded-full blur-[120px] md:mix-blend-screen mix-blend-normal transform-gpu pointer-events-none"></div>
             </div>
             <div className="container mx-auto px-4 relative z-10">
 
@@ -206,8 +206,8 @@ const UserBenefits = () => {
                                 <div
                                     key={tab}
                                     className={`transition-[opacity,transform] duration-500 ease-out will-change-[opacity,transform] ${activeTab === tab
-                                            ? 'opacity-100 translate-y-0 relative'
-                                            : 'opacity-0 translate-y-2 absolute inset-0 pointer-events-none'
+                                        ? 'opacity-100 translate-y-0 relative'
+                                        : 'opacity-0 translate-y-2 absolute inset-0 pointer-events-none'
                                         }`}
                                 >
                                     <div className={`inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-bold mb-6 ${benefits[tab].badgeColor}`}>

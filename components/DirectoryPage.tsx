@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import Navbar from './Navbar';
 import Footer from './Footer';
 import StudioBackground from './StudioBackground';
 import Reveal from './ui/Reveal';
@@ -112,9 +111,7 @@ const DirectoryPage: React.FC = () => {
         <div className="min-h-screen overflow-x-hidden font-sans bg-slate-50 dark:bg-black">
             <StudioBackground />
             <div className="relative z-10 flex flex-col min-h-screen">
-                <Navbar />
-
-                <main className="flex-grow container mx-auto px-4 py-20 md:py-32">
+                <main className="flex-grow pt-24 pb-12 container mx-auto px-4 py-20 md:py-32">
 
                     {/* Header */}
                     <div className="max-w-3xl mx-auto text-center mb-8 md:mb-12">
