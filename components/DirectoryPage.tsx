@@ -7,6 +7,7 @@ import MalaysiaMap from './MalaysiaMap';
 import StudioCard from './StudioCard';
 import { STUDIOS_DATA, Studio } from '../data/studios';
 import { MapPin, Search } from 'lucide-react';
+import { toSafeBookingUrl } from '../utils/safeUrl';
 
 import { useLanguage } from '../contexts/LanguageContext';
 
@@ -50,15 +51,15 @@ const DirectoryPage: React.FC = () => {
 
     // Fetch studios from API on mount
     useEffect(() => {
+        const controller = new AbortController();
+
         const fetchStudios = async () => {
             try {
                 setIsLoading(true);
-                // Add timestamp to force fresh data (bypass all caches)
-                const timestamp = new Date().getTime();
-                const response = await fetch(`https://api.sesifoto.my/public/studios?_t=${timestamp}`, {
-                    cache: 'no-cache',
+                const response = await fetch('https://api.sesifoto.my/public/studios', {
+                    signal: controller.signal,
                     headers: {
-                        'Cache-Control': 'no-cache'
+                        'Accept': 'application/json'
                     }
                 });
 
@@ -69,18 +70,19 @@ const DirectoryPage: React.FC = () => {
                 const apiStudios = await response.json();
 
                 // Map API response to our Studio interface
-                const mappedStudios: Studio[] = apiStudios.map((apiStudio: any) => ({
-                    id: apiStudio.slug,
-                    name: apiStudio.studioName,
+                const mappedStudios: Studio[] = apiStudios.map((apiStudio: any, index: number) => ({
+                    id: typeof apiStudio.slug === 'string' ? apiStudio.slug : `studio-${index}`,
+                    name: typeof apiStudio.studioName === 'string' ? apiStudio.studioName : 'Studio',
                     state: deriveStateFromStudio(apiStudio),
-                    logo: apiStudio.logo,
-                    address: apiStudio.address,
-                    bookingPageLink: apiStudio.bookingPageLink,
-                    phone: apiStudio.phoneNumber,
+                    logo: typeof apiStudio.logo === 'string' ? apiStudio.logo : undefined,
+                    address: typeof apiStudio.address === 'string' ? apiStudio.address : undefined,
+                    bookingPageLink: toSafeBookingUrl(apiStudio.bookingPageLink),
+                    phone: typeof apiStudio.phoneNumber === 'string' ? apiStudio.phoneNumber : undefined,
                 }));
 
                 setStudios(mappedStudios);
             } catch (error) {
+                if ((error as Error).name === 'AbortError') return;
                 console.error('Failed to fetch studios from API, using static data:', error);
                 // Actually use the static data as fallback
                 setStudios(STUDIOS_DATA);
@@ -90,6 +92,7 @@ const DirectoryPage: React.FC = () => {
         };
 
         fetchStudios();
+        return () => controller.abort();
     }, []);
 
 

@@ -29,7 +29,7 @@ const Integrations = () => {
 
                                 <div className="flex flex-row gap-2 md:gap-4 w-full items-center">
                                     {/* Primary: Register */}
-                                    <a href="https://chip-in.asia/" target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center gap-2 bg-orange-500 hover:bg-orange-600 text-white px-3 py-3 md:px-8 md:py-3.5 text-sm md:text-base whitespace-nowrap rounded-xl font-bold transition-all duration-300 shadow-lg shadow-orange-500/20 hover:shadow-xl hover:-translate-y-0.5 active:translate-y-0 group flex-1 md:flex-none min-w-[140px]">
+                                    <a href="https://www.chip-in.asia/?ref=a9232883" target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center gap-2 bg-orange-500 hover:bg-orange-600 text-white px-3 py-3 md:px-8 md:py-3.5 text-sm md:text-base whitespace-nowrap rounded-xl font-bold transition-all duration-300 shadow-lg shadow-orange-500/20 hover:shadow-xl hover:-translate-y-0.5 active:translate-y-0 group flex-1 md:flex-none min-w-[140px]">
                                         <span>{t.integrations.cta}</span>
                                     </a>
 

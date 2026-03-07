@@ -2,15 +2,16 @@ import React from "react";
 import { AbsoluteFill } from "remotion";
 import { KpiCard } from "./KpiCard";
 import { ChartCard } from "./ChartCard";
-const cardSize = 1080;
+const cardWidth = 1080;
+const cardHeight = 1000;
 
 const containerStyle: React.CSSProperties = {
     paddingTop: 44,
     paddingRight: 44,
     paddingBottom: 44,
     paddingLeft: 44,
-    width: cardSize,
-    height: cardSize,
+    width: cardWidth,
+    height: cardHeight,
     display: "flex",
     flexDirection: "column",
     fontFamily: "'Satoshi', sans-serif",

@@ -2,7 +2,8 @@ import React from 'react';
 import GlassCard from './ui/GlassCard';
 import Reveal from './ui/Reveal';
 import { useLanguage } from '../contexts/LanguageContext';
-import { Globe, LayoutDashboard, Calendar, CalendarClock, BarChart3, CheckCircle2, ShieldCheck, Zap, Smartphone, FileSpreadsheet, Ticket, ArrowLeftRight, Download, Search, Plus, Clock, ChevronsUpDown, Banknote, Filter, Users, MessageCircle, MoreHorizontal, MoreVertical, Calendar as CalendarIcon, Mail, Phone } from 'lucide-react';
+import { Globe, LayoutDashboard, Calendar, CalendarClock, BarChart3, CheckCircle2, ShieldCheck, FileSpreadsheet, Ticket, ArrowLeftRight, Download, Search, Clock, ChevronsUpDown, Filter, Users, MessageCircle, MoreHorizontal, MoreVertical, Calendar as CalendarIcon } from 'lucide-react';
+import { sanitizeRichHtml } from '../utils/sanitizeHtml';
 
 const Features: React.FC = () => {
    const { t, isChanging } = useLanguage();
@@ -71,6 +72,11 @@ const Features: React.FC = () => {
       }
    };
 
+   const toFormattedHtml = (text: string, emphasisClass: string) =>
+      sanitizeRichHtml(
+         text.replace(/\*(.*?)\*/g, `<em class="${emphasisClass}">$1</em>`)
+      );
+
    return (
       <section id="features" className="py-16 md:py-24 relative bg-slate-50 dark:bg-zinc-950 overflow-hidden transition-colors duration-500">
 
@@ -138,7 +144,7 @@ const Features: React.FC = () => {
                                  </h3>
 
                                  <p className="text-lg text-slate-600 dark:text-slate-400 mb-6 leading-relaxed"
-                                    dangerouslySetInnerHTML={{ __html: feature.description.replace(/\*(.*?)\*/g, '<em class="text-slate-500 dark:text-slate-300 font-medium">$1</em>') }}
+                                    dangerouslySetInnerHTML={{ __html: toFormattedHtml(feature.description, 'text-slate-500 dark:text-slate-300 font-medium') }}
                                  />
 
                                  <ul className="space-y-4">
@@ -147,7 +153,7 @@ const Features: React.FC = () => {
                                           <div className="w-5 h-5 rounded-full bg-green-100 dark:bg-green-900/30 flex items-center justify-center text-green-600 dark:text-green-400 shrink-0">
                                              <CheckCircle2 size={12} strokeWidth={3} />
                                           </div>
-                                          <span dangerouslySetInnerHTML={{ __html: point.replace(/\*(.*?)\*/g, '<em class="text-slate-800 dark:text-white">$1</em>') }} />
+                                          <span dangerouslySetInnerHTML={{ __html: toFormattedHtml(point, 'text-slate-800 dark:text-white') }} />
                                        </li>
                                     ))}
                                  </ul>
@@ -166,10 +172,16 @@ const Features: React.FC = () => {
                               </div>
 
                               <div className="flex-1 w-full md:w-5/12 lg:w-1/2">
-                                 <div className="relative w-full aspect-square max-w-[420px] md:max-w-[320px] lg:max-w-[500px] mx-auto flex items-center justify-center">
+                                 <div className="relative w-full aspect-[27/25] max-w-[420px] md:max-w-[320px] lg:max-w-[500px] mx-auto flex items-center justify-center">
 
                                     {/* CONDITIONAL MOCKUPS FOR ALL FEATURES */}
-                                    {index === 0 && <BookingSiteMockup />}
+                                    {index === 0 && (
+                                       <RemotionLoopMockup
+                                          src="/remotion/AntimatedBookingPage.mp4"
+                                          title={feature.title}
+                                          poster={feature.image}
+                                       />
+                                    )}
                                     {index === 1 && (
                                        <RemotionLoopMockup
                                           src="/remotion/AnimatedBookingCard.mp4"
@@ -302,42 +314,31 @@ const Features: React.FC = () => {
 // ==========================================
 
 const RemotionLoopMockup: React.FC<{ src: string; title: string; poster?: string }> = ({ src, title, poster }) => {
-   const cacheKey = '20260307c';
+   const cacheKey = '20260307d';
    const mp4Src = `${src}?v=${cacheKey}`;
-   const webmSrc = `${src.replace(/\.mp4$/, '.webm')}?v=${cacheKey}`;
+   const resolvedSrc = mp4Src;
    const containerRef = React.useRef<HTMLDivElement | null>(null);
    const videoRef = React.useRef<HTMLVideoElement | null>(null);
-   const [isMobile, setIsMobile] = React.useState(false);
-   const [supportsWebm, setSupportsWebm] = React.useState(false);
-   const [forceMp4, setForceMp4] = React.useState(false);
    const [isVisible, setIsVisible] = React.useState(false);
    const [shouldLoad, setShouldLoad] = React.useState(false);
-   const resolvedSrc = !isMobile && supportsWebm && !forceMp4 ? webmSrc : mp4Src;
+   const [allowAutoplay, setAllowAutoplay] = React.useState(true);
 
    React.useEffect(() => {
-      setForceMp4(false);
       setShouldLoad(false);
       setIsVisible(false);
    }, [mp4Src]);
 
    React.useEffect(() => {
-      if (typeof navigator === 'undefined') return;
-      const ua = navigator.userAgent;
-      const isIOSDevice =
-         /iPad|iPhone|iPod/.test(ua) ||
-         (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
-      const isAndroid = /Android/i.test(ua);
-      const isMobileDevice = isIOSDevice || isAndroid || /Mobile/i.test(ua);
-      setIsMobile(isMobileDevice);
+      if (typeof navigator === 'undefined' || typeof window === 'undefined') return;
+      const prefersReducedMotion = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches ?? false;
+      const connection = (navigator as Navigator & { connection?: { saveData?: boolean; effectiveType?: string } }).connection;
+      const saveData = Boolean(connection?.saveData);
+      const slowConnection = connection?.effectiveType === '2g' || connection?.effectiveType === 'slow-2g';
+      const isMobileDevice = /iPad|iPhone|iPod|Android|Mobile/i.test(navigator.userAgent);
 
-      if (isMobileDevice) {
-         setSupportsWebm(false);
-         return;
-      }
-
-      const probe = document.createElement('video');
-      const webmSupport = probe.canPlayType('video/webm; codecs="vp9, opus"');
-      setSupportsWebm(webmSupport === 'probably' || webmSupport === 'maybe');
+      // Keep videos smooth on low-end devices by using poster-only mode.
+      // On phones/tablets, keep feature cards in poster mode to avoid jank.
+      setAllowAutoplay(!(prefersReducedMotion || saveData || isMobileDevice || slowConnection));
    }, []);
 
    React.useEffect(() => {
@@ -368,7 +369,7 @@ const RemotionLoopMockup: React.FC<{ src: string; title: string; poster?: string
 
    React.useEffect(() => {
       const video = videoRef.current;
-      if (!video || !shouldLoad) return;
+      if (!video || !shouldLoad || !allowAutoplay) return;
 
       const forceInlineLoopPlay = () => {
          video.muted = true;
@@ -405,17 +406,17 @@ const RemotionLoopMockup: React.FC<{ src: string; title: string; poster?: string
          video.removeEventListener('canplay', forceInlineLoopPlay);
          document.removeEventListener('visibilitychange', onVisibility);
       };
-   }, [isVisible, resolvedSrc, shouldLoad]);
+   }, [allowAutoplay, isVisible, resolvedSrc, shouldLoad]);
 
    return (
       <div ref={containerRef} className="w-full h-full bg-transparent rounded-[30px]">
          <div className="relative w-full h-full overflow-hidden rounded-[30px] bg-transparent">
             <video
                ref={videoRef}
-               src={shouldLoad ? resolvedSrc : undefined}
-               autoPlay
+               src={shouldLoad && allowAutoplay ? resolvedSrc : undefined}
+               autoPlay={allowAutoplay}
                muted
-               loop
+               loop={allowAutoplay}
                playsInline
                controls={false}
                disablePictureInPicture
@@ -423,260 +424,12 @@ const RemotionLoopMockup: React.FC<{ src: string; title: string; poster?: string
                controlsList="nodownload nofullscreen noremoteplayback"
                tabIndex={-1}
                draggable={false}
-               preload={isMobile ? "none" : "metadata"}
+               preload="none"
                poster={poster}
                className="w-full h-full object-contain pointer-events-none select-none bg-transparent"
                aria-label={title}
                onContextMenu={(event) => event.preventDefault()}
-               onError={() => {
-                  if (resolvedSrc !== mp4Src) {
-                     setForceMp4(true);
-                  }
-               }}
             />
-         </div>
-      </div>
-   );
-};
-
-const BookingSiteMockup = () => {
-   const [activeFrame, setActiveFrame] = React.useState<'first' | 'second'>('first');
-
-   const days = [
-      { month: 'MAR', date: '5', day: 'Thu', active: false },
-      { month: 'MAR', date: '6', day: 'Fri', active: false },
-      { month: 'MAR', date: '7', day: 'Sat', active: true },
-      { month: 'MAR', date: '8', day: 'Sun', active: false },
-      { month: 'MAR', date: '9', day: 'Mon', active: false },
-      { month: 'MAR', date: '10', day: 'Tue', active: false },
-      { month: 'MAR', date: '11', day: 'Wed', active: false },
-   ];
-
-   const timeSlots = [
-      ['10:00 AM - 10:20 AM', '10:30 AM - 10:50 AM'],
-      ['11:00 AM - 11:20 AM', '11:30 AM - 11:50 AM'],
-      ['12:00 PM - 12:20 PM', '12:30 PM - 12:50 PM'],
-      ['1:00 PM - 1:20 PM', '1:30 PM - 1:50 PM'],
-      ['2:00 PM - 2:20 PM', '2:30 PM - 2:50 PM'],
-      ['3:00 PM - 3:20 PM', '3:30 PM - 3:50 PM'],
-      ['4:00 PM - 4:20 PM', '4:30 PM - 4:50 PM'],
-      ['5:00 PM - 5:20 PM', '5:30 PM - 5:50 PM'],
-      ['6:00 PM - 6:20 PM', '6:30 PM - 6:50 PM'],
-   ];
-
-   return (
-      <div className="w-full h-full relative flex items-center justify-center font-sans select-none">
-         <div className="absolute inset-0 pointer-events-none">
-            <div className="absolute top-[6%] left-[8%] w-[240px] h-[240px] rounded-full bg-slate-300/30 blur-3xl"></div>
-            <div className="absolute bottom-[4%] right-[6%] w-[260px] h-[260px] rounded-full bg-slate-200/60 blur-3xl"></div>
-         </div>
-
-         {/* Tarikh & Masa (Main Screen) */}
-         <div
-            onClick={() => setActiveFrame('first')}
-            className={`relative h-[88%] max-h-[452px] aspect-[9/18.8] w-auto rounded-[2rem] border border-slate-200 bg-[#f9fafb] shadow-[0_20px_60px_rgba(15,23,42,0.22)] overflow-hidden cursor-pointer transition-all duration-300 ${activeFrame === 'first' ? 'z-20 -translate-x-3' : 'z-10 -translate-x-8 scale-[0.95] opacity-95'}`}
-         >
-            <div className="h-full flex flex-col">
-               <div className="px-3 pt-2.5 pb-1.5 border-b border-slate-200 bg-white">
-                  <div className="flex items-center justify-between mb-2">
-                     <div className="w-6 h-6 rounded-full bg-slate-100 flex items-center justify-center text-slate-700">
-                        <ArrowLeftRight size={10} className="rotate-180" />
-                     </div>
-                     <span className="text-[9px] font-bold text-slate-900">Tarikh &amp; Masa</span>
-                     <div className="flex items-center gap-1">
-                        <div className="w-3 h-1 rounded-full bg-black"></div>
-                        <div className="w-3 h-1 rounded-full bg-black"></div>
-                        <div className="w-1.5 h-1.5 rounded-full bg-slate-300"></div>
-                        <div className="w-1.5 h-1.5 rounded-full bg-slate-300"></div>
-                        <div className="w-1.5 h-1.5 rounded-full bg-slate-300"></div>
-                     </div>
-                  </div>
-
-                  <div className="rounded-xl bg-[#f5f6f8] border border-slate-200 p-2 flex items-center gap-2">
-                     <img src="/img/duo.PNG" alt="SF3 NOIR GEN-Z" className="w-12 h-9 rounded-lg object-cover" loading="lazy" />
-                     <div className="min-w-0 flex-1">
-                        <p className="text-[8px] font-bold text-slate-900 leading-tight truncate">SF3 NOIR GEN-Z</p>
-                        <p className="text-[7px] text-slate-500 truncate">Pilih Tarikh &amp; Masa</p>
-                     </div>
-                     <div className="text-right">
-                        <p className="text-[7.5px] font-bold text-slate-900">RM160</p>
-                        <p className="text-[6.5px] text-slate-500 underline">Tukar</p>
-                     </div>
-                  </div>
-               </div>
-
-               <div className="flex-1 px-3 py-2 overflow-hidden">
-                  <h4 className="text-[11px] font-black text-slate-900 leading-tight">Pilih Tarikh &amp; Masa</h4>
-                  <p className="text-[6.8px] text-slate-500 mt-0.5">Sila pilih tarikh dan masa slot untuk sesi fotografi anda.</p>
-
-                  <div className="mt-2.5 relative">
-                     <div className="grid grid-cols-7 gap-1">
-                        {days.map((day) => (
-                           <div key={`${day.month}-${day.date}`} className={`h-[52px] rounded-xl border flex flex-col items-center justify-center ${day.active ? 'bg-[#0b1730] border-[#0b1730] text-white' : 'bg-white border-slate-200 text-slate-900'}`}>
-                              <span className={`text-[6px] font-bold tracking-[0.08em] ${day.active ? 'text-white/80' : 'text-slate-500'}`}>{day.month}</span>
-                              <span className="text-[14px] font-black leading-none mt-1">{day.date}</span>
-                              <span className={`text-[7px] mt-1 ${day.active ? 'text-white/80' : 'text-slate-500'}`}>{day.day}</span>
-                           </div>
-                        ))}
-                     </div>
-                     <div className="absolute -left-2 top-1/2 -translate-y-1/2 w-6 h-6 rounded-full bg-white border border-slate-200 shadow-sm flex items-center justify-center text-slate-500">
-                        <ArrowLeftRight size={10} className="rotate-180" />
-                     </div>
-                     <div className="absolute -right-2 top-1/2 -translate-y-1/2 w-6 h-6 rounded-full bg-white border border-slate-200 shadow-sm flex items-center justify-center text-slate-500">
-                        <ArrowLeftRight size={10} />
-                     </div>
-                  </div>
-
-                  <div className="mt-3.5 flex items-center justify-between">
-                     <div className="flex items-center gap-1.5 text-slate-900">
-                        <Clock size={10} />
-                        <span className="text-[9px] font-bold">Pilih Masa</span>
-                     </div>
-                     <span className="text-[6.5px] font-semibold tracking-[0.08em] text-slate-400">PILIH 1 SLOT</span>
-                  </div>
-
-                  <div className="mt-2 space-y-1">
-                     {timeSlots.map((row, rowIndex) => (
-                        <div key={`slot-row-${rowIndex}`} className="grid grid-cols-2 gap-1">
-                           {row.map((slot, colIndex) => {
-                              const isDisabled = (rowIndex === 6 && colIndex === 1) || rowIndex === 8;
-                              return (
-                                 <div
-                                    key={slot}
-                                    className={`h-8 rounded-lg border flex items-center justify-center text-[8px] font-semibold ${isDisabled ? 'bg-slate-100 border-slate-100 text-slate-300' : 'bg-white border-slate-200 text-slate-600'}`}
-                                 >
-                                    {slot}
-                                 </div>
-                              );
-                           })}
-                        </div>
-                     ))}
-                  </div>
-               </div>
-
-               <div className="px-3 py-2 border-t border-slate-200 bg-white mt-auto">
-                  <div className="flex items-end justify-between">
-                     <div>
-                        <p className="text-[6.5px] font-bold text-slate-400 tracking-[0.1em]">JUMLAH ANGGARAN</p>
-                        <p className="text-[15px] font-black leading-none text-slate-900 mt-1">RM160</p>
-                     </div>
-                     <button className="h-10 px-5 rounded-2xl bg-slate-400 text-white text-[9px] font-bold tracking-[0.08em] flex items-center gap-2">
-                        SETERUSNYA
-                        <span className="text-sm">→</span>
-                     </button>
-                  </div>
-               </div>
-            </div>
-         </div>
-
-         {/* Ringkasan (Secondary Screen) */}
-         <div
-            onClick={() => setActiveFrame('second')}
-            className={`absolute top-[6%] right-[2%] h-[88%] max-h-[452px] aspect-[9/18.8] w-auto rounded-[2rem] border border-slate-200 bg-[#f5f6f8] shadow-[0_20px_60px_rgba(15,23,42,0.2)] overflow-hidden origin-bottom-left cursor-pointer transition-all duration-300 ${activeFrame === 'second' ? 'z-30 rotate-[2deg] scale-[0.98] translate-y-1' : 'z-10 rotate-[8deg] scale-[0.92] translate-x-4'}`}
-         >
-            <div className="h-full flex flex-col">
-               <div className="px-3 pt-2.5 pb-1.5 border-b border-slate-200 bg-white">
-                  <div className="flex items-center justify-between">
-                     <div className="w-6 h-6 rounded-full bg-slate-100 flex items-center justify-center text-slate-700">
-                        <ArrowLeftRight size={10} className="rotate-180" />
-                     </div>
-                     <span className="text-[9px] font-bold text-slate-900">Ringkasan</span>
-                     <div className="flex items-center gap-1">
-                        {Array.from({ length: 6 }).map((_, i) => (
-                           <div key={`summary-step-${i}`} className="w-3 h-1 rounded-full bg-black"></div>
-                        ))}
-                     </div>
-                  </div>
-               </div>
-
-               <div className="flex-1 px-3 pt-2 pb-2.5 overflow-hidden">
-                  <h4 className="text-[14px] font-black text-slate-900 leading-tight">Ringkasan</h4>
-                  <p className="text-[7px] text-slate-500 mt-0.5">Sila semak ringkasan tempahan sebelum membuat pembayaran.</p>
-
-                  <div className="mt-2 rounded-2xl border border-slate-200 bg-white overflow-hidden">
-                     <div className="p-2">
-                        <div className="flex items-start justify-between">
-                           <div>
-                              <p className="text-[10px] font-black text-slate-900">asd</p>
-                              <div className="flex items-center gap-2 mt-1 text-[7px] text-slate-500">
-                                 <span className="flex items-center gap-1"><Phone size={8} />+60131231231</span>
-                                 <span>|</span>
-                                 <span className="flex items-center gap-1"><Mail size={8} />asdasd@asd.com</span>
-                              </div>
-                           </div>
-                           <button className="w-7 h-7 rounded-full border border-slate-200 text-slate-600 flex items-center justify-center bg-white">
-                              <Plus size={10} className="rotate-45" />
-                           </button>
-                        </div>
-                     </div>
-
-                     <div className="h-6 bg-[#f8efe4] text-[#c35a28] text-[8px] font-bold flex items-center justify-center gap-1">
-                        <Clock size={9} />
-                        SLOT DIKUNCI : 9:26
-                     </div>
-
-                     <div className="p-2">
-                        <div className="flex items-start justify-between">
-                           <div>
-                              <p className="text-[8px] font-black text-slate-900">SF1 EMERALD LOUGE</p>
-                              <p className="text-[7px] text-slate-500 mt-1 flex items-center gap-1"><CalendarIcon size={8} />8 Mac 2026</p>
-                              <p className="text-[8px] font-semibold text-slate-600 mt-1">12:30 PM - 12:50 PM</p>
-                           </div>
-                           <p className="text-[12px] font-black text-slate-900">RM160</p>
-                        </div>
-
-                        <div className="border-t border-slate-100 mt-2 pt-2">
-                           <div className="flex items-center gap-1.5">
-                              <div className="flex-1 h-7 rounded-xl border border-slate-200 bg-[#f8fafc] px-2 text-[8px] text-slate-400 flex items-center">
-                                 Ada kupon?
-                              </div>
-                              <button className="h-7 px-3 rounded-xl bg-slate-400 text-white text-[8px] font-bold">Guna</button>
-                           </div>
-
-                           <div className="border-t border-slate-100 mt-2 pt-2 space-y-1">
-                              <p className="text-[7px] font-bold tracking-[0.08em] text-slate-400">RINGKASAN JUMLAH</p>
-                              <div className="flex items-center justify-between text-[8px]">
-                                 <span className="font-semibold text-slate-700">Jumlah keseluruhan</span>
-                                 <span className="font-black text-slate-900">RM160</span>
-                              </div>
-                              <div className="flex items-center justify-between text-[8px]">
-                                 <span className="text-slate-500">Deposit (bayar sekarang)</span>
-                                 <span className="font-black text-slate-900">RM50</span>
-                              </div>
-                              <p className="text-[6.5px] text-right text-slate-400">RM50 setiap sesi × 1 sesi</p>
-                              <div className="flex items-center justify-between text-[8px]">
-                                 <span className="text-slate-500">Baki (bayar di studio)</span>
-                                 <span className="font-black text-slate-900">RM110</span>
-                              </div>
-                           </div>
-                        </div>
-                     </div>
-                  </div>
-
-                  <div className="mt-2 rounded-2xl bg-[#091430] text-white px-2.5 py-2">
-                     <div className="flex items-start justify-between">
-                        <div>
-                           <p className="text-[7px] font-bold tracking-[0.06em]">JUMLAH PERLU DIBAYAR</p>
-                           <p className="text-[7px] text-white/70 mt-1">Baki pembayaran boleh dibayar di studio.</p>
-                        </div>
-                        <p className="text-[16px] font-black leading-none">RM50</p>
-                     </div>
-                  </div>
-               </div>
-
-               <div className="px-3 py-2 border-t border-slate-200 bg-white">
-                  <div className="flex items-end justify-between">
-                     <div>
-                        <p className="text-[6.5px] font-bold text-slate-400 tracking-[0.1em]">JUMLAH ANGGARAN</p>
-                        <p className="text-[15px] font-black leading-none text-slate-900 mt-1">RM50</p>
-                     </div>
-                     <button className="h-10 px-4 rounded-2xl bg-[#091430] text-white text-[9px] font-bold tracking-[0.08em] flex items-center gap-2">
-                        BAYAR RM50
-                        <span className="text-sm">→</span>
-                     </button>
-                  </div>
-               </div>
-            </div>
          </div>
       </div>
    );

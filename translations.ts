@@ -459,8 +459,8 @@ export const translations = {
       bentoGrid: {
         title: "Fungsi Penting Untuk Operasi Studio",
         subtitle: "Semua fungsi utama yang anda perlukan untuk urus tempahan, pelanggan dan operasi studio dengan lebih lancar.",
-        groupAllTitle: "for all",
-        groupPrimeTitle: "prime only",
+        groupAllTitle: "untuk semua",
+        groupPrimeTitle: "prime sahaja",
         items: [
           { title: "Borang Tempahan", description: "Mesra telefon yang memudahkan pelanggan isi tempahan dengan cepat, tanpa terlalu bergantung pada bantuan admin.", tier: "all" },
           { title: "Eksport Data", description: "Muat turun data dalam format Excel atau CSV bila diperlukan untuk semakan, simpanan atau laporan yang lebih mudah.", tier: "all" },

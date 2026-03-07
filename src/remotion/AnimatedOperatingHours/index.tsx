@@ -8,7 +8,8 @@ export const AnimatedOperatingHours: React.FC = () => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
   const floatY = Math.sin((frame / (fps * 3.2)) * Math.PI * 2) * 8;
-  const cardSize = 1080;
+  const cardWidth = 1080;
+  const cardHeight = 1000;
 
   return (
     <>
@@ -44,8 +45,8 @@ export const AnimatedOperatingHours: React.FC = () => {
       >
         <div
           style={{
-            width: cardSize,
-            height: cardSize,
+            width: cardWidth,
+            height: cardHeight,
             borderRadius: 36,
             background:
               "radial-gradient(120% 120% at 0% 0%, #D87415 0%, #A34A06 68%, #7A3202 100%)",

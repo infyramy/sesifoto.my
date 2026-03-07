@@ -28,131 +28,19 @@
   <!-- ============================================================== -->
   <!-- FORCE DARK MODE: Removed media query to always use dark theme-color -->
   <meta name="theme-color" content="#0A0A0A">
-  <script src="https://cdn.tailwindcss.com"></script>
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <meta http-equiv="X-Content-Type-Options" content="nosniff">
+  <meta http-equiv="X-Frame-Options" content="DENY">
+  <meta http-equiv="Cross-Origin-Opener-Policy" content="same-origin">
+  <meta http-equiv="Cross-Origin-Resource-Policy" content="same-origin">
+  <meta http-equiv="Permissions-Policy" content="camera=(), microphone=(), geolocation=(), payment=(), usb=()">
+  <meta http-equiv="Content-Security-Policy"
+    content="default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'; script-src 'self'; style-src 'self' 'unsafe-inline' https:; font-src 'self' data: https:; img-src 'self' data: https:; connect-src 'self' https://api.sesifoto.my ws: wss:; form-action 'self' https://office.sesifoto.my;">
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <!-- Satoshi Font -->
   <link href="https://api.fontshare.com/v2/css?f[]=satoshi@300,400,500,700,900&display=swap" rel="stylesheet">
-  <script>
-    tailwind.config = {
-      darkMode: 'class',
-      theme: {
-        extend: {
-          fontFamily: {
-            sans: ['Satoshi', 'sans-serif'],
-            serif: ['Satoshi', 'sans-serif'],
-          },
-          colors: {
-            studio: {
-              black: '#0A0A0A', // Deep Black (matching dashboard)
-              base: '#1A1A1A', // Card Background Dark
-              card: '#1E1E1E', // Card Background
-              border: '#2A2A2A', // Card Border
-              'border-light-dark': '#333333', // Lighter border for hover
-
-              // Primary Orange Accent (matching dashboard)
-              primary: '#FF6B2C', // Vibrant Orange
-              'primary-hover': '#FF7D42', // Lighter orange for hover
-              'primary-glow': 'rgba(255, 107, 44, 0.2)', // Orange glow
-
-              // Secondary colors
-              secondary: '#00D9A3', // Success Green (from checkmarks)
-              accent: '#FFB800', // Warning/Info Yellow
-
-              highlight: 'rgba(255, 107, 44, 0.15)', // Orange highlight
-
-              // Light mode (keep clean light tones)
-              paper: '#FAFAFA', // Clean light gray
-              light: '#FFFFFF',
-              'card-light': '#F5F5F5',
-              'border-light': '#E5E5E5',
-            }
-          },
-          animation: {
-            'float': 'float 8s ease-in-out infinite',
-            'pulse-slow': 'pulse 8s cubic-bezier(0.4, 0, 0.6, 1) infinite',
-            'draw': 'draw 2s ease-out forwards',
-            'fade-in-up': 'fadeInUp 0.8s ease-out forwards',
-            'scroll': 'scroll 120s linear infinite',
-          },
-          keyframes: {
-            float: {
-              '0%, 100%': { transform: 'translateY(0)' },
-              '50%': { transform: 'translateY(-20px)' },
-            },
-            draw: {
-              '0%': { strokeDashoffset: '1000' },
-              '100%': { strokeDashoffset: '0' },
-            },
-            fadeInUp: {
-              '0%': { opacity: '0', transform: 'translateY(20px)' },
-              '100%': { opacity: '1', transform: 'translateY(0)' },
-            },
-            scroll: {
-              '0%': { transform: 'translateX(0)' },
-              '100%': { transform: 'translateX(-50%)' },
-            }
-          }
-        }
-      }
-    }
-  </script>
-  <style>
-    /* Luxury Scrollbar - Orange Theme */
-    ::-webkit-scrollbar {
-      width: 6px;
-    }
-
-    ::-webkit-scrollbar-track {
-      background: transparent;
-    }
-
-    ::-webkit-scrollbar-thumb {
-      background: #FF6B2C;
-      border-radius: 10px;
-    }
-
-    ::-webkit-scrollbar-thumb:hover {
-      background: #FF7D42;
-    }
-
-    .dark ::-webkit-scrollbar-thumb {
-      background: #FF6B2C;
-    }
-
-    .text-gradient-creative {
-      background-clip: text;
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-image: linear-gradient(to right, #FF6B2C, #FF8A5C, #FFB800);
-    }
-
-    .dark .text-gradient-creative {
-      background-image: linear-gradient(to right, #FF6B2C, #FF8A5C, #FFB800);
-    }
-
-    .glass-shine {
-      position: relative;
-      overflow: hidden;
-    }
-
-    .glass-shine::after {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: -100%;
-      width: 50%;
-      height: 100%;
-      background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.2), transparent);
-      transform: skewX(-25deg);
-      transition: 0.5s;
-    }
-
-    .glass-shine:hover::after {
-      left: 150%;
-      transition: 0.7s ease-in-out;
-    }
-  </style>
 </head>
 
 <body

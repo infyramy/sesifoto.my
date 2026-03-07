@@ -36,13 +36,45 @@ const Hero: React.FC = () => {
     const { t, isChanging } = useLanguage();
     const { theme } = useTheme();
     const [loaded, setLoaded] = useState(false);
+    const [disableHeavyMotion, setDisableHeavyMotion] = useState(false);
 
     useEffect(() => {
         const timer = setTimeout(() => setLoaded(true), 100);
         return () => clearTimeout(timer);
     }, []);
 
+    useEffect(() => {
+        if (typeof window === 'undefined' || typeof navigator === 'undefined') return;
+
+        const reducedMotionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+        const coarsePointerQuery = window.matchMedia('(hover: none), (pointer: coarse)');
+
+        const updateMotionMode = () => {
+            const connection = (navigator as Navigator & { connection?: { saveData?: boolean; effectiveType?: string } }).connection;
+            const saveData = Boolean(connection?.saveData);
+            const effectiveType = connection?.effectiveType ?? '';
+            const slowConnection = effectiveType === '2g' || effectiveType === 'slow-2g' || effectiveType === '3g';
+
+            setDisableHeavyMotion(
+                reducedMotionQuery.matches || coarsePointerQuery.matches || saveData || slowConnection
+            );
+        };
+
+        updateMotionMode();
+
+        reducedMotionQuery.addEventListener?.('change', updateMotionMode);
+        coarsePointerQuery.addEventListener?.('change', updateMotionMode);
+
+        return () => {
+            reducedMotionQuery.removeEventListener?.('change', updateMotionMode);
+            coarsePointerQuery.removeEventListener?.('change', updateMotionMode);
+        };
+    }, []);
+
     const getDelayClass = (delay: number) => {
+        if (disableHeavyMotion) {
+            return `transition-opacity duration-300 ${loaded ? 'opacity-100' : 'opacity-0'}`;
+        }
         return `transform transition-all duration-1000 ease-[cubic-bezier(0.2,0.8,0.2,1)] ${loaded ? 'opacity-100 translate-y-0 filter blur-0' : 'opacity-0 translate-y-12 filter blur-sm'}`;
     };
 
@@ -52,7 +84,7 @@ const Hero: React.FC = () => {
             <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
                 {/* 1. Custom Background */}
                 <div
-                    className="absolute inset-0 bg-cover bg-top opacity-50 dark:opacity-70 hidden dark:block"
+                    className="absolute inset-0 bg-cover bg-top opacity-50 dark:opacity-70 hidden md:dark:block"
                     style={{ backgroundImage: "url('/img/MacBook Pro 16_ - 1.jpg')" }}
                 ></div>
 
@@ -69,9 +101,9 @@ const Hero: React.FC = () => {
                 ></div>
 
                 {/* Gradient Orbs */}
-                <div className="absolute top-[-10%] left-[-10%] w-[600px] h-[600px] bg-studio-primary/5 rounded-full blur-[100px] animate-pulse-slow mix-blend-overlay dark:mix-blend-screen"></div>
-                <div className="absolute top-[20%] right-[-10%] w-[500px] h-[500px] bg-studio-primary/10 rounded-full blur-[100px] animate-pulse-slow delay-1000 mix-blend-overlay dark:mix-blend-screen"></div>
-                <div className="absolute bottom-[-10%] left-[20%] w-[600px] h-[600px] bg-orange-400/5 rounded-full blur-[100px] animate-pulse-slow delay-2000 mix-blend-overlay dark:mix-blend-screen"></div>
+                <div className={`absolute top-[-10%] left-[-10%] w-[600px] h-[600px] bg-studio-primary/5 rounded-full blur-[100px] mix-blend-overlay dark:mix-blend-screen ${disableHeavyMotion ? '' : 'animate-pulse-slow'}`}></div>
+                <div className={`absolute top-[20%] right-[-10%] w-[500px] h-[500px] bg-studio-primary/10 rounded-full blur-[100px] delay-1000 mix-blend-overlay dark:mix-blend-screen ${disableHeavyMotion ? '' : 'animate-pulse-slow'}`}></div>
+                <div className={`absolute bottom-[-10%] left-[20%] w-[600px] h-[600px] bg-orange-400/5 rounded-full blur-[100px] delay-2000 mix-blend-overlay dark:mix-blend-screen ${disableHeavyMotion ? '' : 'animate-pulse-slow'}`}></div>
 
                 {/* MOBILE ONLY: Intense Orange Left Glow (SaaS Style) */}
                 <div className="md:hidden absolute top-[10%] -left-[100px] w-[300px] h-[500px] bg-[radial-gradient(ellipse_at_center,rgba(255,107,44,0.4)_0%,rgba(255,107,44,0)_70%)] blur-[40px] z-0"></div>
@@ -126,30 +158,13 @@ const Hero: React.FC = () => {
 
                 {/* TRUSTED BY MARQUEE - Full Width Seamless Scroll */}
                 <div className="relative w-screen max-w-none ml-[calc(50%-50vw)] mr-[calc(50%-50vw)] mb-6">
-                    {/* Animation Definition */}
-                    <style>{`
-                        @import url('https://fonts.googleapis.com/css2?family=Caveat:wght@600&display=swap');
-                        @keyframes marqueeScroll {
-                            0% { transform: translateX(0); }
-                            /* Translate exactly to the end of the first group (50% + half of gap-6 which is 0.75rem) */
-                            100% { transform: translateX(calc(-50% - 0.75rem)); } 
-                        }
-                        .hero-marquee-scroll {
-                            animation: marqueeScroll 90s linear infinite; /* Even slower for luxury feel */
-                        }
-                        .hero-marquee-scroll:hover {
-                            animation-play-state: paused;
-                        }
-                    `}</style>
-
-                    <div className="relative w-full pt-0 pb-8 overflow-x-hidden overflow-y-visible">
+                    <div className="relative z-[60] w-full pt-0 pb-8 overflow-x-clip overflow-y-visible [overscroll-behavior-x:none]">
                         {/* Scrolling Content - Multiple Copies for Full Coverage */}
-                        <div className="flex hero-marquee-scroll w-max hover:[animation-play-state:paused] items-center text-center gap-6 select-none [touch-action:pan-y]">
+                        <div className={`flex w-max items-center text-center gap-6 select-none ${disableHeavyMotion ? '' : 'hero-marquee-scroll hover:[animation-play-state:paused]'} ${disableHeavyMotion ? '[touch-action:auto]' : '[touch-action:none]'}`}>
                             {/* 2 copies for continuous scrolling coverage */}
-                            {[...Array(2)].map((_, groupIndex) => (
+                            {[...Array(disableHeavyMotion ? 1 : 2)].map((_, groupIndex) => (
                                 <div key={groupIndex} className="flex items-center gap-6 flex-shrink-0">
                                     {/* Current Hardcoded Studios */}
-                                    <StudioLogo src="/img/vd-t.png" name="Visual Diaries Photography" link="https://www.instagram.com/the_visualdiaries/" />
                                     <StudioLogo src="/img/rangka.png" name="Rangka Studio" link="https://www.instagram.com/rangkastudio" />
                                     <StudioLogo
                                         src="/img/sedetik.png"
@@ -298,10 +313,10 @@ const Hero: React.FC = () => {
             </div>
 
             {/* SOCIAL PROOF STATS - CLEAN CENTER ALIGNED */}
-            <div style={{ transitionDelay: '400ms' }} className={`${getDelayClass(400)} relative z-10 mt-10 md:mt-14 mb-4 grid grid-cols-3 gap-2 md:gap-8 w-full max-w-5xl mx-auto px-2 md:px-0`}>
+            <div style={{ transitionDelay: '400ms' }} className={`${getDelayClass(400)} relative z-10 mt-10 md:mt-14 mb-4 grid grid-cols-3 divide-x divide-slate-200 dark:divide-white/10 w-full max-w-5xl mx-auto px-3 md:px-0`}>
 
                 {/* Stat 1 */}
-                <div className="flex flex-col items-center justify-center border-r md:border-r border-slate-200 dark:border-white/10">
+                <div className="flex flex-col items-center justify-center px-2 sm:px-4 md:px-8">
                     <span className="text-xl sm:text-2xl md:text-5xl font-black text-slate-900 dark:text-white mb-1 md:mb-2 tracking-tight leading-none">
                         <span className="hidden md:inline">{t.hero.stats.studios.value}</span>
                         <span className="md:hidden">{t.hero.stats.studios.mobileValue ?? t.hero.stats.studios.value}</span>
@@ -313,7 +328,7 @@ const Hero: React.FC = () => {
                 </div>
 
                 {/* Stat 2 */}
-                <div className="flex flex-col items-center justify-center border-r md:border-r border-slate-200 dark:border-white/10">
+                <div className="flex flex-col items-center justify-center px-2 sm:px-4 md:px-8">
                     <span className="text-xl sm:text-2xl md:text-5xl font-black text-slate-900 dark:text-white mb-1 md:mb-2 tracking-tight leading-none">
                         <span className="hidden md:inline">{t.hero.stats.sales.value}</span>
                         <span className="md:hidden flex flex-col items-center leading-none">
@@ -328,7 +343,7 @@ const Hero: React.FC = () => {
                 </div>
 
                 {/* Stat 3 */}
-                <div className="flex flex-col items-center justify-center">
+                <div className="flex flex-col items-center justify-center px-2 sm:px-4 md:px-8">
                     <span className="text-xl sm:text-2xl md:text-5xl font-black text-slate-900 dark:text-white mb-1 md:mb-2 tracking-tight leading-none">{t.hero.stats.origin.value}</span>
                     <p className="uppercase font-bold text-slate-400 dark:text-zinc-600 text-[8px] sm:text-[10px] md:text-xs tracking-wider text-center leading-tight">
                         {t.hero.stats.origin.label}

@@ -3,8 +3,6 @@ import { useLanguage } from '../contexts/LanguageContext';
 // @ts-ignore
 import StudioRayaLogo from '../img/_studioraya2025__1080_x_1350_px_-removebg-preview.png';
 // @ts-ignore
-import VisaLogo from '../img/vd-t.png';
-// @ts-ignore
 import DuoLogo from '../img/duo.PNG';
 
 interface Studio {
@@ -30,7 +28,6 @@ const studios: Studio[] = [
     id: 'visualdiaries',
     name: 'Visual Diaries Photography',
     shortName: 'Visual Diaries',
-    logo: VisaLogo,
     url: 'https://www.instagram.com/the_visualdiaries/',
     darkInvert: true, // It's black, needs invert on dark mode
   },

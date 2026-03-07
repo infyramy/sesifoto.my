@@ -117,7 +117,7 @@ export const AnimatedNotificationViews: React.FC = () => {
         <div
           style={{
             width: 1080,
-            height: 1080,
+            height: 1000,
             borderRadius: 36,
             background:
               "radial-gradient(120% 120% at 15% 0%, #d97916 0%, #c76506 62%, #ae5202 100%)",

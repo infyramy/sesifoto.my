@@ -9,8 +9,11 @@ const SalesPage: React.FC = () => {
     useEffect(() => {
         const timer = setInterval(() => {
             setTimeLeft(prev => {
+                if (prev.minutes === 0 && prev.seconds === 0) {
+                    return prev;
+                }
                 if (prev.seconds === 0) {
-                    return { minutes: prev.minutes - 1, seconds: 59 };
+                    return { minutes: Math.max(prev.minutes - 1, 0), seconds: 59 };
                 }
                 return { ...prev, seconds: prev.seconds - 1 };
             });
@@ -230,7 +233,13 @@ const SalesPage: React.FC = () => {
             Angle: Urgency + Risk Reversal
            ================================================================== */}
                 <section className="bg-gradient-to-br from-red-600 to-studio-primary rounded-3xl p-8 md:p-12 text-center text-white shadow-2xl relative overflow-hidden group border border-red-500/30">
-                    <div className="absolute inset-0 bg-[url('/img/noise.png')] opacity-20 mix-blend-overlay"></div>
+                    <div
+                        className="absolute inset-0 opacity-20 mix-blend-overlay"
+                        style={{
+                            backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 300 300' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='3' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E")`,
+                            backgroundSize: '180px 180px',
+                        }}
+                    ></div>
 
                     <div className="relative z-10 space-y-8">
                         <h2 className="text-3xl md:text-5xl font-black leading-tight">

@@ -1,14 +1,25 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Aperture, Menu, X, Globe, Moon, Sun, MessageCircle, ExternalLink } from 'lucide-react';
+import {
+  Menu,
+  X,
+  Globe,
+  Moon,
+  Sun,
+  MessageCircle,
+  ExternalLink,
+  ChevronRight
+} from 'lucide-react';
 import { NAV_LINKS } from '../constants';
 import { useLanguage } from '../contexts/LanguageContext';
 import { useTheme } from '../contexts/ThemeContext';
+import { useRouteTransition } from '../contexts/RouteTransitionContext';
 
 const Navbar: React.FC = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isSupportPromptOpen, setIsSupportPromptOpen] = useState(false);
+  const [isLogoLoadFailed, setIsLogoLoadFailed] = useState(false);
   const location = useLocation();
   const isHomePage = location.pathname === '/';
   const landingSectionKeys = new Set(['features', 'pricing', 'faq']);
@@ -19,6 +30,7 @@ const Navbar: React.FC = () => {
 
   const { language, setLanguage, t } = useLanguage();
   const { theme, toggleTheme } = useTheme();
+  const { startHomeToNewsTransition } = useRouteTransition();
 
   const supportPromptCopy = language === 'bm'
     ? {
@@ -37,39 +49,42 @@ const Navbar: React.FC = () => {
     };
 
   useEffect(() => {
+    let rafId: number | null = null;
+
     const updateThemeColor = () => {
       const scrolled = window.scrollY > 20;
-      setIsScrolled(scrolled);
+      setIsScrolled((prev) => (prev === scrolled ? prev : scrolled));
 
       // ==================== LIGHT MODE DISABLED ====================
       // Update theme-color meta tag - FORCED TO DARK MODE ONLY
       const metaTags = document.querySelectorAll('meta[name="theme-color"]');
       metaTags.forEach(meta => {
-        // Remove media attribute to force browser to respect this color regardless of system theme
         meta.removeAttribute('media');
-        // ALWAYS SET DARK MODE COLOR - Ensures dark status bar on mobile
-        meta.setAttribute('content', '#0A0A0A');
-
-        /* Uncomment block below to re-enable dynamic light/dark mode later
-        if (scrolled) {
-          // Scrolled: Match navbar background (Studio Paper/80 or Studio Black/80)
-          meta.setAttribute('content', theme === 'dark' ? '#0A0A0A' : '#FAFAFA');
-        } else {
-          // Top: Match Hero background
-          // Light mode hero is bg-studio-paper (#FAFAFA)
-          // Dark mode hero is bg-studio-black (#0A0A0A)
-          meta.setAttribute('content', theme === 'dark' ? '#0A0A0A' : '#FAFAFA');
+        if (meta.getAttribute('content') !== '#0A0A0A') {
+          meta.setAttribute('content', '#0A0A0A');
         }
-        */
       });
       // ============================================================
     };
 
-    window.addEventListener('scroll', updateThemeColor);
+    const onScroll = () => {
+      if (rafId !== null) return;
+      rafId = window.requestAnimationFrame(() => {
+        updateThemeColor();
+        rafId = null;
+      });
+    };
+
+    window.addEventListener('scroll', onScroll, { passive: true });
     // Call once on mount/theme change
     updateThemeColor();
 
-    return () => window.removeEventListener('scroll', updateThemeColor);
+    return () => {
+      if (rafId !== null) {
+        window.cancelAnimationFrame(rafId);
+      }
+      window.removeEventListener('scroll', onScroll);
+    };
   }, [theme]);
 
   useEffect(() => {
@@ -88,6 +103,22 @@ const Navbar: React.FC = () => {
     };
   }, [isSupportPromptOpen]);
 
+  useEffect(() => {
+    if (!isMobileMenuOpen) return;
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        setIsMobileMenuOpen(false);
+      }
+    };
+    window.addEventListener('keydown', onKeyDown);
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      window.removeEventListener('keydown', onKeyDown);
+    };
+  }, [isMobileMenuOpen]);
+
   const toggleLanguage = () => {
     setLanguage(language === 'en' ? 'bm' : 'en');
   };
@@ -101,6 +132,25 @@ const Navbar: React.FC = () => {
   const handleSupportContinue = () => {
     setIsSupportPromptOpen(false);
     window.location.href = supportHref;
+  };
+
+  const handlePrimaryNavClick = async (
+    event: React.MouseEvent<HTMLAnchorElement>,
+    linkKey: string
+  ) => {
+    if (linkKey === 'support') {
+      openSupportPrompt(event);
+      return;
+    }
+
+    if (linkKey === 'news' && isHomePage) {
+      event.preventDefault();
+      setIsMobileMenuOpen(false);
+      await startHomeToNewsTransition();
+      return;
+    }
+
+    setIsMobileMenuOpen(false);
   };
 
   return (
@@ -117,19 +167,19 @@ const Navbar: React.FC = () => {
             {/* Logo */}
             <Link to="/" className="flex items-center gap-3 group">
               <div className="h-8 md:h-11 p-1 flex items-center justify-center">
-                <img
-                  src={theme === 'dark' ? "/img/Asset 5.png" : "/img/Asset 4.png"}
-                  alt="SesiFoto Logo"
-                  className="h-full w-auto object-contain"
-                  onError={(e) => {
-                    // Fallback to icon if logo doesn't exist
-                    e.currentTarget.style.display = 'none';
-                    const parent = e.currentTarget.parentElement;
-                    if (parent) {
-                      parent.innerHTML = '<svg class="w-8 h-8 text-studio-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="4"/><line x1="21.17" y1="8" x2="12" y2="8"/><line x1="3.95" y1="6.06" x2="8.54" y2="14"/><line x1="10.88" y1="21.94" x2="15.46" y2="14"/></svg>';
-                    }
-                  }}
-                />
+                {isLogoLoadFailed ? (
+                  <Globe className="w-8 h-8 text-studio-primary" aria-hidden="true" />
+                ) : (
+                  <img
+                    src={theme === 'dark' ? "/img/Asset 5.png" : "/img/Asset 4.png"}
+                    alt="SesiFoto Logo"
+                    className="h-full w-auto object-contain"
+                    loading="eager"
+                    decoding="async"
+                    fetchPriority="high"
+                    onError={() => setIsLogoLoadFailed(true)}
+                  />
+                )}
               </div>
               <div className="flex flex-col md:flex-row md:items-baseline gap-0 md:gap-1.5">
                 <span className="text-[10px] text-slate-500 dark:text-slate-400 font-sans font-medium tracking-widest uppercase opacity-90">by Infyra</span>
@@ -163,12 +213,13 @@ const Navbar: React.FC = () => {
               )}
 
               {primaryNavLinks.map((link) => {
-                const isSupport = link.key === 'support';
                 return (
                   <a
                     key={link.key}
                     href={link.href}
-                    onClick={isSupport ? openSupportPrompt : undefined}
+                    onClick={(event) => {
+                      void handlePrimaryNavClick(event, link.key);
+                    }}
                     className="text-sm font-medium text-slate-600 dark:text-slate-400 hover:text-studio-primary dark:hover:text-studio-primary transition-colors tracking-wide"
                   >
                     {t.nav[link.key as keyof typeof t.nav]}
@@ -226,70 +277,137 @@ const Navbar: React.FC = () => {
 
               {/* Mobile Menu Button */}
               <button
-                className="lg:hidden p-2 text-slate-900 dark:text-white hover:bg-slate-100 dark:hover:bg-white/10 rounded-lg transition-colors"
+                className="lg:hidden relative w-11 h-11 flex items-center justify-center text-slate-900 dark:text-white hover:bg-slate-100 dark:hover:bg-white/10 rounded-xl transition-colors"
                 onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+                aria-label={isMobileMenuOpen ? 'Close navigation menu' : 'Open navigation menu'}
+                aria-expanded={isMobileMenuOpen}
+                aria-controls="mobile-navigation-menu"
               >
-                {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+                <Menu
+                  className={`absolute w-6 h-6 transition-all duration-300 ease-out ${
+                    isMobileMenuOpen ? 'opacity-0 rotate-90 scale-75' : 'opacity-100 rotate-0 scale-100'
+                  }`}
+                />
+                <X
+                  className={`absolute w-6 h-6 transition-all duration-300 ease-out ${
+                    isMobileMenuOpen ? 'opacity-100 rotate-0 scale-100' : 'opacity-0 -rotate-90 scale-75'
+                  }`}
+                />
               </button>
             </div>
           </div>
 
-          {/* Mobile Menu */}
-          <div className={`lg:hidden absolute top-full left-0 right-0 overflow-hidden transition-all duration-300 ease-in-out ${isMobileMenuOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'}`}>
-            <div className="bg-studio-paper/90 dark:bg-studio-black/90 backdrop-blur-xl border-b border-slate-200 dark:border-white/10 p-6 flex flex-col gap-4 shadow-xl">
-              {isHomePage && (
-                <div className="pb-2 border-b border-slate-100 dark:border-white/5">
-                  <Link
-                    to="/"
-                    className="block text-lg font-medium text-slate-700 dark:text-slate-200 py-2"
-                    onClick={() => setIsMobileMenuOpen(false)}
-                  >
-                    {t.nav.home}
-                  </Link>
-                  <div className="pl-4 flex flex-col gap-1">
+        </div>
+      </nav>
+
+      {/* Mobile Menu - Fullscreen */}
+      <div
+        id="mobile-navigation-menu"
+        className={`lg:hidden fixed inset-0 z-[60] transition-opacity duration-300 ${isMobileMenuOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`}
+      >
+        <button
+          aria-label="Close mobile menu"
+          className={`absolute inset-0 bg-slate-950/72 transition-opacity duration-300 ${
+            isMobileMenuOpen ? 'opacity-100' : 'opacity-0'
+          }`}
+          onClick={() => setIsMobileMenuOpen(false)}
+        />
+
+        <div className={`absolute top-3 left-3 right-3 rounded-3xl bg-white dark:bg-zinc-950 border border-slate-200 dark:border-white/10 shadow-2xl overflow-hidden max-h-[calc(100vh-1.5rem)] transition-all duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] ${isMobileMenuOpen ? 'opacity-100 translate-y-0 scale-100' : 'opacity-0 translate-y-3 scale-[0.97]'}`}>
+          <div className="flex flex-col">
+            <div className="h-16 px-5 flex items-center justify-between border-b border-slate-200/70 dark:border-white/10">
+              <div className="h-7 flex items-center">
+                {isLogoLoadFailed ? (
+                  <Globe className="w-6 h-6 text-studio-primary" aria-hidden="true" />
+                ) : (
+                  <img
+                    src={theme === 'dark' ? "/img/Asset 5.png" : "/img/Asset 4.png"}
+                    alt="SesiFoto Logo"
+                    className="h-full w-auto object-contain"
+                    loading="eager"
+                    decoding="async"
+                    fetchPriority="high"
+                    onError={() => setIsLogoLoadFailed(true)}
+                  />
+                )}
+              </div>
+              <button
+                aria-label="Close mobile menu"
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="w-10 h-10 rounded-xl flex items-center justify-center text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-white/10 transition-colors"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+
+            <div className="overflow-y-auto overscroll-contain px-5 py-4 max-h-[calc(100vh-5.5rem)]">
+              <div className="space-y-1">
+                <Link
+                  to="/"
+                  className="flex items-center justify-between min-h-12 py-2 text-lg font-medium text-slate-900 dark:text-slate-100 hover:text-studio-primary dark:hover:text-studio-primary transition-colors"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  <span>{t.nav.home}</span>
+                  {isHomePage && <ChevronRight className="w-4 h-4 text-slate-400" />}
+                </Link>
+
+                {isHomePage && (
+                  <div className="ml-2 pl-4 border-l border-slate-200 dark:border-white/10 space-y-0.5">
                     {landingSectionLinks.map((link) => (
                       <a
                         key={link.key}
                         href={link.href}
-                        className="text-base font-medium text-slate-600 dark:text-slate-300 hover:text-studio-primary dark:hover:text-white py-2"
+                        className="flex items-center justify-between min-h-10 py-1.5 text-base font-medium text-slate-600 dark:text-slate-300 hover:text-studio-primary dark:hover:text-studio-primary transition-colors"
                         onClick={() => setIsMobileMenuOpen(false)}
                       >
-                        {t.nav[link.key as keyof typeof t.nav]}
+                        <span>{t.nav[link.key as keyof typeof t.nav]}</span>
+                        <ChevronRight className="w-4 h-4 text-slate-400" />
                       </a>
                     ))}
                   </div>
-                </div>
-              )}
+                )}
 
-              {primaryNavLinks.map((link) => {
-                const isSupport = link.key === 'support';
-                return (
+                <div className="my-2 border-t border-slate-200 dark:border-white/10"></div>
+
+                {primaryNavLinks.map((link) => {
+                  return (
+                    <a
+                      key={link.key}
+                      href={link.href}
+                      className="flex items-center justify-between min-h-12 py-2 text-lg font-medium text-slate-900 dark:text-slate-100 hover:text-studio-primary dark:hover:text-studio-primary transition-colors"
+                      onClick={(event) => {
+                        void handlePrimaryNavClick(event, link.key);
+                      }}
+                    >
+                      <span>{t.nav[link.key as keyof typeof t.nav]}</span>
+                      <ChevronRight className="w-4 h-4 text-slate-400" />
+                    </a>
+                  );
+                })}
+              </div>
+
+              <div className="mt-6 pt-4 border-t border-slate-200 dark:border-white/10">
+                <div className="grid grid-cols-2 gap-3">
                   <a
-                    key={link.key}
-                    href={link.href}
-                    className="text-lg font-medium text-slate-600 dark:text-slate-300 hover:text-studio-primary dark:hover:text-white py-2 border-b border-slate-100 dark:border-white/5"
-                    onClick={(event) => {
-                      if (isSupport) {
-                        openSupportPrompt(event);
-                        return;
-                      }
-                      setIsMobileMenuOpen(false);
-                    }}
+                    href="https://office.sesifoto.my/login"
+                    className="relative group w-full px-4 py-3 bg-white dark:bg-studio-card text-slate-700 dark:text-white rounded-full font-bold text-sm hover:bg-slate-50 dark:hover:bg-studio-base transition-all border border-slate-200 dark:border-studio-border shadow-sm text-center flex items-center justify-center"
+                    onClick={() => setIsMobileMenuOpen(false)}
                   >
-                    {t.nav[link.key as keyof typeof t.nav]}
+                    {t.nav.signin}
                   </a>
-                );
-              })}
-              <div className="flex flex-col gap-3 mt-4">
-                <a href="https://office.sesifoto.my/login" className="text-center py-3 text-slate-600 dark:text-white font-medium hover:bg-slate-50 dark:hover:bg-white/5 rounded-xl">{t.nav.signin}</a>
-                <a href="https://office.sesifoto.my/register" className="block text-center w-full bg-studio-primary text-white py-3 rounded-xl font-bold hover:bg-studio-primary-hover transition-colors">
-                  {t.nav.getStarted}
-                </a>
+                  <a
+                    href="https://office.sesifoto.my/register"
+                    className="relative group overflow-hidden w-full px-4 py-3 bg-studio-primary text-white rounded-full font-bold text-sm hover:bg-studio-primary-hover transition-all shadow-[0_10px_30px_-10px_rgba(255,107,44,0.45)] text-center flex items-center justify-center"
+                    onClick={() => setIsMobileMenuOpen(false)}
+                  >
+                    {t.nav.getStarted}
+                  </a>
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </nav>
+      </div>
 
       {isSupportPromptOpen && (
           <div className="fixed inset-0 z-[70] flex items-center justify-center p-3">

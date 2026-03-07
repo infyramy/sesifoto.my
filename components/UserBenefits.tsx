@@ -8,12 +8,37 @@ const UserBenefits = () => {
     const { t } = useLanguage();
     const [activeTab, setActiveTab] = useState<'customer' | 'owner' | 'photographer'>('customer');
     const [isAutoPlaying, setIsAutoPlaying] = useState(true);
+    const [disableHeavyMotion, setDisableHeavyMotion] = useState(false);
     const activePillRef = useRef<HTMLDivElement | null>(null);
     const [activePillSize, setActivePillSize] = useState({ width: 0, height: 0 });
 
+    useEffect(() => {
+        if (typeof window === 'undefined' || typeof navigator === 'undefined') return;
+
+        const reducedMotionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+        const coarsePointerQuery = window.matchMedia('(hover: none), (pointer: coarse)');
+
+        const updateMotionMode = () => {
+            const connection = (navigator as Navigator & { connection?: { saveData?: boolean; effectiveType?: string } }).connection;
+            const saveData = Boolean(connection?.saveData);
+            const effectiveType = connection?.effectiveType ?? '';
+            const slowConnection = effectiveType === '2g' || effectiveType === 'slow-2g' || effectiveType === '3g';
+            setDisableHeavyMotion(reducedMotionQuery.matches || coarsePointerQuery.matches || saveData || slowConnection);
+        };
+
+        updateMotionMode();
+        reducedMotionQuery.addEventListener?.('change', updateMotionMode);
+        coarsePointerQuery.addEventListener?.('change', updateMotionMode);
+
+        return () => {
+            reducedMotionQuery.removeEventListener?.('change', updateMotionMode);
+            coarsePointerQuery.removeEventListener?.('change', updateMotionMode);
+        };
+    }, []);
+
     // Auto-rotate tabs every 5 seconds if user hasn't interacted
     useEffect(() => {
-        if (!isAutoPlaying) return;
+        if (!isAutoPlaying || disableHeavyMotion) return;
         const interval = setInterval(() => {
             setActiveTab(current => {
                 if (current === 'customer') return 'owner';
@@ -22,7 +47,7 @@ const UserBenefits = () => {
             });
         }, AUTO_ROTATE_MS);
         return () => clearInterval(interval);
-    }, [isAutoPlaying]);
+    }, [disableHeavyMotion, isAutoPlaying]);
 
     useLayoutEffect(() => {
         const pillEl = activePillRef.current;
@@ -122,7 +147,7 @@ const UserBenefits = () => {
                             }}
                         >
                             {/* SVG Border Progress - Attached to the Pill for Perfect Shape */}
-                            {isAutoPlaying && activePillSize.width > 0 && activePillSize.height > 0 && (
+                            {!disableHeavyMotion && isAutoPlaying && activePillSize.width > 0 && activePillSize.height > 0 && (
                                 <svg
                                     key={`${activeTab}-${Math.round(activePillSize.width)}-${Math.round(activePillSize.height)}`}
                                     className="absolute inset-0 w-full h-full pointer-events-none"
@@ -179,7 +204,7 @@ const UserBenefits = () => {
 
 
                         {/* Left: Text Content */}
-                        <div className="animate-fade-in-up">
+                        <div className={disableHeavyMotion ? '' : 'animate-fade-in-up'}>
                             <div className={`inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-bold mb-6 ${benefits[activeTab].badgeColor}`}>
                                 {benefits[activeTab].icon}
                                 <span className="uppercase tracking-wider">{t.userBenefits.roles[activeTab].badge}</span>
@@ -223,7 +248,7 @@ const UserBenefits = () => {
 
                             {/* CUSTOMER MOCKUP */}
                             {activeTab === 'customer' && (
-                                <div className="relative w-[280px] animate-float-slow">
+                                <div className={`relative w-[280px] ${disableHeavyMotion ? '' : 'animate-float-slow'}`}>
                                     {/* Mobile Card */}
                                     <div className="bg-white dark:bg-zinc-900 rounded-[2.5rem] border-[6px] border-slate-900 dark:border-zinc-800 shadow-2xl p-4 overflow-hidden relative z-10">
                                         {/* Dynamic Island */}
@@ -262,9 +287,9 @@ const UserBenefits = () => {
                                     </div>
 
                                     {/* Floating Element */}
-                                    <div className="absolute top-20 -right-12 z-30 bg-white dark:bg-zinc-800 p-3 rounded-xl shadow-lg border border-slate-100 dark:border-white/5 animate-bounce-slow">
+                                    <div className={`absolute top-20 -right-12 z-30 bg-white dark:bg-zinc-800 p-3 rounded-xl shadow-lg border border-slate-100 dark:border-white/5 ${disableHeavyMotion ? '' : 'animate-bounce-slow'}`}>
                                         <div className="flex items-center gap-2">
-                                            <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div>
+                                            <div className={`w-2 h-2 rounded-full bg-green-500 ${disableHeavyMotion ? '' : 'animate-pulse'}`}></div>
                                             <span className="text-xs font-bold text-slate-700 dark:text-white">{t.userBenefits.roles.customer.mockup.paymentSuccess}</span>
                                         </div>
                                     </div>
@@ -273,7 +298,7 @@ const UserBenefits = () => {
 
                             {/* OWNER MOCKUP */}
                             {activeTab === 'owner' && (
-                                <div className="relative w-[320px] animate-fade-in">
+                                <div className={`relative w-[320px] ${disableHeavyMotion ? '' : 'animate-fade-in'}`}>
                                     {/* Dashboard Widget */}
                                     <div className="bg-white dark:bg-zinc-950 rounded-2xl border border-slate-200 dark:border-white/10 shadow-2xl p-5 relative z-10">
                                         <div className="flex justify-between items-center mb-6">
@@ -311,7 +336,7 @@ const UserBenefits = () => {
                                     </div>
 
                                     {/* Floating Stats */}
-                                    <div className="absolute -top-6 -right-6 z-30 bg-white dark:bg-zinc-800 p-4 rounded-xl shadow-xl border border-slate-100 dark:border-white/5 animate-float">
+                                    <div className={`absolute -top-6 -right-6 z-30 bg-white dark:bg-zinc-800 p-4 rounded-xl shadow-xl border border-slate-100 dark:border-white/5 ${disableHeavyMotion ? '' : 'animate-float'}`}>
                                         <p className="text-[10px] text-slate-500 mb-1">{t.userBenefits.roles.owner.mockup.totalBookings}</p>
                                         <div className="flex items-center gap-2">
                                             <Users size={16} className="text-studio-primary" />
@@ -323,7 +348,7 @@ const UserBenefits = () => {
 
                             {/* PHOTOGRAPHER MOCKUP */}
                             {activeTab === 'photographer' && (
-                                <div className="relative w-[300px] animate-fade-in">
+                                <div className={`relative w-[300px] ${disableHeavyMotion ? '' : 'animate-fade-in'}`}>
                                     {/* Shotlist Card */}
                                     <div className="bg-white dark:bg-zinc-950 rounded-2xl border border-slate-200 dark:border-white/10 shadow-2xl overflow-hidden relative z-10">
                                         <div className="bg-slate-900 p-4 flex justify-between items-center">
@@ -362,7 +387,7 @@ const UserBenefits = () => {
                                     </div>
 
                                     {/* Floating Notification */}
-                                    <div className="absolute -top-6 -right-6 z-30 bg-white dark:bg-zinc-800 p-3 rounded-xl shadow-lg border border-slate-100 dark:border-white/5 animate-pulse">
+                                    <div className={`absolute -top-6 -right-6 z-30 bg-white dark:bg-zinc-800 p-3 rounded-xl shadow-lg border border-slate-100 dark:border-white/5 ${disableHeavyMotion ? '' : 'animate-pulse'}`}>
                                         <div className="flex items-center gap-3">
                                             <div className="w-8 h-8 rounded-full bg-studio-primary/10 flex items-center justify-center text-studio-primary">
                                                 <Bell size={16} />

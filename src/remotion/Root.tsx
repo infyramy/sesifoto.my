@@ -3,6 +3,7 @@ import { AnimatedDashboard } from "./AnimatedDashboard";
 import { AnimatedBookingCard } from "./AnimatedBookingCard";
 import { AnimatedOperatingHours } from "./AnimatedOperatingHours";
 import { AnimatedNotificationViews } from "./AnimatedNotificationViews";
+import { AntimatedBookingPage } from "./AntimatedBookingPage";
 
 // Each <Composition> is an entry in the sidebar!
 
@@ -17,8 +18,8 @@ export const RemotionRoot: React.FC = () => {
         component={AnimatedDashboard}
         durationInFrames={180} // 6 Seconds looping animation
         fps={30}
-        width={1080} // Square format matching the reference
-        height={1080}
+        width={1080}
+        height={1000}
       />
       {/* The Booking Details View */}
       <Composition
@@ -26,8 +27,8 @@ export const RemotionRoot: React.FC = () => {
         component={AnimatedBookingCard}
         durationInFrames={180} // 6 Seconds looping sequence
         fps={30}
-        width={1080} // Square format
-        height={1080}
+        width={1080}
+        height={1000}
       />
       <Composition
         id="AnimatedOperatingHours"
@@ -35,7 +36,7 @@ export const RemotionRoot: React.FC = () => {
         durationInFrames={180}
         fps={30}
         width={1080}
-        height={1080}
+        height={1000}
       />
       <Composition
         id="AnimatedNotificationViews"
@@ -43,7 +44,15 @@ export const RemotionRoot: React.FC = () => {
         durationInFrames={240}
         fps={30}
         width={1080}
-        height={1080}
+        height={1000}
+      />
+      <Composition
+        id="AntimatedBookingPage"
+        component={AntimatedBookingPage}
+        durationInFrames={180}
+        fps={30}
+        width={1080}
+        height={1000}
       />
     </>
   );

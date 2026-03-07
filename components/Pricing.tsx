@@ -3,6 +3,7 @@ import GlassCard from './ui/GlassCard';
 import { Check } from 'lucide-react';
 import Reveal from './ui/Reveal';
 import { useLanguage } from '../contexts/LanguageContext';
+import { sanitizeRichHtml } from '../utils/sanitizeHtml';
 
 const Pricing: React.FC = () => {
   const { t, isChanging } = useLanguage();
@@ -88,7 +89,7 @@ const Pricing: React.FC = () => {
                         </div>
                         <span 
                           className={`${idx === 0 && plan.popular ? 'font-semibold text-slate-800 dark:text-slate-200' : ''}`}
-                          dangerouslySetInnerHTML={{ __html: feature }}
+                          dangerouslySetInnerHTML={{ __html: sanitizeRichHtml(feature) }}
                         />
                       </li>
                     ))}

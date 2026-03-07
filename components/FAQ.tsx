@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Plus } from 'lucide-react';
 import Reveal from './ui/Reveal';
 import { useLanguage } from '../contexts/LanguageContext';
+import { sanitizeRichHtml } from '../utils/sanitizeHtml';
 
 const FAQ: React.FC = () => {
   const [openIndex, setOpenIndex] = useState<number | null>(0);
@@ -61,7 +62,7 @@ const FAQ: React.FC = () => {
                   >
                     <div
                       className="text-slate-600 dark:text-slate-400 leading-relaxed text-base md:text-lg font-light [&>ul]:list-disc [&>ul]:pl-5 [&>ul]:space-y-2 [&>ul]:mt-2 [&>strong]:text-slate-900 dark:[&>strong]:text-white [&>strong]:font-semibold"
-                      dangerouslySetInnerHTML={{ __html: faq.answer }}
+                      dangerouslySetInnerHTML={{ __html: sanitizeRichHtml(faq.answer) }}
                     />
                   </div>
                 </div>

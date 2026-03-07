@@ -6,7 +6,8 @@ import { CustomerInfo } from "./CustomerInfo";
 import { PhotographerInfo } from "./PhotographerInfo";
 import { AddonsSection } from "./AddonsSection";
 
-const cardSize = 1080;
+const cardWidth = 1080;
+const cardHeight = 1000;
 
 export const AnimatedBookingCard: React.FC = () => {
     return (
@@ -20,8 +21,8 @@ export const AnimatedBookingCard: React.FC = () => {
         >
             <div
                 style={{
-                    width: cardSize,
-                    height: cardSize,
+                    width: cardWidth,
+                    height: cardHeight,
                     borderRadius: 36,
                     overflow: "hidden",
                     position: "relative",

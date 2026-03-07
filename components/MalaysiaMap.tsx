@@ -75,7 +75,6 @@ const LABEL_POSITIONS: Record<string, { cx: number; cy: number }> = {
 const MalaysiaMap: React.FC<MalaysiaMapProps> = ({ onStateSelect, selectedState, studios }) => {
     const [hoveredState, setHoveredState] = useState<string | null>(null);
     const [svgPaths, setSvgPaths] = useState<{ id: string; d: string }[]>([]);
-    const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
     const containerRef = useRef<HTMLDivElement>(null);
 
     // Count studios by state
@@ -106,16 +105,6 @@ const MalaysiaMap: React.FC<MalaysiaMapProps> = ({ onStateSelect, selectedState,
             })
             .catch(err => console.error('Failed to load map SVG:', err));
     }, []);
-
-    const handleMouseMove = (e: React.MouseEvent) => {
-        if (containerRef.current) {
-            const rect = containerRef.current.getBoundingClientRect();
-            setMousePos({
-                x: e.clientX - rect.left,
-                y: e.clientY - rect.top
-            });
-        }
-    };
 
     const getStateKey = (svgId: string) => STATE_ID_MAP[svgId] || svgId;
 
@@ -168,7 +157,6 @@ const MalaysiaMap: React.FC<MalaysiaMapProps> = ({ onStateSelect, selectedState,
     return (
         <div
             ref={containerRef}
-            onMouseMove={handleMouseMove}
             className="w-full relative bg-gradient-to-br from-slate-50 to-white dark:from-zinc-900/50 dark:to-black rounded-2xl md:rounded-3xl border border-slate-200 dark:border-white/5 overflow-hidden p-3 md:p-8 shadow-2xl shadow-slate-200/50 dark:shadow-none"
             style={{ minHeight: 'auto' }}
         >

@@ -2,6 +2,7 @@ import React, { useEffect, useRef } from 'react';
 import { MapPin, Phone, Star, Navigation, MessageCircle, ExternalLink, X } from 'lucide-react';
 import { Studio } from '../data/studios';
 import { useLanguage } from '../contexts/LanguageContext';
+import { toSafeBookingUrl } from '../utils/safeUrl';
 
 interface StudioCardProps {
     studio: Studio;
@@ -12,6 +13,9 @@ interface StudioCardProps {
 const StudioCard: React.FC<StudioCardProps> = ({ studio, activeId, onToggleAction }) => {
     const { language } = useLanguage();
     const cardRef = useRef<HTMLDivElement>(null);
+    const safeBookingUrl = toSafeBookingUrl(studio.bookingPageLink);
+    const dialPhone = studio.phone ? studio.phone.replace(/[^0-9+]/g, '') : '';
+    const waPhone = dialPhone.replace(/[^0-9]/g, '');
 
     // Check if this card has an active action
     const isAddressActive = activeId === `address-${studio.id}`;
@@ -64,6 +68,8 @@ const StudioCard: React.FC<StudioCardProps> = ({ studio, activeId, onToggleActio
                                     <img
                                         src={studio.logo}
                                         alt={studio.name}
+                                        loading="lazy"
+                                        decoding="async"
                                         className="w-full h-full object-cover"
                                     />
                                 ) : (
@@ -161,14 +167,14 @@ const StudioCard: React.FC<StudioCardProps> = ({ studio, activeId, onToggleActio
                                             <button onClick={closeActions}><X size={12} className="text-slate-400 hover:text-red-500" /></button>
                                         </div>
                                         <div className="grid gap-1.5">
-                                            <a href={`https://wa.me/${studio.phone.replace(/[^0-9]/g, '')}`} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 p-2 rounded-lg hover:bg-green-50 dark:hover:bg-green-900/20 text-slate-700 dark:text-slate-200 text-xs font-bold transition-colors group/wa">
+                                            <a href={`https://wa.me/${waPhone}`} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 p-2 rounded-lg hover:bg-green-50 dark:hover:bg-green-900/20 text-slate-700 dark:text-slate-200 text-xs font-bold transition-colors group/wa">
                                                 <div className="w-6 h-6 rounded bg-green-100 text-green-600 flex items-center justify-center shrink-0">
                                                     <MessageCircle size={14} />
                                                 </div>
                                                 <span>WhatsApp</span>
                                                 <ExternalLink size={10} className="ml-auto opacity-0 group-hover/wa:opacity-50" />
                                             </a>
-                                            <a href={`tel:${studio.phone}`} className="flex items-center gap-2 p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-200 text-xs font-bold transition-colors group/call">
+                                            <a href={`tel:${dialPhone}`} className="flex items-center gap-2 p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-200 text-xs font-bold transition-colors group/call">
                                                 <div className="w-6 h-6 rounded bg-slate-200 text-slate-600 flex items-center justify-center shrink-0">
                                                     <Phone size={14} />
                                                 </div>
@@ -184,7 +190,7 @@ const StudioCard: React.FC<StudioCardProps> = ({ studio, activeId, onToggleActio
 
                     {/* Primary CTA */}
                     <a
-                        href={studio.bookingPageLink}
+                        href={safeBookingUrl}
                         target="_blank"
                         rel="noopener noreferrer"
                         className={`mt-3 flex items-center justify-center w-full py-3 bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white font-bold text-sm rounded-xl transition-all shadow-lg shadow-orange-200/50 dark:shadow-orange-900/30 active:scale-95 ${isAddressActive || isContactActive ? 'opacity-50 pointer-events-none blur-sm' : ''
