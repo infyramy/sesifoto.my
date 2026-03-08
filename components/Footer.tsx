@@ -49,9 +49,9 @@ const Footer: React.FC<FooterProps> = ({ hideCtaBanner = false }) => {
                   <span className="relative z-10">{t.footer.ctaBanner.primaryCta}</span>
                 </a>
 
-                <button className="px-6 py-3 md:px-8 md:py-4 bg-white/10 backdrop-blur-sm text-white rounded-full font-bold text-base md:text-lg hover:bg-white/20 transition-all border border-white/20 hover:scale-105 active:scale-95 flex items-center justify-center gap-2">
-                  {t.hero.viewShowreel}
-                </button>
+                <a href="https://office.sesifoto.my/login" target="_blank" rel="noopener noreferrer" className="group px-6 py-3 md:px-8 md:py-4 bg-white/10 backdrop-blur-sm text-white rounded-full font-bold text-base md:text-lg hover:bg-white/20 transition-all border border-white/20 hover:scale-105 active:scale-95 flex items-center justify-center gap-2">
+                  Log Masuk <span className="group-hover:translate-x-0.5 transition-transform">→</span>
+                </a>
               </div>
             </div>
           </div>
