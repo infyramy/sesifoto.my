@@ -58,8 +58,29 @@ const StudioCard: React.FC<StudioCardProps> = ({ studio, activeId, onToggleActio
                 ref={cardRef}
                 className={`group relative bg-white dark:bg-zinc-900 rounded-2xl border border-slate-200 dark:border-white/5 hover:border-orange-200 dark:hover:border-orange-900/30 transition-all duration-300 hover:shadow-xl hover:-translate-y-1 overflow-visible h-full flex flex-col ${isAddressActive || isContactActive ? 'z-[1000]' : 'hover:z-50'}`}
             >
+                {/* Preview Image Placeholder */}
+                <div className="w-full h-40 md:h-48 bg-slate-100 dark:bg-zinc-800 relative flex items-center justify-center border-b border-slate-200 dark:border-white/5 rounded-t-2xl overflow-hidden shrink-0">
+                    <img
+                        src={`/previews/${studio.id}.png`}
+                        alt={`${studio.name} Preview`}
+                        loading="lazy"
+                        decoding="async"
+                        className="absolute inset-0 w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500"
+                        onError={(e) => {
+                            e.currentTarget.style.display = 'none';
+                            if (e.currentTarget.nextElementSibling) {
+                                (e.currentTarget.nextElementSibling as HTMLElement).style.display = 'flex';
+                            }
+                        }}
+                    />
+                    <div className="hidden absolute inset-0 flex-col items-center justify-center text-slate-400 dark:text-slate-600 space-y-2">
+                        <ExternalLink size={24} />
+                        <span className="text-xs font-medium">{language === 'en' ? 'No Preview Available' : 'Tiada Pratonton'}</span>
+                    </div>
+                </div>
+
                 {/* Card Content */}
-                <div className="p-6 flex flex-col h-full">
+                <div className="p-6 flex flex-col flex-1">
                     {/* Studio Header */}
                     <div className="flex items-start gap-4 mb-4">
                         <div className="shrink-0 relative">
