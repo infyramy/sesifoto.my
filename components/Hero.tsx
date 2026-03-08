@@ -201,44 +201,13 @@ const Hero: React.FC = () => {
                     <div className="relative [transform:rotateX(12deg)] hover:[transform:rotateX(0deg)] transition-transform duration-1000 ease-out [transform-style:preserve-3d] group">
 
 
-                        {/* HIDDEN IN LIGHT MODE: Orange Gradient Blobs - Behind Mockup */}
-                        <svg className="hidden dark:block absolute -left-[10%] top-[20%] w-64 md:w-96 h-auto -z-20 opacity-40" viewBox="0 0 511 550" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <g opacity="0.7" filter="url(#filter0_f_4_96)">
-                                <ellipse cx="317" cy="275" rx="217" ry="175" fill="url(#paint0_radial_4_96)" fillOpacity="0.3" />
-                            </g>
-                            <defs>
-                                <filter id="filter0_f_4_96" x="0" y="0" width="634" height="550" filterUnits="userSpaceOnUse" colorInterpolationFilters="sRGB">
-                                    <feFlood floodOpacity="0" result="BackgroundImageFix" />
-                                    <feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape" />
-                                    <feGaussianBlur stdDeviation="50" result="effect1_foregroundBlur_4_96" />
-                                </filter>
-                                <radialGradient id="paint0_radial_4_96" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(317 275) rotate(90) scale(175 217)">
-                                    <stop offset="0.173077" stopColor="#E03513" />
-                                    <stop offset="0.908654" stopColor="#FF7D48" stopOpacity="0.79" />
-                                </radialGradient>
-                            </defs>
-                        </svg>
+                        {/* DARK MODE: Orange Glowing Blobs - Behind Mockup */}
+                        <div className="hidden dark:block absolute top-[20%] -left-[10%] w-[300px] md:w-[500px] h-[300px] md:h-[500px] bg-orange-600/30 rounded-full blur-[100px] -z-20 pointer-events-none mix-blend-screen"></div>
+                        <div className="hidden dark:block absolute bottom-[10%] -right-[10%] w-[300px] md:w-[450px] h-[300px] md:h-[450px] bg-[#FF7D48]/20 rounded-full blur-[100px] -z-20 pointer-events-none mix-blend-screen"></div>
 
                         {/* LIGHT MODE ONLY: Subtle Orange Accents */}
                         <div className="block dark:hidden absolute -left-[15%] top-[10%] w-[500px] h-[500px] bg-orange-200/30 rounded-full blur-[100px] -z-20 pointer-events-none"></div>
                         <div className="block dark:hidden absolute -right-[15%] bottom-[10%] w-[400px] h-[400px] bg-amber-100/40 rounded-full blur-[80px] -z-20 pointer-events-none"></div>
-
-                        <svg className="hidden dark:block absolute -right-[10%] bottom-[20%] w-64 md:w-96 h-auto -z-20 opacity-40" viewBox="0 0 511 550" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <g opacity="0.7" filter="url(#filter0_f_4_96_2)">
-                                <ellipse cx="317" cy="275" rx="217" ry="175" fill="url(#paint0_radial_4_96_2)" fillOpacity="0.3" />
-                            </g>
-                            <defs>
-                                <filter id="filter0_f_4_96_2" x="0" y="0" width="634" height="550" filterUnits="userSpaceOnUse" colorInterpolationFilters="sRGB">
-                                    <feFlood floodOpacity="0" result="BackgroundImageFix" />
-                                    <feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape" />
-                                    <feGaussianBlur stdDeviation="50" result="effect1_foregroundBlur_4_96_2" />
-                                </filter>
-                                <radialGradient id="paint0_radial_4_96_2" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(317 275) rotate(90) scale(175 217)">
-                                    <stop offset="0.173077" stopColor="#E03513" />
-                                    <stop offset="0.908654" stopColor="#FF7D48" stopOpacity="0.79" />
-                                </radialGradient>
-                            </defs>
-                        </svg>
 
                         {/* Shiny Frame Effect - Focused Orange Glow */}
                         <div className="absolute -inset-[1px] rounded-xl bg-[radial-gradient(circle_at_top_left,rgba(255,107,44,0.4)_0%,rgba(255,107,44,0.15)_30%,transparent_60%)] dark:bg-[radial-gradient(circle_at_top_left,rgba(255,107,44,0.3)_0%,rgba(255,107,44,0.1)_30%,transparent_60%)] -z-10"></div>
