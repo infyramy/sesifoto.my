@@ -84,15 +84,26 @@ const StudioCard: React.FC<StudioCardProps> = ({ studio, activeId, onToggleActio
                     {/* Studio Header */}
                     <div className="flex items-start gap-4 mb-4">
                         <div className="shrink-0 relative">
-                            <div className="w-16 h-16 rounded-full overflow-hidden border-2 border-slate-100 dark:border-zinc-800 bg-white dark:bg-black shadow-sm group-hover:scale-105 transition-transform duration-300">
+                            <div className="w-16 h-16 rounded-full overflow-hidden border-2 border-slate-100 dark:border-zinc-800 bg-white dark:bg-black shadow-sm group-hover:scale-105 transition-transform duration-300 relative flex items-center justify-center">
                                 {studio.logo ? (
-                                    <img
-                                        src={studio.logo}
-                                        alt={studio.name}
-                                        loading="lazy"
-                                        decoding="async"
-                                        className="w-full h-full object-cover"
-                                    />
+                                    <>
+                                        <img
+                                            src={studio.logo}
+                                            alt={studio.name}
+                                            loading="lazy"
+                                            decoding="async"
+                                            className="w-full h-full object-cover relative z-10"
+                                            onError={(e) => {
+                                                e.currentTarget.style.display = 'none';
+                                                if (e.currentTarget.nextElementSibling) {
+                                                    (e.currentTarget.nextElementSibling as HTMLElement).style.display = 'flex';
+                                                }
+                                            }}
+                                        />
+                                        <div className="absolute inset-0 hidden w-full h-full bg-slate-100 dark:bg-zinc-800 items-center justify-center text-slate-400 dark:text-slate-600 z-0">
+                                            <Star size={24} />
+                                        </div>
+                                    </>
                                 ) : (
                                     <div className="w-full h-full bg-slate-100 dark:bg-zinc-800 flex items-center justify-center text-slate-400 dark:text-slate-600">
                                         <Star size={24} />
