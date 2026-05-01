@@ -1,13 +1,15 @@
-import React from 'react';
+import React, { Suspense, lazy } from 'react';
 import Hero from './Hero';
-import Features from './Features';
-import Pricing from './Pricing';
-import FAQ from './FAQ';
-import Footer from './Footer';
 import StudioBackground from './StudioBackground';
-import UserBenefits from './UserBenefits';
-import Integrations from './Integrations';
-import SpecialAnnouncement from './SpecialAnnouncement';
+
+// Lazy load below-the-fold components
+const UserBenefits = lazy(() => import('./UserBenefits'));
+const Features = lazy(() => import('./Features'));
+const Integrations = lazy(() => import('./Integrations'));
+const Pricing = lazy(() => import('./Pricing'));
+const FAQ = lazy(() => import('./FAQ'));
+const Footer = lazy(() => import('./Footer'));
+
 // Contexts are provided in App.tsx now, so we don't need providers here
 
 const LandingPage: React.FC = () => {
@@ -19,17 +21,20 @@ const LandingPage: React.FC = () => {
             <div className="relative z-10 flex flex-col gap-0">
                 <main>
                     <Hero />
-                    <SpecialAnnouncement />
-                    <UserBenefits />
-                    <Features />
-                    <Integrations />
-                    {/* <div className="relative border-y border-slate-200 dark:border-white/5 bg-slate-50/50 dark:bg-studio-base/40 backdrop-blur-md">
-            <Testimonials />
-          </div> */}
-                    <Pricing />
-                    <FAQ />
+                    <Suspense fallback={<div className="h-32 flex items-center justify-center text-slate-400">...</div>}>
+                        <UserBenefits />
+                        <Features />
+                        <Integrations />
+                        {/* <div className="relative border-y border-slate-200 dark:border-white/5 bg-slate-50/50 dark:bg-studio-base/40 backdrop-blur-md">
+                <Testimonials />
+              </div> */}
+                        <Pricing />
+                        <FAQ />
+                    </Suspense>
                 </main>
-                <Footer />
+                <Suspense fallback={null}>
+                    <Footer />
+                </Suspense>
             </div>
         </div>
     );

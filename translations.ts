@@ -67,14 +67,14 @@ export const translations = {
       viewAllStudios: 'See All Studios',
       stats: {
         studios: {
-          value: '10k+',
-          mobileValue: '10k+',
+          value: '20k+',
+          mobileValue: '20k+',
           label: 'Bookings Managed',
           subLabel: '(Raya 2026)'
         },
         sales: {
-          value: 'RM 1.5M+',
-          mobileValue: '1.5M+',
+          value: 'RM 2.7M+',
+          mobileValue: '2.7M+',
           label: 'Sales Managed',
           subLabel: '(Raya 2026)'
         },
@@ -238,8 +238,8 @@ export const translations = {
       plans: [
         {
           name: "Pro Package",
-          price: "RM899",
-          period: "",
+          price: "RM649",
+          period: "90 days / 3 months",
           description: "Everything you need to automate bookings & payments.",
           features: [
             "Unlimited Booking Sessions",
@@ -255,8 +255,8 @@ export const translations = {
         },
         {
           name: "Prime Package",
-          price: "RM1499",
-          period: "",
+          price: "RM899",
+          period: "90 days / 3 months",
           description: "Powerful tools to manage your team & grow revenue.",
           features: [
             "Everything in Pro Package, plus:",
@@ -287,12 +287,12 @@ export const translations = {
           answer: "We use <strong>CHIP</strong>. It is required so the system can verify payments & lock slots automatically (without manual receipt checking). Transaction fees are low & settlement funds are deposited directly into your bank account."
         },
         {
-          question: "Why is the pricing structure like this?",
-          answer: "This is a <strong>One-Off</strong> price specifically for this season. Pay once for usage until 30 April 2026. No monthly commitments. Typically, the system cost is recovered after just 1-2 Raya assignments."
+          question: "How does the pricing structure work?",
+          answer: "Our subscription plans are designed for flexibility. Pay for your selected 3-month tier (PRO at RM649 or PRIME at RM899) and enjoy full access. No long-term annual commitments required."
         },
         {
-          question: "Is this system active forever?",
-          answer: "Full access is provided until <strong>30 April 2026</strong>. After this date, you can still log in to download customer data, but booking functions will be temporarily closed for upgrades to the new version."
+          question: "What happens when my subscription ends?",
+          answer: "Full access is provided for the duration of your active subscription. After it expires, you can easily renew it directly from the dashboard to continue accepting bookings without any downtime."
         },
         {
           question: "How are refunds handled for cancellations?",
@@ -300,20 +300,20 @@ export const translations = {
         },
         {
           question: "Is technical support provided if issues arise?",
-          answer: "Yes, our team is ready to assist. You can contact our customer service directly if any technical issues arise. We understand that the Raya season is a critical time for your business."
+          answer: "Yes, our team is ready to assist. You can contact our customer service directly if any technical issues arise. We understand that every booking is critical for your business."
         }
       ]
     },
     footer: {
       ctaBanner: {
-        badge: 'Raya 2026 Ready?',
-        titleLine1: 'Maximize Your Studio\'s Potential',
-        titleLine2: 'for Raya 2026.',
+        badge: 'System Upgrade',
+        titleLine1: 'Elevate Your Studio Operations',
+        titleLine2: 'The Only Booking System You\'ll Ever Need.',
         primaryCta: 'Start Now'
       },
-      preFooterTitle: 'Raya 2026 Ready?',
-      preFooterSubtitle: 'Maximize Your Studio\'s Potential for Raya 2026. Don\'t Miss Out. Setup Your System Today.',
-      taglineLine1: 'Beautifully designed, powerfully built.',
+      preFooterTitle: 'The All-in-One Booking System',
+      preFooterSubtitle: 'Everything you need to manage schedules, payments, and clients effortlessly in one place.',
+      taglineLine1: 'The Ultimate Booking Management System.',
       taglineLine2: '',
       product: 'Product',
       company: 'Company',
@@ -401,14 +401,14 @@ export const translations = {
       viewAllStudios: 'Lihat Semua Studio',
       stats: {
         studios: {
-          value: '10k+',
-          mobileValue: '10k+',
+          value: '20k+',
+          mobileValue: '20k+',
           label: 'Tempahan Diurus',
           subLabel: '(Raya 2026)'
         },
         sales: {
-          value: 'RM 1.5+ Juta',
-          mobileValue: '1.5+ Juta',
+          value: 'RM 2.7+ Juta',
+          mobileValue: '2.7+ Juta',
           label: 'Jualan Diurus',
           subLabel: '(Raya 2026)'
         },
@@ -572,8 +572,8 @@ export const translations = {
       plans: [
         {
           name: "Pakej Pro",
-          price: "RM899",
-          period: "",
+          price: "RM649",
+          period: "90 hari / 3 bulan",
           description: "Semua yang anda perlukan untuk sistem tempahan digital.",
           features: [
             "Sesi tempahan Tanpa Had",
@@ -589,8 +589,8 @@ export const translations = {
         },
         {
           name: "Pakej Prime",
-          price: "RM1499",
-          period: "",
+          price: "RM899",
+          period: "90 hari / 3 bulan",
           description: "Alat berkuasa untuk urus pasukan & tingkatkan hasil.",
           features: [
             "Semua dalam Pakej Pro, Termasuk:",
@@ -622,12 +622,12 @@ export const translations = {
           answer: "Kami menggunakan <strong>CHIP</strong>. Ia diperlukan supaya sistem dapat mengesahkan pembayaran & mengunci slot secara automatik (tanpa perlu semakan resit manual). Caj transaksi adalah rendah & wang penyelesaian (<em>settlement</em>) dimasukkan terus ke akaun bank anda."
         },
         {
-          question: "Mengapakah struktur harga pakej sebegini?",
-          answer: "Ini adalah harga <strong>Sekali Bayar (One-Off)</strong> khusus untuk musim ini. Bayaran sekali sahaja untuk penggunaan sehingga 30 April 2026. Tiada komitmen bulanan. Kebiasaannya, modal kos sistem akan pulang selepas 1-2 tugasan raya sahaja."
+          question: "Bagaimanakah struktur harga pakej berfungsi?",
+          answer: "Pelan langganan kami direka untuk fleksibiliti. Buat bayaran untuk pelan 3 bulan pilihan anda (PRO pada RM649 atau PRIME pada RM899) dan nikmati akses penuh. Tiada komitmen tahunan jangka panjang diperlukan."
         },
         {
-          question: "Adakah sistem ini aktif selamanya?",
-          answer: "Akses penuh diberikan sehingga <strong>30 April 2026</strong>. Selepas tarikh ini, anda masih boleh log masuk untuk memuat turun data pelanggan, namun fungsi tempahan akan ditutup sementara bagi tujuan penambahbaikan ke versi baharu."
+          question: "Apa yang berlaku apabila langganan saya tamat?",
+          answer: "Akses penuh diberikan sepanjang tempoh langganan aktif anda. Selepas ia tamat, anda boleh memperbaharuinya dengan mudah terus dari papan pemuka untuk terus menerima tempahan tanpa sebarang gangguan."
         },
         {
           question: "Bagaimanakah proses pemulangan wang (refund) jika berlaku pembatalan?",
@@ -635,20 +635,20 @@ export const translations = {
         },
         {
           question: "Adakah sokongan teknikal disediakan jika timbul masalah?",
-          answer: "Ya, pasukan kami bersedia membantu. Anda boleh terus menghubungi khidmat pelanggan kami jika terdapat sebarang isu teknikal. Kami memahami bahawa musim raya adalah waktu kritikal bagi perniagaan anda."
+          answer: "Ya, pasukan kami bersedia membantu. Anda boleh terus menghubungi khidmat pelanggan kami jika terdapat sebarang isu teknikal. Kami memahami bahawa setiap tempahan adalah kritikal bagi perniagaan anda."
         }
       ]
     },
     footer: {
       ctaBanner: {
-        badge: 'Sedia Untuk Raya 2026?',
-        titleLine1: 'Maksimumkan Potensi Studio Anda',
-        titleLine2: 'Untuk Raya 2026.',
+        badge: 'Naik Taraf Sistem',
+        titleLine1: 'Tingkatkan Operasi Studio Anda',
+        titleLine2: 'Satu-satunya Sistem Tempahan Yang Anda Perlukan.',
         primaryCta: 'Daftar Sekarang'
       },
-      preFooterTitle: 'Sedia Untuk Raya 2026?',
-      preFooterSubtitle: 'Maksimumkan Potensi Studio Anda Untuk Raya 2026. Jangan Terlepas. Setup Sistem Hari Ini.',
-      taglineLine1: 'Direka dengan indah, dibina dengan hebat.',
+      preFooterTitle: 'Sistem Tempahan All-in-One',
+      preFooterSubtitle: 'Semua yang anda perlukan untuk mengurus jadual, bayaran, dan pelanggan dengan mudah di satu tempat.',
+      taglineLine1: 'Sistem Pengurusan Tempahan Terbaik.',
       taglineLine2: '',
       product: 'Produk',
       company: 'Syarikat',

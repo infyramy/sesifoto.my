@@ -25,7 +25,7 @@ const FAQ: React.FC = () => {
           {t.faq.items.map((faq, index) => {
             const isOpen = openIndex === index;
             return (
-              <Reveal key={index} delay={index * 50}>
+              <Reveal key={index} delay={index * 50} width="100%">
                 <div
                   className={`
                       relative overflow-hidden rounded-2xl transition-all duration-300 group

@@ -6,16 +6,27 @@ import { ThemeProvider } from './contexts/ThemeContext';
 import { RouteTransitionProvider } from './contexts/RouteTransitionContext';
 import Navbar from './components/Navbar';
 
+const LoadingFallback = () => (
+  <div className="flex items-center justify-center w-full h-[60vh]">
+    <div className="flex flex-col items-center gap-3">
+      <div className="w-8 h-8 rounded-full border-2 border-studio-primary border-t-transparent animate-spin"></div>
+      <span className="text-sm text-slate-400 font-medium tracking-widest uppercase">Loading</span>
+    </div>
+  </div>
+);
+
 const PageTransition = ({ children }: { children: React.ReactNode }) => {
   return (
     <motion.div
-      initial={{ opacity: 0, y: 12 }}
+      initial={{ opacity: 0, y: 8 }}
       animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, y: -12, transition: { duration: 0.2, ease: "easeIn" } }}
-      transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+      exit={{ opacity: 0, y: -8, transition: { duration: 0.05, ease: "easeIn" } }}
+      transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
       className="w-full h-full"
     >
-      {children}
+      <Suspense fallback={<LoadingFallback />}>
+        {children}
+      </Suspense>
     </motion.div>
   );
 };
@@ -26,6 +37,13 @@ const NewsPage = lazy(() => import('./components/NewsPage'));
 const NewsDetailPage = lazy(() => import('./components/NewsDetailPage'));
 const DirectoryPage = lazy(() => import('./components/DirectoryPage'));
 const NotFound = lazy(() => import('./components/NotFound'));
+
+export const preloadRoute = (path: string) => {
+  if (path === '/') void import('./components/LandingPage');
+  else if (path.startsWith('/news')) void import('./components/NewsPage');
+  else if (path.startsWith('/directory')) void import('./components/DirectoryPage');
+  else if (path.startsWith('/salespage')) void import('./components/SalesPage');
+};
 
 const preloadNewsPage = () => import('./components/NewsPage');
 
@@ -74,19 +92,17 @@ const AppRoutes: React.FC = () => {
     <RouteTransitionProvider value={transitionContextValue}>
       <ScrollToTop />
       {location.pathname !== '/salespage' && <Navbar />}
-      <Suspense fallback={null}>
-        <AnimatePresence mode="wait">
-          {/* @ts-ignore - key is required for AnimatePresence to trigger exit animations */}
-          <Routes location={location} key={location.pathname}>
-            <Route path="/" element={<PageTransition><LandingPage /></PageTransition>} />
-            <Route path="/salespage" element={<PageTransition><SalesPage /></PageTransition>} />
-            <Route path="/news" element={<PageTransition><NewsPage /></PageTransition>} />
-            <Route path="/news/:slug" element={<PageTransition><NewsDetailPage /></PageTransition>} />
-            <Route path="/directory" element={<PageTransition><DirectoryPage /></PageTransition>} />
-            <Route path="*" element={<PageTransition><NotFound /></PageTransition>} />
-          </Routes>
-        </AnimatePresence>
-      </Suspense>
+      <AnimatePresence mode="wait">
+        {/* @ts-ignore - key is required for AnimatePresence to trigger exit animations */}
+        <Routes location={location} key={location.pathname}>
+          <Route path="/" element={<PageTransition><LandingPage /></PageTransition>} />
+          <Route path="/salespage" element={<PageTransition><SalesPage /></PageTransition>} />
+          <Route path="/news" element={<PageTransition><NewsPage /></PageTransition>} />
+          <Route path="/news/:slug" element={<PageTransition><NewsDetailPage /></PageTransition>} />
+          <Route path="/directory" element={<PageTransition><DirectoryPage /></PageTransition>} />
+          <Route path="*" element={<PageTransition><NotFound /></PageTransition>} />
+        </Routes>
+      </AnimatePresence>
     </RouteTransitionProvider>
   );
 };

@@ -1,6 +1,7 @@
 import path from 'path';
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
+import viteCompression from 'vite-plugin-compression';
 
 export default defineConfig(() => {
   const securityHeaders = {
@@ -19,15 +20,29 @@ export default defineConfig(() => {
     preview: {
       headers: securityHeaders,
     },
-    plugins: [react()],
+    plugins: [
+      react(),
+      viteCompression({ algorithm: 'gzip' }),
+      viteCompression({ algorithm: 'brotliCompress' }),
+    ],
     resolve: {
       alias: {
         '@': path.resolve(__dirname, '.'),
       }
+    },
+    build: {
+      rollupOptions: {
+        output: {
+          manualChunks: {
+            'vendor-react': ['react', 'react-dom', 'react-router-dom'],
+            'vendor-motion': ['framer-motion'],
+            'vendor-icons': ['lucide-react']
+          }
+        }
+      }
+    },
+    esbuild: {
+      drop: ['console', 'debugger'],
     }
   };
 });
-
-// Force restart to pick up new assets
-
-// Force restart to pick up new assets

@@ -14,6 +14,7 @@ import { NAV_LINKS } from '../constants';
 import { useLanguage } from '../contexts/LanguageContext';
 import { useTheme } from '../contexts/ThemeContext';
 import { useRouteTransition } from '../contexts/RouteTransitionContext';
+import { preloadRoute } from '../App';
 
 const Navbar: React.FC = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -234,6 +235,7 @@ const Navbar: React.FC = () => {
                   <Link
                     key={link.key}
                     to={link.href}
+                    onMouseEnter={() => preloadRoute(link.href)}
                     onClick={(event) => {
                       void handlePrimaryNavClick(event, link.key);
                     }}
@@ -385,6 +387,7 @@ const Navbar: React.FC = () => {
                     <Link
                       key={link.key}
                       to={link.href}
+                      onTouchStart={() => preloadRoute(link.href)}
                       className={`flex items-center justify-between min-h-12 py-2 text-lg transition-colors ${isActive
                         ? 'font-bold text-studio-primary'
                         : 'font-medium text-slate-900 dark:text-slate-100 hover:text-studio-primary dark:hover:text-studio-primary'

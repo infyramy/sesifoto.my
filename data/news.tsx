@@ -57,6 +57,147 @@ const AlternativeCard = ({ icon, title, desc }: { icon: React.ReactNode, title: 
 
 export const NEWS_DATA: NewsItem[] = [
     {
+        id: 'sesifoto-continuity',
+        isVisible: true,
+        title: {
+            en: 'A Shared Milestone: SesiFoto Continues with New 3-Month Plans',
+            bm: 'Melangkah Ke Hadapan: SesiFoto Terus Beroperasi dengan Pelan 3 Bulan Baharu'
+        },
+        date: '1 May 2026',
+        category: 'announcement',
+        slug: 'sesifoto-continuity-3-months',
+        summary: {
+            en: 'SesiFoto will continue full operations beyond April. Discover our new, highly requested 3-month flexible subscription plans tailored for your studio.',
+            bm: 'SesiFoto kekal beroperasi kapasiti penuh melepasi bulan April. Terokai pelan langganan 3 bulan fleksibel baharu yang direka khas untuk studio anda.'
+        },
+        content: {
+            bm: (
+                <div className="space-y-8">
+                    <div className="border-l-4 border-orange-500 bg-orange-50/50 dark:bg-orange-900/5 pl-6 pr-4 py-5">
+                        <h3 className="text-lg font-bold text-orange-900 dark:text-orange-400 mb-2">Satu Pencapaian Bersama. Terima Kasih Kerana Memilih SesiFoto.</h3>
+                        <p className="text-slate-700 dark:text-slate-300 leading-relaxed mb-2">
+                            Musim Raya ini telah melakar rekod tempahan yang luar biasa bagi komuniti studio fotografi kita. Mewakili seluruh pasukan SesiFoto, kami merakamkan jutaan penghargaan kerana memberi kepercayaan kepada sistem kami untuk menjadi tulang belakang operasi harian anda.
+                        </p>
+                    </div>
+
+                    <section>
+                        <p className="text-slate-600 dark:text-slate-300 leading-relaxed mb-4">
+                            Didorong oleh permintaan tinggi dan sokongan padu daripada anda, kami dengan sukacitanya membawakan dua kemas kini penting demi kelangsungan perniagaan anda:
+                        </p>
+                        
+                        <div className="space-y-4">
+                            <div className="flex items-start gap-4 bg-white dark:bg-zinc-900 p-5 rounded-xl border border-slate-200 dark:border-white/10 shadow-sm">
+                                <div className="mt-1 text-green-500 bg-green-100 dark:bg-green-900/30 p-2 rounded-lg">
+                                    <Server size={20} />
+                                </div>
+                                <div>
+                                    <h4 className="font-bold text-slate-900 dark:text-white text-base mb-1">1. Operasi Tanpa Henti (Zero Downtime)</h4>
+                                    <p className="text-sm text-slate-600 dark:text-slate-400 leading-relaxed">Sistem SesiFoto akan terus beroperasi dengan kapasiti penuh dengan lancar melepasi 30 April. Akses kepada sistem tempahan, kalendar, dan data anda sama sekali tidak akan terganggu.</p>
+                                </div>
+                            </div>
+
+                            <div className="flex items-start gap-4 bg-white dark:bg-zinc-900 p-5 rounded-xl border border-slate-200 dark:border-white/10 shadow-sm">
+                                <div className="mt-1 text-blue-500 bg-blue-100 dark:bg-blue-900/30 p-2 rounded-lg">
+                                    <TrendingUp size={20} />
+                                </div>
+                                <div>
+                                    <h4 className="font-bold text-slate-900 dark:text-white text-base mb-1">2. Struktur Langganan Yang Fleksibel</h4>
+                                    <p className="text-sm text-slate-600 dark:text-slate-400 leading-relaxed">Kami amat memahami kepentingan aliran tunai perniagaan. Oleh itu, kami memperkenalkan pilihan langganan yang direka untuk memaksimumkan ROI anda dengan komitmen yang lebih ringan.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section className="bg-gradient-to-br from-slate-50 to-slate-100 dark:from-zinc-900 dark:to-zinc-800 p-8 rounded-2xl border border-slate-200 dark:border-white/10 text-center">
+                        <span className="inline-block py-1 px-3 rounded-full bg-orange-100 dark:bg-orange-900/30 text-orange-600 dark:text-orange-400 text-xs font-bold uppercase tracking-widest mb-4">Harga Pelan Baharu</span>
+                        <h2 className="text-2xl md:text-3xl font-black text-slate-900 dark:text-white mb-4">Pelan 3 Bulan Baharu</h2>
+                        <p className="text-slate-600 dark:text-slate-300 mb-8 max-w-xl mx-auto">
+                            Bermula <strong>1 Mei 2026</strong>, anda boleh mengaktifkan pelan 3 bulan ini secara terus melalui platform kami. Ia satu penyelesaian premium yang lebih mesra kewangan—tanpa perlu terikat dengan komitmen tahunan.
+                        </p>
+                        
+                        <div className="grid md:grid-cols-2 gap-6 max-w-2xl mx-auto text-left">
+                            <div className="bg-white dark:bg-zinc-950 p-6 rounded-xl border border-slate-200 dark:border-white/10 shadow-sm relative overflow-hidden group hover:border-studio-primary/30 transition-colors">
+                                <div className="absolute top-0 right-0 bg-slate-100 dark:bg-white/5 text-slate-500 dark:text-slate-400 text-[10px] font-bold px-3 py-1 rounded-bl-lg uppercase tracking-wider line-through">RM 899</div>
+                                <h3 className="font-bold text-lg text-slate-900 dark:text-white mb-1">PRO (3 Bulan)</h3>
+                                <div className="text-3xl font-black text-studio-primary mb-2">RM 649</div>
+                                <p className="text-xs text-slate-500 dark:text-slate-400">Pengurusan automasi teras studio.</p>
+                            </div>
+                            
+                            <div className="bg-white dark:bg-zinc-950 p-6 rounded-xl border-2 border-orange-500 ring-4 ring-orange-500/10 shadow-sm relative overflow-hidden">
+                                <div className="absolute top-0 right-0 bg-orange-500 text-white text-[10px] font-bold px-3 py-1 rounded-bl-lg uppercase tracking-wider line-through">RM 1499</div>
+                                <h3 className="font-bold text-lg text-slate-900 dark:text-white mb-1">PRIME (3 Bulan)</h3>
+                                <div className="text-3xl font-black text-studio-primary mb-2">RM 899</div>
+                                <p className="text-xs text-slate-500 dark:text-slate-400">Penyelesaian komprehensif tanpa had.</p>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            ),
+            en: (
+                <div className="space-y-8">
+                    <div className="border-l-4 border-orange-500 bg-orange-50/50 dark:bg-orange-900/5 pl-6 pr-4 py-5">
+                        <h3 className="text-lg font-bold text-orange-900 dark:text-orange-400 mb-2">A Shared Milestone. Thank You For Choosing SesiFoto.</h3>
+                        <p className="text-slate-700 dark:text-slate-300 leading-relaxed mb-2">
+                            This Raya season has set extraordinary booking records for our photography community. On behalf of the entire SesiFoto team, we extend our deepest gratitude for trusting our system to be the backbone of your daily operations.
+                        </p>
+                    </div>
+
+                    <section>
+                        <p className="text-slate-600 dark:text-slate-300 leading-relaxed mb-4">
+                            Driven by overwhelming demand and your unwavering support, we are thrilled to announce two major updates designed for your business continuity:
+                        </p>
+                        
+                        <div className="space-y-4">
+                            <div className="flex items-start gap-4 bg-white dark:bg-zinc-900 p-5 rounded-xl border border-slate-200 dark:border-white/10 shadow-sm">
+                                <div className="mt-1 text-green-500 bg-green-100 dark:bg-green-900/30 p-2 rounded-lg">
+                                    <Server size={20} />
+                                </div>
+                                <div>
+                                    <h4 className="font-bold text-slate-900 dark:text-white text-base mb-1">1. Zero Downtime Operations</h4>
+                                    <p className="text-sm text-slate-600 dark:text-slate-400 leading-relaxed">The SesiFoto system will continue to operate at full capacity seamlessly beyond April 30th. Your access to data, calendars, and bookings remains entirely uninterrupted.</p>
+                                </div>
+                            </div>
+
+                            <div className="flex items-start gap-4 bg-white dark:bg-zinc-900 p-5 rounded-xl border border-slate-200 dark:border-white/10 shadow-sm">
+                                <div className="mt-1 text-blue-500 bg-blue-100 dark:bg-blue-900/30 p-2 rounded-lg">
+                                    <TrendingUp size={20} />
+                                </div>
+                                <div>
+                                    <h4 className="font-bold text-slate-900 dark:text-white text-base mb-1">2. Flexible Subscription Architecture</h4>
+                                    <p className="text-sm text-slate-600 dark:text-slate-400 leading-relaxed">We understand the importance of business cash flow. Therefore, we are introducing a new subscription structure explicitly tailored to maximize your ROI with lighter commitments.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section className="bg-gradient-to-br from-slate-50 to-slate-100 dark:from-zinc-900 dark:to-zinc-800 p-8 rounded-2xl border border-slate-200 dark:border-white/10 text-center">
+                        <span className="inline-block py-1 px-3 rounded-full bg-orange-100 dark:bg-orange-900/30 text-orange-600 dark:text-orange-400 text-xs font-bold uppercase tracking-widest mb-4">New Plan Pricing</span>
+                        <h2 className="text-2xl md:text-3xl font-black text-slate-900 dark:text-white mb-4">The New 3-Month Plans</h2>
+                        <p className="text-slate-600 dark:text-slate-300 mb-8 max-w-xl mx-auto">
+                            Starting <strong>1 May 2026</strong>, you can activate our new 3-month plans directly within the system. Enjoy premium features with a budget-friendly approach—no annual commitment required.
+                        </p>
+                        
+                        <div className="grid md:grid-cols-2 gap-6 max-w-2xl mx-auto text-left">
+                            <div className="bg-white dark:bg-zinc-950 p-6 rounded-xl border border-slate-200 dark:border-white/10 shadow-sm relative overflow-hidden group hover:border-studio-primary/30 transition-colors">
+                                <div className="absolute top-0 right-0 bg-slate-100 dark:bg-white/5 text-slate-500 dark:text-slate-400 text-[10px] font-bold px-3 py-1 rounded-bl-lg uppercase tracking-wider line-through">RM 899</div>
+                                <h3 className="font-bold text-lg text-slate-900 dark:text-white mb-1">PRO (3 Months)</h3>
+                                <div className="text-3xl font-black text-studio-primary mb-2">RM 649</div>
+                                <p className="text-xs text-slate-500 dark:text-slate-400">Core automation management.</p>
+                            </div>
+                            
+                            <div className="bg-white dark:bg-zinc-950 p-6 rounded-xl border-2 border-orange-500 ring-4 ring-orange-500/10 shadow-sm relative overflow-hidden">
+                                <div className="absolute top-0 right-0 bg-orange-500 text-white text-[10px] font-bold px-3 py-1 rounded-bl-lg uppercase tracking-wider line-through">RM 1499</div>
+                                <h3 className="font-bold text-lg text-slate-900 dark:text-white mb-1">PRIME (3 Months)</h3>
+                                <div className="text-3xl font-black text-studio-primary mb-2">RM 899</div>
+                                <p className="text-xs text-slate-500 dark:text-slate-400">Comprehensive unlimited solution.</p>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            )
+        }
+    },
+    {
         id: 'founder-story-2026',
         isVisible: false,
         title: {
