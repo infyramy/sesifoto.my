@@ -17,43 +17,50 @@ const Footer: React.FC<FooterProps> = ({ hideCtaBanner = false }) => {
 
       {/* PRE-FOOTER CTA BANNER */}
       {!hideCtaBanner && (
-        <div className="relative z-10 -mt-24 mb-12 md:mb-20 px-4 md:px-6">
-          <div className="max-w-7xl mx-auto bg-slate-900/90 dark:bg-zinc-900/90 backdrop-blur-xl border border-slate-200/20 dark:border-white/10 rounded-[2rem] md:rounded-[2.5rem] p-8 md:p-16 text-center text-white shadow-2xl overflow-hidden relative group">
-            {/* Light & Elegant Background Effects */}
-            <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-[0.03] mix-blend-overlay"></div>
+        <div className="relative z-10 -mt-24 mb-16 md:mb-24 px-4 md:px-6 lg:px-8">
+          <div className="max-w-7xl mx-auto bg-orange-600 shadow-[0_20px_60px_-15px_rgba(234,88,12,0.4)] rounded-[2.5rem] overflow-hidden flex flex-col md:flex-row items-center justify-between p-10 md:p-14 lg:p-16 relative border border-orange-400/20">
+            
+            {/* Premium Mesh Gradient Background */}
+            <div className="absolute inset-0 bg-[#ea580c] pointer-events-none"></div>
+            <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_left,_var(--tw-gradient-stops))] from-amber-300/80 via-transparent to-transparent opacity-90 pointer-events-none mix-blend-screen"></div>
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_bottom_right,_var(--tw-gradient-stops))] from-rose-700/90 via-transparent to-transparent opacity-90 pointer-events-none mix-blend-multiply"></div>
+            <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-orange-400/0 via-orange-600/20 to-black/40 pointer-events-none"></div>
+            
+            {/* Fine Noise Texture */}
+            <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-[0.15] mix-blend-overlay pointer-events-none"></div>
 
-            {/* Radial Light Leaks - Top Right */}
-            <div className="absolute -top-32 -right-32 w-96 h-96 bg-gradient-radial from-white/30 via-white/10 to-transparent rounded-full blur-3xl group-hover:from-white/40 group-hover:via-white/15 transition-all duration-700"></div>
-
-            {/* Radial Light Leaks - Bottom Left */}
-            <div className="absolute -bottom-32 -left-32 w-80 h-80 bg-gradient-radial from-yellow-200/20 via-orange-200/10 to-transparent rounded-full blur-3xl"></div>
-
-            {/* Center Glow for Depth */}
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[400px] bg-white/5 rounded-full blur-[100px]"></div>
-
-            <div className="relative z-10 flex flex-col items-center">
-              <div className="inline-flex items-center gap-2 px-3 py-1 md:px-4 rounded-full bg-white/10 border border-white/20 text-[10px] md:text-xs font-bold uppercase tracking-widest mb-4 md:mb-6">
-                <Clock size={12} className="w-3 h-3 md:w-3.5 md:h-3.5" /> {t.footer.ctaBanner.badge}
-              </div>
-              <h2 className="text-4xl md:text-6xl font-bold tracking-tight transform scale-y-105 mb-6 leading-[0.95] pb-4">
-                <span className="inline-block bg-gradient-to-r from-orange-400 via-white to-white bg-clip-text text-transparent pb-2">
-                  {t.footer.ctaBanner.titleLine1}
+            <div className="relative z-10 max-w-2xl text-left md:pr-10 mb-10 md:mb-0 w-full">
+              {/* Badge */}
+              <div className="inline-flex items-center gap-2 mb-6 px-3 py-1 rounded-full bg-white/10 border border-white/20 shadow-sm">
+                <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse"></span>
+                <span className="text-xs font-bold tracking-[0.15em] uppercase text-white">
+                  {t.footer.ctaBanner.badge}
                 </span>
-                <br />
-                <span className="text-white">{t.footer.ctaBanner.titleLine2}</span>
-              </h2>
-              <div className="flex flex-col sm:flex-row gap-3 md:gap-4 mt-2 w-full sm:w-auto">
-                {/* Primary CTA Button */}
-                <a href="https://office.sesifoto.my/register" target="_blank" rel="noopener noreferrer" className="relative group px-6 py-3 md:px-8 md:py-4 bg-studio-primary text-white rounded-full font-bold text-base md:text-lg overflow-hidden shadow-lg shadow-orange-500/30 hover:shadow-orange-500/50 transition-all hover:scale-105 active:scale-95 text-center flex items-center justify-center">
-                  <div className="absolute inset-0 bg-white/20 group-hover:bg-white/30 transition-colors"></div>
-                  <span className="relative z-10">{t.footer.ctaBanner.primaryCta}</span>
-                </a>
-
-                <a href="https://office.sesifoto.my/login" target="_blank" rel="noopener noreferrer" className="group px-6 py-3 md:px-8 md:py-4 bg-white/10 backdrop-blur-sm text-white rounded-full font-bold text-base md:text-lg hover:bg-white/20 transition-all border border-white/20 hover:scale-105 active:scale-95 flex items-center justify-center gap-2">
-                  Log Masuk <span className="group-hover:translate-x-0.5 transition-transform">→</span>
-                </a>
               </div>
+              
+              {/* Title */}
+              <h2 className="text-4xl md:text-5xl lg:text-[4rem] font-bold tracking-tight text-white leading-[1.05] mb-4 drop-shadow-sm">
+                {t.footer.ctaBanner.titleLine1}
+              </h2>
+              <p className="text-xl md:text-2xl text-orange-100 font-medium tracking-tight">
+                {t.footer.ctaBanner.titleLine2}
+              </p>
             </div>
+            
+            {/* Buttons */}
+            <div className="relative z-10 flex flex-col sm:flex-row items-center gap-4 w-full md:w-auto shrink-0">
+              <a href="https://office.sesifoto.my/register" target="_blank" rel="noopener noreferrer" className="w-full sm:w-auto px-8 py-4 md:px-10 md:py-4 bg-slate-900 text-white rounded-full font-bold text-lg hover:bg-slate-800 transition-colors duration-200 text-center flex items-center justify-center gap-2 shadow-xl shadow-slate-900/20">
+                {t.footer.ctaBanner.primaryCta}
+                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                </svg>
+              </a>
+
+              <a href="https://office.sesifoto.my/login" target="_blank" rel="noopener noreferrer" className="w-full sm:w-auto px-8 py-4 md:px-10 md:py-4 bg-transparent text-white rounded-full font-bold text-lg hover:bg-white/10 transition-colors duration-200 border border-white/30 hover:border-white/60 flex items-center justify-center">
+                Log Masuk
+              </a>
+            </div>
+
           </div>
         </div>
       )}
