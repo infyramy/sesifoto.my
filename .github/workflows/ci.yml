@@ -66,9 +66,27 @@ jobs:
           fi
           mkdir -p ~/.ssh
           chmod 700 ~/.ssh
-          tr -d '\r' <<< "$SSH_PRIVATE_KEY" > ~/.ssh/deploy_key
+          printf '%s\n' "$SSH_PRIVATE_KEY" | tr -d '\r' > ~/.ssh/deploy_key
           chmod 600 ~/.ssh/deploy_key
+
+          if grep -qE '^ssh-(rsa|ed25519|ecdsa|dss) ' ~/.ssh/deploy_key; then
+            echo "::error::SSH_KEY looks like a PUBLIC key (starts with ssh-ed25519 / ssh-rsa …). Put the private key file contents in the SSH_KEY secret instead."
+            exit 1
+          fi
+          if ! grep -qE '^-----BEGIN (OPENSSH PRIVATE KEY|RSA PRIVATE KEY|EC PRIVATE KEY|DSA PRIVATE KEY|PRIVATE KEY)-----' ~/.ssh/deploy_key; then
+            echo "::error::SSH_KEY must be a PEM/OpenSSH private key (first line should look like -----BEGIN OPENSSH PRIVATE KEY----- or -----BEGIN RSA PRIVATE KEY-----)."
+            exit 1
+          fi
+
           ssh-keyscan -H "$SSH_HOST" >> ~/.ssh/known_hosts
+
           DEST="${REMOTE_PATH:-/home/sesifoto.my}"
-          RSYNC_RSH='ssh -i ~/.ssh/deploy_key -o IdentitiesOnly=yes -o StrictHostKeyChecking=yes'
-          rsync -avz --delete -e "$RSYNC_RSH" ./dist/ "${SSH_USER}@${SSH_HOST}:${DEST}/"
+          DEPLOY_KEY="${HOME}/.ssh/deploy_key"
+          SSH_OPTS="-i ${DEPLOY_KEY} -o IdentitiesOnly=yes -o StrictHostKeyChecking=yes -o BatchMode=yes -o PasswordAuthentication=no -o PreferredAuthentications=publickey -o ConnectTimeout=30 -o PubkeyAcceptedAlgorithms=+ssh-rsa"
+
+          if ! ssh ${SSH_OPTS} "${SSH_USER}@${SSH_HOST}" "test -d '${DEST}' || mkdir -p '${DEST}'"; then
+            echo "::error::SSH login failed (publickey). On the server, ensure ${SSH_USER}'s ~/.ssh/authorized_keys contains the matching PUBLIC key for this PRIVATE key, permissions ~/.ssh=700 and authorized_keys=600, and the key has no passphrase."
+            exit 1
+          fi
+
+          rsync -avz --delete -e "ssh ${SSH_OPTS}" ./dist/ "${SSH_USER}@${SSH_HOST}:${DEST}/"
