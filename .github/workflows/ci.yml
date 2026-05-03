@@ -47,14 +47,12 @@ jobs:
       && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master')
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-
       - uses: actions/download-artifact@v4
         with:
           name: dist
           path: dist
 
-      - name: Deploy full tree + dist (rsync)
+      - name: Deploy dist (rsync)
         env:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_KEY }}
           SSH_HOST: ${{ secrets.SSH_HOST }}
@@ -91,13 +89,4 @@ jobs:
             exit 1
           fi
 
-          rsync -avz --delete \
-            --exclude '.git/' \
-            --exclude 'node_modules/' \
-            --exclude '.github/' \
-            --exclude '.cursor/' \
-            --exclude '.agent/' \
-            --exclude 'dist-ssr/' \
-            --exclude '*.local' \
-            -e "ssh ${SSH_OPTS}" \
-            ./ "${SSH_USER}@${SSH_HOST}:${DEST}/"
+          rsync -avz --delete -e "ssh ${SSH_OPTS}" ./dist/ "${SSH_USER}@${SSH_HOST}:${DEST}/"
