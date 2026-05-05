@@ -79,14 +79,16 @@ const Hero: React.FC = () => {
         <section className="relative pt-32 pb-12 lg:pt-48 lg:pb-0 overflow-hidden [perspective:2000px] transition-colors duration-500">
             {/* Background Ambience */}
             <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
-                {/* 1. Custom Background */}
+                {/* 1. Warm hero ambience */}
                 <div
-                    className="absolute inset-0 bg-cover bg-top opacity-50 dark:opacity-70 hidden md:dark:block"
-                    style={{ backgroundImage: "url('/img/MacBook Pro 16_ - 1.jpg')" }}
+                    className="absolute inset-0 bg-cover bg-center opacity-70 dark:opacity-90"
+                    style={{
+                        backgroundImage: "image-set(url('/media/backgrounds/hero-gradient.webp') type('image/webp'), url('/img/hero-gradient-bg.png') type('image/png'))"
+                    }}
                 ></div>
 
                 {/* 2. Content Legibility Overlay (Theme Aware) */}
-                <div className="absolute inset-0 bg-gradient-to-b from-white/90 via-white/80 to-studio-paper dark:from-black/70 dark:via-black/50 dark:to-studio-black"></div>
+                <div className="absolute inset-0 bg-gradient-to-b from-white/90 via-white/80 to-studio-paper dark:from-black/65 dark:via-black/50 dark:to-studio-black"></div>
 
                 <div className="absolute inset-0 bg-transparent dark:bg-zinc-950 transition-colors duration-500">
                     <div
@@ -97,13 +99,6 @@ const Hero: React.FC = () => {
                         }}
                     ></div>
                 </div>
-                <div className="absolute inset-0 dark:opacity-70 opacity-0 transition-opacity duration-500">
-                    <div className={`absolute top-[-10%] left-[-10%] w-[600px] h-[600px] bg-studio-primary/5 rounded-full blur-[100px] md:mix-blend-overlay mix-blend-normal dark:mix-blend-screen transform-gpu ${disableHeavyMotion ? '' : 'animate-pulse-slow'}`}></div>
-                    <div className={`absolute top-[20%] right-[-10%] w-[500px] h-[500px] bg-studio-primary/10 rounded-full blur-[100px] shadow-sm transform-gpu delay-1000 md:mix-blend-overlay mix-blend-normal dark:mix-blend-screen ${disableHeavyMotion ? '' : 'animate-pulse-slow'}`}></div>
-                    <div className={`absolute bottom-[-10%] left-[20%] w-[600px] h-[600px] bg-orange-400/5 rounded-full blur-[100px] shadow-sm transform-gpu delay-2000 md:mix-blend-overlay mix-blend-normal dark:mix-blend-screen ${disableHeavyMotion ? '' : 'animate-pulse-slow'}`}></div>
-                </div>
-                {/* MOBILE ONLY: Intense Orange Left Glow (SaaS Style) */}
-                <div className="md:hidden absolute top-[10%] -left-[100px] w-[300px] h-[500px] bg-[radial-gradient(ellipse_at_center,rgba(255,107,44,0.4)_0%,rgba(255,107,44,0)_70%)] blur-[40px] z-0"></div>
             </div>
 
             <div className={`max-w-7xl mx-auto px-6 flex flex-col items-center text-center z-10 relative transition-all duration-500 ${isChanging ? 'opacity-0 blur-sm scale-[0.98]' : 'opacity-100 blur-0 scale-100'}`}>

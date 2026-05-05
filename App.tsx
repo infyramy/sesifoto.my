@@ -1,4 +1,4 @@
-import React, { Suspense, lazy, useCallback, useEffect, useMemo, useState } from 'react';
+import React, { Suspense, lazy, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { BrowserRouter, Routes, Route, useLocation, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { LanguageProvider } from './contexts/LanguageContext';
@@ -6,31 +6,60 @@ import { ThemeProvider } from './contexts/ThemeContext';
 import { RouteTransitionProvider } from './contexts/RouteTransitionContext';
 import Navbar from './components/Navbar';
 
-const LoadingFallback = () => (
-  <div className="flex items-center justify-center w-full h-[60vh]">
-    <div className="flex flex-col items-center gap-3">
-      <div className="w-8 h-8 rounded-full border-2 border-studio-primary border-t-transparent animate-spin"></div>
-      <span className="text-sm text-slate-400 font-medium tracking-widest uppercase">Loading</span>
-    </div>
-  </div>
-);
+// ---------------------------------------------------------------------------
+// Route-level loading bar — thin top bar, only visible if chunk takes > 300ms
+// ---------------------------------------------------------------------------
+const ROUTE_LOADING_DELAY_MS = 300;
 
+const RouteLoadingBar = () => {
+  const [visible, setVisible] = useState(false);
+
+  useEffect(() => {
+    // Grace period: don't show anything if the route resolves quickly
+    const timer = setTimeout(() => setVisible(true), ROUTE_LOADING_DELAY_MS);
+    return () => clearTimeout(timer);
+  }, []);
+
+  if (!visible) return null;
+
+  return (
+    <div
+      className="fixed top-0 left-0 right-0 z-[9998] h-[2px] pointer-events-none"
+      role="progressbar"
+      aria-label="Loading page"
+    >
+      <div
+        className="h-full bg-gradient-to-r from-studio-primary to-[#FF8A5C] rounded-r-full"
+        style={{
+          animation: 'sfRouteBar 2.5s cubic-bezier(0.4, 0, 0.2, 1) forwards',
+        }}
+      />
+    </div>
+  );
+};
+
+// ---------------------------------------------------------------------------
+// Page transition wrapper — opacity-only for buttery GPU compositing
+// ---------------------------------------------------------------------------
 const PageTransition = ({ children }: { children: React.ReactNode }) => {
   return (
     <motion.div
-      initial={{ opacity: 0, y: 8 }}
-      animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, y: -8, transition: { duration: 0.05, ease: "easeIn" } }}
-      transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0, transition: { duration: 0.08, ease: "easeIn" } }}
+      transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
       className="w-full h-full"
     >
-      <Suspense fallback={<LoadingFallback />}>
+      <Suspense fallback={<RouteLoadingBar />}>
         {children}
       </Suspense>
     </motion.div>
   );
 };
 
+// ---------------------------------------------------------------------------
+// Lazy routes
+// ---------------------------------------------------------------------------
 const LandingPage = lazy(() => import('./components/LandingPage'));
 const SalesPage = lazy(() => import('./components/SalesPage'));
 const NewsPage = lazy(() => import('./components/NewsPage'));
@@ -70,6 +99,44 @@ const ScrollToTop = () => {
   return null;
 };
 
+const hasProtectedMedia = (target: EventTarget | null) => {
+  if (!(target instanceof Element)) return false;
+
+  const mediaSelector = 'img, video, picture, canvas, source, [data-protected-media]';
+  if (target.closest(mediaSelector)) return true;
+
+  let node: Element | null = target;
+  while (node && node !== document.body) {
+    const backgroundImage = window.getComputedStyle(node).backgroundImage;
+    if (backgroundImage && backgroundImage !== 'none' && backgroundImage.includes('url(')) {
+      return true;
+    }
+    node = node.parentElement;
+  }
+
+  return false;
+};
+
+const MediaProtection = () => {
+  useEffect(() => {
+    const preventMediaAction = (event: Event) => {
+      if (hasProtectedMedia(event.target)) {
+        event.preventDefault();
+      }
+    };
+
+    document.addEventListener('contextmenu', preventMediaAction, { capture: true });
+    document.addEventListener('dragstart', preventMediaAction, { capture: true });
+
+    return () => {
+      document.removeEventListener('contextmenu', preventMediaAction, { capture: true });
+      document.removeEventListener('dragstart', preventMediaAction, { capture: true });
+    };
+  }, []);
+
+  return null;
+};
+
 const AppRoutes: React.FC = () => {
   const location = useLocation();
   const navigate = useNavigate();
@@ -90,6 +157,7 @@ const AppRoutes: React.FC = () => {
 
   return (
     <RouteTransitionProvider value={transitionContextValue}>
+      <MediaProtection />
       <ScrollToTop />
       {location.pathname !== '/salespage' && <Navbar />}
       <AnimatePresence mode="wait">

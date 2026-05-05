@@ -21,8 +21,8 @@ const GlassCard: React.FC<GlassCardProps> = ({ children, className = '', hoverEf
       {/* Subtle top shine for 3D glass effect */}
       <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/20 to-transparent opacity-50" />
 
-      {/* Subtle Noise Texture for Glass Effect */}
-      <div className="absolute inset-0 opacity-[0.02] pointer-events-none bg-[url('https://grainy-gradients.vercel.app/noise.svg')] md:mix-blend-overlay mix-blend-normal transform-gpu"></div>
+      {/* Subtle Noise Texture for Glass Effect — inline SVG, no external request */}
+      <div className="absolute inset-0 opacity-[0.02] pointer-events-none md:mix-blend-overlay mix-blend-normal transform-gpu" style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.7' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")`, backgroundSize: '128px 128px' }}></div>
 
       <div className="relative z-10 h-full">
         {children}

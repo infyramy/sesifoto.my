@@ -1,157 +1,302 @@
-import React from 'react';
-import { Star, Quote } from 'lucide-react';
-import Reveal from './ui/Reveal';
+import React, { useRef } from 'react';
+import { ChevronLeft, ChevronRight, Play, Twitter, Instagram, Facebook, MessageCircle, AtSign, Quote, MapPin } from 'lucide-react';
 import { useLanguage } from '../contexts/LanguageContext';
+
+const SourceIcon = ({ source }: { source: string }) => {
+  switch (source) {
+    case 'x': return <Twitter className="w-3.5 h-3.5 text-white" />;
+    case 'instagram': return <Instagram className="w-3.5 h-3.5 text-white" />;
+    case 'facebook': return <Facebook className="w-3.5 h-3.5 text-white" />;
+    case 'threads': return <AtSign className="w-3.5 h-3.5 text-white" />;
+    default: return <MessageCircle className="w-3.5 h-3.5 text-white" />;
+  }
+};
 
 const Testimonials: React.FC = () => {
   const { t, isChanging } = useLanguage();
-  const [activeTestimonial, setActiveTestimonial] = React.useState(0);
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
+  const testimonials = t.testimonials.items;
+  const displayItems = testimonials;
 
-  // Duplicate the items enough times to create a seamless loop
-  const allTestimonials = [
-    ...t.testimonials.items,
-    ...t.testimonials.items,
-    ...t.testimonials.items
-  ];
+  const scrollByCard = (direction: -1 | 1) => {
+    if (scrollContainerRef.current) {
+      const distance = Math.min(356, Math.max(280, scrollContainerRef.current.clientWidth * 0.82));
+      scrollContainerRef.current.scrollBy({ left: distance * direction, behavior: 'smooth' });
+    }
+  };
+
+  const formatContent = (content: string) => {
+    const cleanContent = content.replace(/^"|"$/g, '');
+    const words = cleanContent.split(' ');
+    if (words.length <= 4) return { first: cleanContent, rest: '' };
+    const first = words.slice(0, 4).join(' ');
+    const rest = words.slice(4).join(' ');
+    return { first, rest };
+  };
 
   return (
-    <section id="reviews" className="py-16 md:py-24 relative overflow-hidden bg-slate-50 dark:bg-zinc-950 transition-colors duration-500">
-      {/* Seamless Transition Overlay */}
-      <div className="absolute inset-0 bg-gradient-to-b from-slate-50 via-white/50 to-slate-50 dark:from-zinc-950 dark:via-black/20 dark:to-zinc-950 pointer-events-none" />
+    <section id="testimonials" className="relative w-full py-16 md:py-24 overflow-visible bg-transparent">
 
-      {/* Theme-Aware Gradient Orb - Middle Right */}
-      <div className="absolute top-1/2 right-0 translate-x-1/3 -translate-y-1/2 w-[800px] h-[800px] bg-studio-primary/10 rounded-full blur-[120px] md:mix-blend-screen mix-blend-normal transform-gpu pointer-events-none" />
-      <div className="absolute bottom-[-20%] left-[-10%] w-[600px] h-[600px] bg-orange-400/5 rounded-full blur-[100px] md:mix-blend-screen mix-blend-normal transform-gpu pointer-events-none" />
+      {/* Seamless Ambient Glow */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[500px] bg-studio-primary/5 dark:bg-studio-primary/10 rounded-full blur-[120px] pointer-events-none transform-gpu" />
 
-      <div className={`transition-all duration-500 relative z-10 ${isChanging ? 'opacity-0 blur-sm' : 'opacity-100 blur-0'}`}>
+      <div className={`relative z-10 max-w-[1400px] mx-auto px-6 transition-opacity duration-500 ${isChanging ? 'opacity-0 blur-sm' : 'opacity-100 blur-0'}`}>
 
-        {/* Header Section - CENTERED */}
-        <div className="max-w-7xl mx-auto px-6 mb-10 text-center flex flex-col items-center">
-          <Reveal>
-            <div className="flex flex-col items-center gap-4 pb-4">
-              <h2 className="text-3xl md:text-5xl font-medium font-serif bg-gradient-to-r from-orange-600 via-slate-800 to-slate-900 dark:from-white dark:to-slate-300 bg-clip-text text-transparent pb-2">
-                {t.testimonials.title}
-              </h2>
-              <p className="text-lg text-slate-600 dark:text-slate-400 font-light max-w-2xl mx-auto">
-                {t.testimonials.subtitle}
-              </p>
-              <div className="flex flex-col gap-2 shrink-0 items-center mt-4">
-                <div className="flex gap-1">
-                  {[1, 2, 3, 4, 5].map((star) => (
-                    <Star key={star} className="w-5 h-5 fill-amber-400 dark:fill-[#FBBF24] text-amber-400 dark:text-[#FBBF24]" />
-                  ))}
-                </div>
-                <span className="text-slate-900 dark:text-white font-medium tracking-wide">{t.testimonials.rating}</span>
-              </div>
+        {/* Header Section */}
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-10 md:mb-14 gap-8">
+          <div className="max-w-3xl">
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-studio-primary/10 dark:bg-studio-primary/20 border border-studio-primary/20 dark:border-studio-primary/30 text-studio-primary text-xs font-bold tracking-widest uppercase mb-6 backdrop-blur-md shadow-sm dark:shadow-none">
+              <Quote className="w-3.5 h-3.5 fill-current" />
+              <span>Testimonial</span>
             </div>
-          </Reveal>
+            {/* Same typography as Integrations.tsx */}
+            <h2 className="text-3xl md:text-5xl font-medium text-slate-900 dark:text-white mb-2 font-serif leading-tight pb-1">
+              {t.testimonials.title}
+            </h2>
+          </div>
+          <a href="https://office.sesifoto.my/register" target="_blank" rel="noopener noreferrer" className="relative group overflow-hidden shrink-0 px-8 py-3.5 bg-studio-primary text-white rounded-full font-bold text-sm shadow-[0_10px_40px_-10px_rgba(255,107,44,0.4)] hover:scale-105 active:scale-95 transition-all text-center flex items-center justify-center">
+            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700"></div>
+            <span className="relative z-10 flex items-center gap-2">
+              {t.nav?.register || 'Contact Sales'}
+            </span>
+          </a>
         </div>
 
-        {/* MOBILE VIEW: Split Layout (Selector | Content) */}
-        {/* MOBILE VIEW: Split Layout (Selector | Content) */}
-        <div className="md:hidden px-4">
-          <div className="flex gap-3 items-stretch min-h-[200px]">
-            {/* Left Column: Detailed Selectors */}
-            <div className="flex flex-col gap-3 shrink-0 w-36 overflow-y-auto no-scrollbar p-3">
-              {t.testimonials.items.map((item, index) => (
-                <button
-                  key={index}
-                  onClick={() => setActiveTestimonial(index)}
-                  className={`relative flex flex-col items-center p-2 rounded-2xl border transition-all duration-300 ease-out text-center group shrink-0 ${activeTestimonial === index
-                    ? 'bg-white dark:bg-zinc-800 border-studio-primary/30 ring-2 ring-studio-primary shadow-lg scale-100 opacity-100 z-10'
-                    : 'bg-slate-50 dark:bg-white/5 border-transparent scale-90 opacity-60 grayscale hover:opacity-80 hover:scale-100'
-                    }`}
-                >
-                  <img
-                    src={item.avatar}
-                    alt={item.name}
-                    className={`rounded-full object-cover mb-2 transition-all duration-300 shadow-sm ${activeTestimonial === index ? 'w-10 h-10 ring-2 ring-white dark:ring-zinc-700' : 'w-8 h-8'
-                      }`}
-                  />
-                  <div className="flex flex-col w-full">
-                    <span className={`text-[10px] leading-tight font-bold truncate w-full mb-1 ${activeTestimonial === index ? 'text-slate-900 dark:text-white' : 'text-slate-600 dark:text-slate-400'}`}>
-                      {item.name}
-                    </span>
-                    <span className="text-[9px] leading-tight text-slate-500 dark:text-slate-500 line-clamp-2">
-                      {item.company}
-                    </span>
-                  </div>
-                </button>
-              ))}
-            </div>
+        {/* Carousel Section */}
+        <div className="relative -mx-6 px-6">
+          <div
+            ref={scrollContainerRef}
+            className="hide-scrollbar flex snap-x snap-mandatory gap-4 overflow-x-auto px-24 pb-8 pt-2 scroll-pl-24 scroll-pr-24 scroll-smooth md:px-32 md:scroll-pl-32 md:scroll-pr-32"
+            style={{
+              scrollbarWidth: 'none',
+              msOverflowStyle: 'none',
+              maskImage: 'linear-gradient(to right, transparent 0%, black 10%, black 90%, transparent 100%)',
+              WebkitMaskImage: 'linear-gradient(to right, transparent 0%, black 10%, black 90%, transparent 100%)'
+            }}
+          >
+            {displayItems.map((item, idx) => {
+              const testimonialMeta = item as typeof item & {
+                highlight?: string;
+                excerpt?: string;
+                sourceUrl?: string;
+                logoText?: string;
+              };
+              const displayContent = testimonialMeta.highlight || testimonialMeta.excerpt || testimonialMeta.content;
+              const { first, rest } = formatContent(displayContent);
+              const isLongQuote = displayContent.length > 130;
+              const sourceUrl = testimonialMeta.sourceUrl;
+              const metaLine = [item.role, item.company].filter(Boolean).join(', ');
 
-            {/* Right Column: Content Card */}
-            <div className="flex-1 min-w-0">
-              <div className="bg-white dark:bg-zinc-900 border border-slate-200 dark:border-white/10 rounded-3xl p-5 shadow-sm h-full flex flex-col relative overflow-hidden">
-                <div className="absolute top-0 right-0 p-4 opacity-10">
-                  <Quote className="w-12 h-12 text-slate-900 dark:text-white" />
+              const invertClass = item.invertMode === 'light' ? 'invert dark:invert-0'
+                                : item.invertMode === 'dark' ? 'dark:invert'
+                                : '';
+
+              // Transparent Frameless Logo Component
+              const TransparentLogo = testimonialMeta.logoText ? (
+                <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-[9px] bg-studio-primary text-center text-[7px] font-black leading-[0.8] text-white shadow-[0_8px_20px_-10px_rgba(255,107,44,0.9)]">
+                  <span>{testimonialMeta.logoText.split(' ').map((word) => <React.Fragment key={word}>{word}<br /></React.Fragment>)}</span>
                 </div>
+              ) : (
+                <img
+                  src={item.clientLogo}
+                  alt={item.company}
+                  className={`h-8 w-auto object-contain shrink-0 opacity-80 mix-blend-multiply dark:mix-blend-normal ${invertClass}`}
+                />
+              );
 
-                <div className="flex-1 flex flex-col justify-center z-10">
-                  <div className="flex gap-0.5 mb-3">
-                    {[1, 2, 3, 4, 5].map((star) => (
-                      <Star key={star} className="w-3.5 h-3.5 fill-amber-400 text-amber-400" />
-                    ))}
+              // Override for dark backgrounds (video/image-text) which always need white logos
+              const forcedLogoClass = item.invertMode === 'dark'
+                ? 'brightness-0 invert contrast-125 opacity-100'
+                : item.invertMode === 'light'
+                  ? 'brightness-0 opacity-90'
+                  : 'opacity-90';
+
+              const ForcedWhiteLogo = (
+                testimonialMeta.logoText ? TransparentLogo : (
+                  <img
+                    src={item.clientLogo}
+                    alt={item.company}
+                    className={`h-8 w-auto object-contain shrink-0 ${forcedLogoClass}`}
+                  />
+                )
+              );
+
+              // Top Header
+              const TopHeader = (
+                <div className="absolute top-0 left-0 right-0 p-6 flex justify-between items-start z-10">
+                   <div className="h-8 flex items-center justify-start">
+                     {TransparentLogo}
+                   </div>
+                   <div className="w-8 h-8 rounded-lg bg-black/80 backdrop-blur-md border border-white/10 shadow-sm flex items-center justify-center shrink-0">
+                     <SourceIcon source={item.source} />
+                   </div>
+                </div>
+              );
+
+              // Bottom Footer (Name, Role, Company, Location)
+              const BottomFooter = (
+                <div className="absolute bottom-0 left-0 right-0 p-6 flex justify-between items-end z-10 bg-gradient-to-t from-white via-white/80 dark:from-[#111] dark:via-[#111]/80 to-transparent">
+                  <div className="flex flex-col text-left mt-4">
+                    <h4 className="text-slate-900 dark:text-white font-bold text-[15px] leading-tight">{item.name}</h4>
+                    {metaLine && (
+                      <p className="text-slate-600 dark:text-slate-400 text-[11px] font-medium mt-0.5">{metaLine}</p>
+                    )}
+                    {item.location && (
+                      <p className="text-slate-400 dark:text-slate-500 text-[10px] mt-1.5 flex items-center gap-1 uppercase tracking-wider font-semibold">
+                        <MapPin className="w-3 h-3 text-studio-primary" /> {item.location}
+                      </p>
+                    )}
+                    {sourceUrl && (
+                      <p className="mt-2 text-[10px] font-bold uppercase tracking-wider text-studio-primary">
+                        {t.testimonials.readFull || 'Read full testimonial'}
+                      </p>
+                    )}
                   </div>
-                  <p className="text-slate-700 dark:text-slate-300 text-sm leading-relaxed mb-4">
-                    {t.testimonials.items[activeTestimonial].content}
+                </div>
+              );
+
+              // Standardize text class for readability depending on background
+              const TextContentDarkBg = (
+                <div className={`absolute inset-0 p-6 pb-28 flex flex-col z-10 ${isLongQuote ? 'justify-start pt-20' : 'justify-center'}`}>
+                  <p className={`${isLongQuote ? 'text-[17px] leading-[1.45]' : 'text-[22px] leading-[1.25]'} font-serif whitespace-pre-line`}>
+                    <span className="text-white font-medium">"{first} </span>
+                    <span className="text-white/80"> {rest}"</span>
                   </p>
                 </div>
+              );
 
-                <div className="pt-4 border-t border-slate-100 dark:border-white/5 shrink-0 relative z-10">
-                  <h4 className="text-slate-900 dark:text-white font-bold text-sm">{t.testimonials.items[activeTestimonial].name}</h4>
-                  <p className="text-slate-500 dark:text-slate-500 text-[10px] uppercase font-bold tracking-wider">{t.testimonials.items[activeTestimonial].role} @ {t.testimonials.items[activeTestimonial].company}</p>
+              const TextContentLightBg = (
+                <div className={`absolute inset-0 p-6 pb-28 flex flex-col z-10 ${isLongQuote ? 'justify-start pt-20' : 'justify-center'}`}>
+                  <p className={`${isLongQuote ? 'text-[17px] leading-[1.45]' : 'text-[22px] leading-[1.25]'} font-serif whitespace-pre-line`}>
+                    <span className="text-slate-900 dark:text-white font-medium">"{first} </span>
+                    <span className="text-slate-600 dark:text-slate-300"> {rest}"</span>
+                  </p>
                 </div>
-              </div>
-            </div>
-          </div>
-        </div>
+              );
 
-        {/* DESKTOP VIEW: Continuous Marquee */}
-        <div className="hidden md:block relative w-full overflow-hidden py-10">
-          {/* Marquee Container */}
-          <div
-            className="flex w-max animate-scroll hover:[animation-play-state:paused]"
-            style={{ width: 'max-content' }}
-          >
-            {/* Loop Items */}
-            {allTestimonials.map((testimonial, index) => (
-              <div key={index} className="w-[480px] mx-5 shrink-0 h-full">
-                {/* System Style Card */}
-                <div className="relative group overflow-hidden rounded-3xl p-8 h-full min-h-[300px] flex flex-col justify-between bg-white dark:bg-zinc-900 border border-slate-200 dark:border-white/10 shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-1 hover:border-slate-300 dark:hover:border-white/20 text-left">
-
-                  <div className="relative z-10">
-                    <div className="mb-6 flex justify-between items-start">
-                      <div className="flex gap-0.5">
-                        {[1, 2, 3, 4, 5].map((star) => (
-                          <Star key={star} className="w-4 h-4 fill-amber-400 text-amber-400" />
-                        ))}
-                      </div>
-                      <Quote className="w-8 h-8 text-slate-100 dark:text-white/5 fill-current rotate-180" />
-                    </div>
-                    <p className="text-slate-700 dark:text-slate-300 leading-relaxed text-lg font-normal">
-                      "{testimonial.content}"
-                    </p>
-                  </div>
-
-                  <div className="relative z-10 flex items-center gap-4 pt-8 mt-4 border-t border-slate-100 dark:border-white/5">
-                    <img
-                      src={testimonial.avatar}
-                      alt={testimonial.name}
-                      className="w-10 h-10 rounded-full object-cover ring-2 ring-slate-100 dark:ring-white/10"
+              return (
+                <div
+                  key={idx}
+                  className={`snap-start shrink-0 w-[300px] md:w-[340px] h-[400px] rounded-[24px] relative overflow-hidden group border border-slate-200 dark:border-white/5 shadow-sm hover:shadow-md transition-all duration-300 bg-white dark:bg-zinc-900 hover:-translate-y-1 ${sourceUrl ? 'cursor-pointer' : ''}`}
+                >
+                  {sourceUrl && (
+                    <a
+                      href={sourceUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label={`Read full testimonial from ${item.name}`}
+                      className="absolute inset-0 z-30 rounded-[24px] focus:outline-none focus:ring-2 focus:ring-studio-primary/70 focus:ring-offset-2 focus:ring-offset-white dark:focus:ring-offset-black"
                     />
-                    <div>
-                      <h4 className="text-slate-900 dark:text-white font-bold text-sm">{testimonial.name}</h4>
-                      <p className="text-slate-500 dark:text-slate-500 text-xs font-semibold uppercase tracking-wider">{testimonial.role} @ {testimonial.company}</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
+                  )}
+                  {item.type === 'video' && (
+                    <div className="absolute inset-0 bg-slate-900">
+                      <img src={item.avatar} alt={item.name} className="absolute inset-0 w-full h-full object-cover opacity-80 group-hover:scale-105 transition-transform duration-700" />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-black/80" />
 
+                      {/* We override TopHeader/BottomFooter colors since bg is guaranteed dark */}
+                      <div className="absolute top-0 left-0 right-0 p-6 flex justify-between items-start z-10">
+                        <div className="h-8 flex items-center justify-start">
+                          {ForcedWhiteLogo}
+                        </div>
+                        <div className="w-8 h-8 rounded-lg bg-black/80 backdrop-blur-md border border-white/20 shadow-sm flex items-center justify-center shrink-0">
+                          <SourceIcon source={item.source} />
+                        </div>
+                      </div>
+
+                      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-16 h-16 bg-white rounded-full flex items-center justify-center cursor-pointer hover:scale-110 transition-transform shadow-[0_0_30px_rgba(255,255,255,0.3)] z-10">
+                        <Play className="w-6 h-6 text-black fill-black ml-1" />
+                      </div>
+
+                      <div className="absolute bottom-0 left-0 right-0 p-6 flex justify-between items-end z-10 bg-gradient-to-t from-black via-black/80 to-transparent">
+                        <div className="flex flex-col text-left mt-4">
+                          <h4 className="text-white font-bold text-[15px] leading-tight">{item.name}</h4>
+                          {metaLine && (
+                            <p className="text-white/80 text-[11px] font-medium mt-0.5">{metaLine}</p>
+                          )}
+                          {item.location && (
+                            <p className="text-white/50 text-[10px] mt-1.5 flex items-center gap-1 uppercase tracking-wider font-semibold">
+                              <MapPin className="w-3 h-3 text-studio-primary" /> {item.location}
+                            </p>
+                          )}
+                        </div>
+                      </div>
+                    </div>
+                  )}
+
+                  {item.type === 'image-text' && (
+                    <div className="absolute inset-0 bg-slate-900">
+                      <img src={item.avatar} alt={item.name} className="absolute inset-0 w-full h-full object-cover opacity-30 group-hover:scale-105 transition-transform duration-700 blur-[1px]" />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black via-black/80 to-black/50" />
+
+                      <div className="absolute top-0 left-0 right-0 p-6 flex justify-between items-start z-10">
+                        <div className="h-8 flex items-center justify-start">
+                          {ForcedWhiteLogo}
+                        </div>
+                        <div className="w-8 h-8 rounded-lg bg-black/80 backdrop-blur-md border border-white/20 shadow-sm flex items-center justify-center shrink-0">
+                          <SourceIcon source={item.source} />
+                        </div>
+                      </div>
+
+                      {TextContentDarkBg}
+
+                      <div className="absolute bottom-0 left-0 right-0 p-6 flex justify-between items-end z-10 bg-gradient-to-t from-black via-black/80 to-transparent">
+                        <div className="flex flex-col text-left mt-4">
+                          <h4 className="text-white font-bold text-[15px] leading-tight">{item.name}</h4>
+                          {metaLine && (
+                            <p className="text-white/80 text-[11px] font-medium mt-0.5">{metaLine}</p>
+                          )}
+                          {item.location && (
+                            <p className="text-white/50 text-[10px] mt-1.5 flex items-center gap-1 uppercase tracking-wider font-semibold">
+                              <MapPin className="w-3 h-3 text-studio-primary" /> {item.location}
+                            </p>
+                          )}
+                        </div>
+                      </div>
+                    </div>
+                  )}
+
+                  {item.type === 'text' && (
+                    <div className="absolute inset-0 bg-white dark:bg-[#111111] hover:bg-slate-50 dark:hover:bg-[#161616] transition-colors">
+                      {TopHeader}
+                      {TextContentLightBg}
+                      {BottomFooter}
+                    </div>
+                  )}
+                </div>
+              );
+            })}
+
+          </div>
+
+          {/* Scroll Buttons */}
+          <div className="absolute top-[45%] left-6 md:left-12 -translate-y-1/2 pointer-events-none z-20">
+            <button
+              onClick={() => scrollByCard(-1)}
+              aria-label="Previous testimonial"
+              className="flex h-14 w-14 transform-gpu items-center justify-center rounded-full border border-slate-200 bg-white/90 text-slate-900 shadow-xl backdrop-blur-md transition-transform duration-300 [transition-timing-function:cubic-bezier(0.16,1,0.3,1)] hover:scale-105 hover:bg-white dark:border-white/10 dark:bg-black/80 dark:text-white dark:hover:bg-black pointer-events-auto"
+            >
+              <ChevronLeft className="w-6 h-6" />
+            </button>
+          </div>
+
+          <div className="absolute top-[45%] right-6 md:right-12 -translate-y-1/2 pointer-events-none z-20">
+            <button
+              onClick={() => scrollByCard(1)}
+              aria-label="Next testimonial"
+              className="flex h-14 w-14 transform-gpu items-center justify-center rounded-full border border-slate-200 bg-white/90 text-slate-900 shadow-xl backdrop-blur-md transition-transform duration-300 [transition-timing-function:cubic-bezier(0.16,1,0.3,1)] hover:scale-105 hover:bg-white dark:border-white/10 dark:bg-black/80 dark:text-white dark:hover:bg-black pointer-events-auto"
+            >
+              <ChevronRight className="w-6 h-6" />
+            </button>
+          </div>
+
+        </div>
       </div>
+
+      <style>{`
+        .hide-scrollbar::-webkit-scrollbar {
+          display: none;
+        }
+      `}</style>
     </section>
   );
 };

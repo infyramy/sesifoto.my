@@ -5,17 +5,85 @@ import { useLanguage } from '../contexts/LanguageContext';
 import { Globe, LayoutDashboard, Calendar, CalendarClock, BarChart3, CheckCircle2, ShieldCheck, FileSpreadsheet, Ticket, ArrowLeftRight, Download, Search, Clock, ChevronsUpDown, Filter, Users, MessageCircle, MoreHorizontal, MoreVertical, Calendar as CalendarIcon, PhoneCall } from 'lucide-react';
 import { sanitizeRichHtml } from '../utils/sanitizeHtml';
 
-const BentoIllustration = ({ title, bgClass, textClass, icon }: { title: string, bgClass: string, textClass: string, icon: React.ReactNode }) => {
+const rawFeatureImages = [
+   'booking-form.webp',
+   'export-data.webp',
+   'automatic-receipt.webp',
+   'quick-search.webp',
+   'google-calendar.webp',
+   'telegram-notification.webp',
+   'voucher-management.webp',
+   'whatsapp-automation.webp',
+   'photographer-payroll.webp',
+   'lead-management.webp',
+];
+
+const getRawFeatureImage = (title: string) => {
    const normalized = title.toLowerCase();
+   let index = -1;
+
+   if (normalized.includes('borang') || normalized.includes('booking form')) index = 0;
+   else if (normalized.includes('eksport') || normalized.includes('export')) index = 1;
+   else if (normalized.includes('resit') || normalized.includes('receipt') || normalized.includes('invoice')) index = 2;
+   else if (normalized.includes('carian') || normalized.includes('search')) index = 3;
+   else if (normalized.includes('calendar')) index = 4;
+   else if (normalized.includes('telegram')) index = 5;
+   else if (normalized.includes('baucar') || normalized.includes('voucher')) index = 6;
+   else if (normalized.includes('whatsapp')) index = 7;
+   else if (normalized.includes('jurugambar') || normalized.includes('photographer') || normalized.includes('payout')) index = 8;
+   else if (normalized.includes('lead')) index = 9;
+
+   return index >= 0 ? `/media/features/cards/${rawFeatureImages[index]}` : null;
+};
+
+const BentoIllustration = ({ title, description, tier, bgClass, textClass, icon }: { title: string, description?: string, tier?: string, bgClass: string, textClass: string, icon: React.ReactNode }) => {
+   const normalized = title.toLowerCase();
+   const rawImage = getRawFeatureImage(title);
+   const isPrime = tier === 'prime';
 
    const Wrapper = ({ children, align = 'center' }: { children: React.ReactNode, align?: 'center' | 'end' | 'start' }) => (
-      <div className={`w-full h-36 rounded-t-2xl opacity-90 bg-gradient-to-br ${bgClass} overflow-hidden flex items-${align} justify-center p-4 relative`}>
+      <div className={`w-full h-44 md:h-48 rounded-t-2xl opacity-90 bg-gradient-to-br ${bgClass} overflow-hidden flex items-${align} justify-center p-4 relative`}>
          <div className={`absolute top-4 left-4 w-9 h-9 rounded-xl bg-white/70 dark:bg-black/30 backdrop-blur-md flex items-center justify-center shadow-sm border border-white/50 dark:border-white/10 z-30 ${textClass}`}>
             {icon}
          </div>
          {children}
       </div>
    );
+
+   if (rawImage && description) {
+      return (
+         <div
+            className={`group relative flex h-full min-w-0 w-full transform-gpu flex-col overflow-hidden rounded-[1.4rem] border bg-[#101012] shadow-[0_28px_95px_-66px_rgba(0,0,0,0.95)] transition-[border-color,box-shadow,transform] duration-500 [transition-timing-function:cubic-bezier(0.16,1,0.3,1)] hover:-translate-y-1 sm:rounded-[1.75rem] ${isPrime ? 'border-studio-primary/35 shadow-[0_32px_110px_-68px_rgba(255,107,44,0.9)] hover:border-studio-primary/60' : 'border-white/10 hover:border-white/20'}`}
+            style={{ contain: 'layout paint style' }}
+         >
+            <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(255,107,44,0.1),transparent_58%)] opacity-80" />
+
+            <div className="relative aspect-[4/3] w-full overflow-hidden bg-[#151519]">
+               <div className={`absolute inset-0 bg-gradient-to-br ${bgClass} opacity-[0.16]`} />
+               <img
+                  src={rawImage}
+                  alt={`${title} feature concept`}
+                  loading="lazy"
+                  decoding="async"
+                  width={960}
+                  height={720}
+                  className="relative z-10 h-full w-full transform-gpu object-cover object-center transition-transform duration-700 [transition-timing-function:cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.015]"
+               />
+               <div className="pointer-events-none absolute inset-x-0 bottom-0 z-20 h-24 bg-gradient-to-t from-[#101012] via-[#101012]/72 to-transparent" />
+            </div>
+
+            <div className="relative flex flex-1 flex-col px-5 pb-5 pt-4 sm:px-6 sm:pb-6 sm:pt-5">
+               <div className="mb-2.5 flex items-start justify-between gap-4">
+                  <h4 className="text-lg font-medium leading-tight text-white sm:text-xl">{title}</h4>
+                  <span className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-xl border bg-white/[0.06] shadow-sm backdrop-blur sm:h-10 sm:w-10 ${isPrime ? 'border-studio-primary/30 bg-studio-primary/15' : 'border-white/10'} ${textClass}`}>
+                     {icon}
+                  </span>
+               </div>
+               <p className="text-sm leading-relaxed text-zinc-400">{description}</p>
+            </div>
+         </div>
+      );
+   }
 
    if (normalized.includes('borang') || normalized.includes('booking form')) {
       return (
@@ -341,13 +409,13 @@ const Features: React.FC = () => {
    return (
       <section id="features" className="py-16 md:py-24 relative bg-slate-50 dark:bg-zinc-950 overflow-hidden transition-colors duration-500">
 
-         {/* Theme-Aware Background Gradient Orbs */}
-         <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-gradient-radial from-orange-200/40 dark:from-studio-primary/10 to-transparent opacity-60 dark:opacity-50 blur-3xl pointer-events-none"></div>
-         <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-gradient-radial from-amber-200/30 dark:from-orange-500/10 to-transparent opacity-50 dark:opacity-40 blur-3xl pointer-events-none"></div>
+         {/* Theme-Aware Background Gradient Orbs — desktop only (too heavy for mobile GPU) */}
+         <div className="hidden md:block absolute top-0 right-0 w-[800px] h-[800px] bg-gradient-radial from-orange-200/40 dark:from-studio-primary/10 to-transparent opacity-60 dark:opacity-50 blur-3xl pointer-events-none"></div>
+         <div className="hidden md:block absolute bottom-0 left-0 w-[600px] h-[600px] bg-gradient-radial from-amber-200/30 dark:from-orange-500/10 to-transparent opacity-50 dark:opacity-40 blur-3xl pointer-events-none"></div>
 
-         {/* Additional Orange Accents for Depth */}
-         <div className="absolute top-[30%] left-[-10%] w-[500px] h-[500px] bg-studio-primary/10 dark:bg-studio-primary/5 rounded-full blur-[100px] pointer-events-none"></div>
-         <div className="absolute top-[60%] right-[-10%] w-[500px] h-[500px] bg-orange-400/10 dark:bg-orange-500/5 rounded-full blur-[100px] pointer-events-none"></div>
+         {/* Additional Orange Accents for Depth — desktop only */}
+         <div className="hidden md:block absolute top-[30%] left-[-10%] w-[500px] h-[500px] bg-studio-primary/10 dark:bg-studio-primary/5 rounded-full blur-[100px] pointer-events-none"></div>
+         <div className="hidden md:block absolute top-[60%] right-[-10%] w-[500px] h-[500px] bg-orange-400/10 dark:bg-orange-500/5 rounded-full blur-[100px] pointer-events-none"></div>
 
          {/* Grid Pattern Overlay - CSS Based for Reliability */}
          <div className="absolute inset-0 z-0 opacity-[0.02] dark:opacity-[0.04] pointer-events-none"
@@ -500,13 +568,15 @@ const Features: React.FC = () => {
 
             {/* NEW BENTO GRID SECTION */}
             {t.features.bentoGrid && (
-               <div className="mt-16 md:mt-32 max-w-6xl mx-auto px-6">
-                  <div className="text-center mb-16 md:mb-20 w-full max-w-4xl mx-auto">
+               <div className="relative mt-14 max-w-7xl mx-auto px-0 sm:mt-16 sm:px-2 md:mt-28 lg:px-6">
+                  <div className="pointer-events-none absolute inset-x-0 top-16 -z-10 h-[36rem] bg-[radial-gradient(ellipse_at_top,rgba(255,107,44,0.18),transparent_58%)] opacity-80 dark:opacity-60" />
+
+                  <div className="relative z-10 text-center mb-10 sm:mb-12 md:mb-14 w-full max-w-4xl mx-auto px-4">
                      <Reveal width="100%">
-                        <h3 className="text-3xl md:text-4xl font-medium font-serif text-slate-900 dark:text-white mb-3 leading-tight">{t.features.bentoGrid.title}</h3>
+                        <h3 className="text-2xl sm:text-3xl md:text-4xl font-medium font-serif text-slate-900 dark:text-white mb-3 leading-tight">{t.features.bentoGrid.title}</h3>
                      </Reveal>
                      <Reveal delay={100} width="100%">
-                        <p className="text-lg text-slate-600 dark:text-slate-400 max-w-2xl mx-auto leading-relaxed">{t.features.bentoGrid.subtitle}</p>
+                        <p className="text-base md:text-lg text-slate-600 dark:text-slate-400 max-w-2xl mx-auto leading-relaxed">{t.features.bentoGrid.subtitle}</p>
                      </Reveal>
                   </div>
 
@@ -515,57 +585,45 @@ const Features: React.FC = () => {
                      const allPackageItems = items.filter((item: any) => item.tier !== 'prime');
                      const primeOnlyItems = items.filter((item: any) => item.tier === 'prime');
                      return (
-                        <div className="space-y-10">
+                        <div className="relative z-10 space-y-12">
                            <div>
-                              <div className="mb-5 flex justify-start">
-                                 <Reveal width="auto" delay={0}>
-                                    <span className="inline-flex items-center rounded-full px-3 py-1 text-xs font-bold tracking-wide uppercase bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 border border-emerald-500/30">
+                              <div className="mb-5 flex justify-center sm:justify-start">
+                                 <Reveal width="fit-content" delay={0}>
+                                    <span className="inline-flex items-center rounded-full border border-emerald-500/25 bg-emerald-500/10 px-3 py-1 text-xs font-bold uppercase tracking-wide text-emerald-600 dark:text-emerald-300">
                                        {t.features.bentoGrid.groupAllTitle}
                                     </span>
                                  </Reveal>
                               </div>
-                              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-5" style={{ gridAutoRows: '1fr' }}>
+                              <div className="grid w-full grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3 lg:gap-6" style={{ gridAutoRows: '1fr' }}>
                                  {allPackageItems.map((item: any, index: number) => {
                                     const { bg, text } = getBentoStyle(item.title, item.tier);
                                     return (
                                        <Reveal key={`all-${index}`} delay={(index + 1) * 75} width="100%" className="flex h-full">
-                                          <GlassCard className="w-full h-full flex flex-col items-start bg-slate-50 dark:bg-zinc-900 border border-slate-200 dark:border-white/10 hover:border-slate-300 dark:hover:border-white/25 transition-all duration-300 group hover:shadow-lg hover:-translate-y-1 p-0 overflow-hidden">
-                                             <BentoIllustration title={item.title} bgClass={bg} textClass={text} icon={getBentoIcon(item.title, item.tier)} />
-                                             <div className="flex-1 w-full p-5 md:p-6 pb-7 flex flex-col relative z-20 bg-slate-50 dark:bg-zinc-900 border-t border-slate-100 dark:border-zinc-800">
-                                                <div className="flex items-center gap-3 mb-2">
-                                                   <h4 className="font-medium text-lg md:text-xl text-slate-900 dark:text-white leading-tight">{item.title}</h4>
-                                                </div>
-                                                <p className="text-base text-slate-600 dark:text-slate-400 leading-relaxed max-w-sm">{item.description}</p>
-                                             </div>
-                                          </GlassCard>
+                                          <div className="w-full h-full">
+                                             <BentoIllustration title={item.title} description={item.description} tier={item.tier} bgClass={bg} textClass={text} icon={getBentoIcon(item.title, item.tier)} />
+                                          </div>
                                        </Reveal>
                                     );
                                  })}
                               </div>
                            </div>
 
-                           <div className="pt-8 border-t border-slate-200 dark:border-white/10">
-                              <div className="mb-5 flex justify-start">
-                                 <Reveal width="auto" delay={0}>
-                                    <span className="inline-flex items-center rounded-full px-3 py-1 text-xs font-bold tracking-wide uppercase bg-studio-primary/15 text-studio-primary border border-studio-primary/30">
+                           <div className="pt-8 border-t border-slate-200 dark:border-white/10 md:pt-10">
+                              <div className="mb-5 flex justify-center sm:justify-start">
+                                 <Reveal width="fit-content" delay={0}>
+                                    <span className="inline-flex items-center rounded-full border border-studio-primary/35 bg-studio-primary/15 px-3 py-1 text-xs font-bold uppercase tracking-wide text-studio-primary dark:text-orange-300">
                                        {t.features.bentoGrid.groupPrimeTitle}
                                     </span>
                                  </Reveal>
                               </div>
-                              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-5" style={{ gridAutoRows: '1fr' }}>
+                              <div className="grid w-full grid-cols-1 gap-5 md:grid-cols-2 lg:gap-6" style={{ gridAutoRows: '1fr' }}>
                                  {primeOnlyItems.map((item: any, index: number) => {
                                     const { bg, text } = getBentoStyle(item.title, item.tier);
                                     return (
                                        <Reveal key={`prime-${index}`} delay={(index + 1) * 75} width="100%" className="flex h-full">
-                                          <GlassCard className="w-full h-full flex flex-col items-start bg-slate-50 dark:bg-zinc-900 border border-studio-primary/20 dark:border-studio-primary/30 hover:border-studio-primary/40 transition-all duration-300 group hover:shadow-lg hover:-translate-y-1 p-0 overflow-hidden shadow-[0_0_15px_rgba(234,88,12,0.05)]">
-                                             <BentoIllustration title={item.title} bgClass={bg} textClass={text} icon={getBentoIcon(item.title, item.tier)} />
-                                             <div className="flex-1 w-full p-5 md:p-6 pb-7 flex flex-col relative z-20 bg-slate-50 dark:bg-zinc-900 border-t border-slate-100 dark:border-zinc-800">
-                                                <div className="flex items-center gap-3 mb-2">
-                                                   <h4 className="font-medium text-lg md:text-xl text-slate-900 dark:text-white leading-tight">{item.title}</h4>
-                                                </div>
-                                                <p className="text-base text-slate-600 dark:text-slate-400 leading-relaxed max-w-sm">{item.description}</p>
-                                             </div>
-                                          </GlassCard>
+                                          <div className="h-full w-full">
+                                             <BentoIllustration title={item.title} description={item.description} tier={item.tier} bgClass={bg} textClass={text} icon={getBentoIcon(item.title, item.tier)} />
+                                          </div>
                                        </Reveal>
                                     );
                                  })}
@@ -673,7 +731,7 @@ const RemotionLoopMockup: React.FC<{ src: string; title: string; poster?: string
             controlsList="nodownload nofullscreen noremoteplayback"
             tabIndex={-1}
             draggable={false}
-            preload="auto"
+            preload="none"
             className="w-full h-full object-contain pointer-events-none select-none bg-transparent transform-gpu backface-visibility-hidden"
             aria-label={title}
             onContextMenu={(e) => e.preventDefault()}

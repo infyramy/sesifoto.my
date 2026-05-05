@@ -260,7 +260,7 @@ const SalesPage: React.FC = () => {
                                 <span>Jumlah Perlu Bayar:</span>
                                 <span className="text-yellow-300 text-4xl animate-pulse">PERCUMA*</span>
                             </div>
-                            <div className="text-right text-xs text-slate-300 mt-2 italic">*Untuk 14 hari percubaan pertama.</div>
+                            <div className="text-right text-xs text-slate-300 mt-2 italic">*Bergantung pada pakej yang dipilih.</div>
                         </div>
 
                         <div className="py-2">
@@ -291,7 +291,7 @@ const SalesPage: React.FC = () => {
                             { q: "Susah ke nak setup? Saya buta IT.", a: "Jangan risau. Sistem ni direka memang untuk orang tak pandai IT. 5 minit siap setup. Ada video tutorial lagi." },
                             { q: "Duit customer masuk akaun siapa?", a: "Terus masuk akaun bank anda via FPX (Chip). Kami tak pegang duit anda. Selamat & telus." },
                             { q: "Ada kontrak ke ikat-ikat?", a: "Tiada kontrak. Anda bebas nak cancel bulan depan kalau tak suka. No hard feelings." },
-                            { q: "Boleh try dulu ke?", a: "Mesti! Ambil free trial 14 hari ni. Test power dulu. Kalau puashati, baru sambung." }
+                            { q: "Macam mana nak mula?", a: "Daftar akaun, pilih pakej yang sesuai, dan mula setup sistem tempahan studio anda." }
                         ].map((faq, i) => (
                             <div key={i} className="border border-white/10 rounded-xl p-5 hover:bg-white/5 transition-colors">
                                 <h3 className="font-bold text-white mb-2 flex items-center gap-3">
@@ -315,8 +315,8 @@ const SalesPage: React.FC = () => {
             {/* === ULTRA ELEMENT: STICKY MOBILE CTA === */}
             <div className="fixed bottom-0 left-0 right-0 bg-[#0F172A] border-t border-white/10 p-4 md:hidden z-40 flex items-center gap-4 shadow-[0_-10px_50px_rgba(0,0,0,0.8)]">
                 <div className="flex-1">
-                    <div className="text-[10px] text-red-400 font-bold uppercase animate-pulse">Tawaran Tamat Segera!</div>
-                    <div className="text-lg font-black text-white leading-none">PERCUMA <span className="text-xs font-normal text-slate-400">/ 14 hari</span></div>
+                    <div className="text-[10px] text-red-400 font-bold uppercase animate-pulse">Daftar Sekarang</div>
+                    <div className="text-lg font-black text-white leading-none">Pilih <span className="text-xs font-normal text-slate-400">pakej anda</span></div>
                 </div>
                 <a href="https://office.sesifoto.my/register" className="flex-2 bg-gradient-to-r from-red-600 to-orange-500 text-white font-bold py-3 px-8 rounded-full text-center shadow-lg hover:scale-105 active:scale-95 transition-transform">
                     Daftar Sekarang

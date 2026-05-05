@@ -86,6 +86,17 @@ html {
   scroll-behavior: smooth;
 }
 
+img,
+video,
+picture,
+canvas,
+svg,
+[data-protected-media] {
+  -webkit-touch-callout: none;
+  -webkit-user-drag: none;
+  user-select: none;
+}
+
 
 
 .animation-delay-2000 {
@@ -112,6 +123,16 @@ html {
   animation-play-state: paused;
 }
 
+/* Route-level loading bar — shown only if lazy chunk takes > 300ms */
+@keyframes sfRouteBar {
+  0%   { width: 0%; opacity: 0; }
+  5%   { opacity: 1; }
+  30%  { width: 55%; }
+  60%  { width: 78%; }
+  85%  { width: 90%; }
+  100% { width: 95%; }
+}
+
 /* Reduce input delay and GPU work on low-power devices */
 @media (prefers-reduced-motion: reduce) {
 
@@ -128,4 +149,14 @@ html {
     animation: none !important;
     transform: none !important;
   }
+}
+
+/* Below-fold sections: let the browser skip rendering until near viewport */
+#features,
+#user-benefits,
+#testimonials,
+#pricing,
+#faq {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 600px;
 }

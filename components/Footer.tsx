@@ -1,5 +1,5 @@
 import React from 'react';
-import { Aperture, Instagram, Clock } from 'lucide-react';
+import { ArrowRight, Sparkles, MessageCircle, Calendar, CreditCard, CheckCircle2 } from 'lucide-react';
 import { useLanguage } from '../contexts/LanguageContext';
 import { useTheme } from '../contexts/ThemeContext';
 
@@ -13,59 +13,70 @@ const Footer: React.FC<FooterProps> = ({ hideCtaBanner = false }) => {
   const year = new Date().getFullYear();
 
   return (
-    <footer className={`relative border-t border-slate-200 dark:border-white/5 bg-slate-50 dark:bg-studio-black ${hideCtaBanner ? 'pt-20' : 'pt-0'} pb-10 transition-colors duration-500`}>
-
-      {/* PRE-FOOTER CTA BANNER */}
+    <footer className={`relative overflow-hidden border-t border-slate-200 dark:border-white/5 bg-gradient-to-b from-slate-50 via-white to-white dark:from-studio-black dark:via-studio-black dark:to-[#050505] ${hideCtaBanner ? 'pt-16 md:pt-20' : 'pt-10 sm:pt-14 md:pt-20'} pb-10 transition-colors duration-500`}>
+      {/* PRE-FOOTER CTA CARD */}
       {!hideCtaBanner && (
-        <div className="relative z-10 -mt-24 mb-16 md:mb-24 px-4 md:px-6 lg:px-8">
-          <div className="max-w-7xl mx-auto bg-orange-600 shadow-[0_20px_60px_-15px_rgba(234,88,12,0.4)] rounded-[2.5rem] overflow-hidden flex flex-col md:flex-row items-center justify-between p-10 md:p-14 lg:p-16 relative border border-orange-400/20">
-            
-            {/* Premium Mesh Gradient Background */}
-            <div className="absolute inset-0 bg-[#ea580c] pointer-events-none"></div>
-            <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_left,_var(--tw-gradient-stops))] from-amber-300/80 via-transparent to-transparent opacity-90 pointer-events-none mix-blend-screen"></div>
-            <div className="absolute inset-0 bg-[radial-gradient(circle_at_bottom_right,_var(--tw-gradient-stops))] from-rose-700/90 via-transparent to-transparent opacity-90 pointer-events-none mix-blend-multiply"></div>
-            <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-orange-400/0 via-orange-600/20 to-black/40 pointer-events-none"></div>
-            
-            {/* Fine Noise Texture */}
-            <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-[0.15] mix-blend-overlay pointer-events-none"></div>
+        <div className="relative z-10 mb-12 px-4 sm:mb-14 sm:px-6 md:mb-20">
+          <div className="max-w-7xl mx-auto">
+            <div className="relative overflow-hidden rounded-[24px] border border-slate-200/80 bg-white shadow-xl dark:border-white/10 dark:bg-[#111111] dark:shadow-[0_30px_90px_-55px_rgba(255,107,44,0.55)] sm:rounded-[32px]">
+              {/* Graphic Element Background Composition inside Card */}
+              <div className="absolute inset-0 overflow-hidden pointer-events-none flex justify-center items-center">
+                {/* Grid overlay for texture */}
+                <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:32px_32px] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_50%,#000_70%,transparent_100%)] opacity-50 dark:opacity-30" />
 
-            <div className="relative z-10 max-w-2xl text-left md:pr-10 mb-10 md:mb-0 w-full">
-              {/* Badge */}
-              <div className="inline-flex items-center gap-2 mb-6 px-3 py-1 rounded-full bg-white/10 border border-white/20 shadow-sm">
-                <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse"></span>
-                <span className="text-xs font-bold tracking-[0.15em] uppercase text-white">
-                  {t.footer.ctaBanner.badge}
-                </span>
+                {/* Floating UI Elements (Graphics) - Removed inner shadows as requested */}
+                <div className="absolute top-[15%] left-[8%] hidden h-14 w-14 -rotate-6 animate-float items-center justify-center rounded-2xl border border-slate-100 bg-white text-green-500 opacity-70 [animation-delay:-1s] dark:border-white/10 dark:bg-zinc-800 sm:flex md:left-[15%] md:h-16 md:w-16 md:opacity-100">
+                    <MessageCircle className="w-6 h-6 md:w-7 md:h-7" />
+                </div>
+                <div className="absolute bottom-[18%] left-[12%] hidden h-12 w-12 rotate-12 animate-float-slow items-center justify-center rounded-2xl border border-slate-100 bg-white text-orange-500 opacity-60 [animation-delay:-2s] dark:border-white/10 dark:bg-zinc-800 sm:flex md:left-[22%] md:h-14 md:w-14 md:opacity-100">
+                    <Calendar className="w-5 h-5 md:w-6 md:h-6" />
+                </div>
+                <div className="absolute top-[24%] right-[8%] hidden h-14 w-14 rotate-6 animate-float items-center justify-center rounded-2xl border border-slate-100 bg-white text-blue-500 opacity-70 [animation-delay:-0.5s] dark:border-white/10 dark:bg-zinc-800 sm:flex md:right-[15%] md:h-20 md:w-20 md:opacity-100">
+                    <CreditCard className="w-7 h-7 md:w-9 md:h-9" />
+                </div>
+                <div className="absolute bottom-[22%] right-[12%] hidden h-10 w-10 -rotate-12 animate-bounce-slow items-center justify-center rounded-full border border-slate-100 bg-white text-emerald-500 opacity-60 [animation-delay:-1.5s] dark:border-white/10 dark:bg-zinc-800 sm:flex md:right-[20%] md:h-12 md:w-12 md:opacity-100">
+                    <CheckCircle2 className="w-4 h-4 md:w-5 md:h-5" />
+                </div>
               </div>
-              
-              {/* Title */}
-              <h2 className="text-4xl md:text-5xl lg:text-[4rem] font-bold tracking-tight text-white leading-[1.05] mb-4 drop-shadow-sm">
-                {t.footer.ctaBanner.titleLine1}
-              </h2>
-              <p className="text-xl md:text-2xl text-orange-100 font-medium tracking-tight">
-                {t.footer.ctaBanner.titleLine2}
-              </p>
-            </div>
-            
-            {/* Buttons */}
-            <div className="relative z-10 flex flex-col sm:flex-row items-center gap-4 w-full md:w-auto shrink-0">
-              <a href="https://office.sesifoto.my/register" target="_blank" rel="noopener noreferrer" className="w-full sm:w-auto px-8 py-4 md:px-10 md:py-4 bg-slate-900 text-white rounded-full font-bold text-lg hover:bg-slate-800 transition-colors duration-200 text-center flex items-center justify-center gap-2 shadow-xl shadow-slate-900/20">
-                {t.footer.ctaBanner.primaryCta}
-                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M13 7l5 5m0 0l-5 5m5-5H6" />
-                </svg>
-              </a>
 
-              <a href="https://office.sesifoto.my/login" target="_blank" rel="noopener noreferrer" className="w-full sm:w-auto px-8 py-4 md:px-10 md:py-4 bg-transparent text-white rounded-full font-bold text-lg hover:bg-white/10 transition-colors duration-200 border border-white/30 hover:border-white/60 flex items-center justify-center">
-                Log Masuk
-              </a>
-            </div>
+              <div className="relative flex flex-col items-center px-5 py-12 text-center sm:px-6 sm:py-16 md:py-24">
+                <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-studio-primary/20 bg-studio-primary/10 px-3 py-1 text-studio-primary dark:border-studio-primary/25 dark:bg-studio-primary/10 sm:mb-6 sm:px-4 sm:py-1.5">
+                  <Sparkles className="h-3.5 w-3.5 sm:h-4 sm:w-4" aria-hidden="true" />
+                  <span className="text-[0.75rem] font-bold uppercase tracking-[0.15em]">
+                    {t.footer.ctaBanner.badge}
+                  </span>
+                </div>
 
+                <h2 className="mb-5 max-w-3xl text-3xl font-semibold leading-[1.15] tracking-tight text-slate-950 dark:text-white sm:mb-6 sm:text-4xl md:text-5xl lg:text-6xl">
+                  {t.footer.ctaBanner.titleLine1}
+                </h2>
+
+                <p className="mb-8 max-w-2xl text-base font-medium leading-relaxed text-slate-600 dark:text-slate-400 sm:mb-10 sm:text-lg md:text-xl">
+                  {t.footer.ctaBanner.titleLine2}
+                </p>
+
+                <div className="relative z-20 flex w-full flex-col justify-center gap-3 sm:w-auto sm:flex-row sm:gap-4">
+                  <a
+                    href="https://office.sesifoto.my"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="relative group overflow-hidden w-full rounded-xl bg-studio-primary px-6 py-3.5 text-center text-base font-bold text-white transition-all hover:-translate-y-0.5 hover:bg-studio-primary-hover active:translate-y-0 sm:w-auto sm:px-8 sm:py-4 flex items-center justify-center"
+                  >
+                    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:animate-shimmer" />
+                    <div className="relative z-10 flex items-center gap-2">
+                      <Sparkles className="w-5 h-5 fill-current opacity-70" aria-hidden="true" />
+                      {t.footer.ctaBanner.primaryCta}
+                      <ArrowRight className="h-5 w-5 transition-transform duration-300 group-hover:translate-x-1" aria-hidden="true" />
+                    </div>
+                  </a>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       )}
 
-      <div className={`max-w-7xl mx-auto px-6 transition-all duration-500 ${isChanging ? 'opacity-0 blur-sm' : 'opacity-100 blur-0'}`}>
+      <div className={`relative z-10 max-w-7xl mx-auto px-6 transition-all duration-500 ${isChanging ? 'opacity-0 blur-sm' : 'opacity-100 blur-0'}`}>
         <div className="flex flex-col items-center text-center">
 
           {/* Logo & Tagline */}

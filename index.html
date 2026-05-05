@@ -37,14 +37,84 @@
   <meta http-equiv="Content-Security-Policy"
     content="default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'; script-src 'self'; style-src 'self' 'unsafe-inline' https:; font-src 'self' data: https:; img-src 'self' data: https:; connect-src 'self' https://api.sesifoto.my ws: wss:; form-action 'self' https://office.sesifoto.my;">
 
+  <!-- Preconnect + Preload Satoshi Font (critical font) -->
+  <link rel="preconnect" href="https://api.fontshare.com" crossorigin>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preload" href="https://api.fontshare.com/v2/css?f[]=satoshi@400,500,700&display=swap" as="style">
   <!-- Satoshi Font -->
   <link href="https://api.fontshare.com/v2/css?f[]=satoshi@300,400,500,700,900&display=swap" rel="stylesheet">
+
+  <!-- Inline critical loading styles — renders before JS bundle arrives -->
+  <style>
+    /* Loading screen — shown until React hydrates and removes it */
+    #sf-loader {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: #0A0A0A;
+      transition: opacity 0.45s cubic-bezier(0.22, 1, 0.36, 1), visibility 0.45s;
+    }
+    #sf-loader.sf-loader--hide {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+    #sf-loader-logo {
+      width: 120px;
+      height: auto;
+      opacity: 0;
+      transform: translateY(8px) scale(0.97);
+      animation: sfLogoIn 0.6s cubic-bezier(0.22, 1, 0.36, 1) 0.1s forwards;
+    }
+    #sf-loader-bar-track {
+      width: 140px;
+      height: 3px;
+      border-radius: 3px;
+      background: rgba(255,255,255,0.06);
+      margin-top: 28px;
+      overflow: hidden;
+      opacity: 0;
+      animation: sfBarFadeIn 0.4s ease-out 0.35s forwards;
+    }
+    #sf-loader-bar-fill {
+      height: 100%;
+      width: 0%;
+      border-radius: 3px;
+      background: linear-gradient(90deg, #FF6B2C, #FF8A5C);
+      animation: sfBarProgress 1.8s cubic-bezier(0.4, 0, 0.2, 1) 0.5s forwards;
+    }
+    @keyframes sfLogoIn {
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+    @keyframes sfBarFadeIn {
+      to { opacity: 1; }
+    }
+    @keyframes sfBarProgress {
+      0%   { width: 0%; }
+      30%  { width: 45%; }
+      60%  { width: 70%; }
+      85%  { width: 88%; }
+      100% { width: 95%; }
+    }
+  </style>
 </head>
 
 <body
   class="bg-studio-paper dark:bg-studio-black text-slate-900 dark:text-slate-100 antialiased font-sans selection:bg-studio-primary/30 selection:text-studio-primary dark:selection:text-white transition-colors duration-500">
+
+  <!-- Branded loading screen — pure HTML/CSS, zero JS, visible before React mounts -->
+  <div id="sf-loader" aria-live="polite" aria-label="Loading sesifoto">
+    <img id="sf-loader-logo" src="/img/Asset 5.png" alt="sesifoto" width="120" height="40" />
+    <div id="sf-loader-bar-track">
+      <div id="sf-loader-bar-fill"></div>
+    </div>
+  </div>
+
   <div id="root"></div>
   <script type="module" src="/index.tsx"></script>
 </body>

@@ -9,6 +9,12 @@ const Integrations = lazy(() => import('./Integrations'));
 const Pricing = lazy(() => import('./Pricing'));
 const FAQ = lazy(() => import('./FAQ'));
 const Footer = lazy(() => import('./Footer'));
+const Testimonials = lazy(() => import('./Testimonials'));
+
+// Minimal section placeholder — invisible, reserves no space, causes no CLS
+const SectionFallback = () => (
+    <div className="w-full" aria-hidden="true" />
+);
 
 // Contexts are provided in App.tsx now, so we don't need providers here
 
@@ -21,14 +27,26 @@ const LandingPage: React.FC = () => {
             <div className="relative z-10 flex flex-col gap-0">
                 <main>
                     <Hero />
-                    <Suspense fallback={<div className="h-32 flex items-center justify-center text-slate-400">...</div>}>
+                    {/* Each section gets its own Suspense boundary to prevent waterfall loading.
+                        Earlier sections render immediately while later ones still download. */}
+                    <Suspense fallback={<SectionFallback />}>
                         <UserBenefits />
+                    </Suspense>
+                    <Suspense fallback={<SectionFallback />}>
                         <Features />
+                    </Suspense>
+                    <Suspense fallback={<SectionFallback />}>
+                        <div className="relative z-10 w-full pt-16 pb-12">
+                          <Testimonials />
+                        </div>
+                    </Suspense>
+                    <Suspense fallback={<SectionFallback />}>
                         <Integrations />
-                        {/* <div className="relative border-y border-slate-200 dark:border-white/5 bg-slate-50/50 dark:bg-studio-base/40 backdrop-blur-md">
-                <Testimonials />
-              </div> */}
+                    </Suspense>
+                    <Suspense fallback={<SectionFallback />}>
                         <Pricing />
+                    </Suspense>
+                    <Suspense fallback={<SectionFallback />}>
                         <FAQ />
                     </Suspense>
                 </main>

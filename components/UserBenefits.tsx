@@ -106,7 +106,7 @@ const UserBenefits = () => {
     };
 
     return (
-        <section id="user-benefits" className="py-24 relative overflow-hidden bg-white dark:bg-black">
+        <section id="user-benefits" className="py-24 relative overflow-hidden bg-studio-paper dark:bg-studio-black">
             {/* Background Ambience */}
             <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
                 {/* Gradient Orb - Middle Left Side */}

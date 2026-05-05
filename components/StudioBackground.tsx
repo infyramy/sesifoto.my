@@ -28,18 +28,18 @@ const StudioBackground: React.FC = () => {
     <div className="fixed inset-0 z-0 pointer-events-none overflow-hidden bg-studio-paper dark:bg-studio-black transition-colors duration-500">
       {/* Dark Mode: Subtle Orange Radial Glows & Noise Texture */}
       <div className="absolute inset-0 dark:opacity-100 opacity-0 transition-opacity duration-500">
-        {/* Top Right Orange Glow */}
+        {/* Top Right Orange Glow — desktop only (heavy GPU) */}
         {!disableHeavyBackground && (
-          <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-studio-primary/8 rounded-full blur-[120px] translate-x-1/3 -translate-y-1/3 transform-gpu"></div>
+          <div className="hidden md:block absolute top-0 right-0 w-[600px] h-[600px] bg-studio-primary/8 rounded-full blur-[120px] translate-x-1/3 -translate-y-1/3 transform-gpu"></div>
         )}
 
-        {/* Center Left Orange Glow */}
+        {/* Center Left Orange Glow — desktop only */}
         {!disableHeavyBackground && (
-          <div className="absolute top-1/2 left-0 w-[500px] h-[500px] bg-studio-primary/6 rounded-full blur-[100px] -translate-x-1/2 -translate-y-1/2 transform-gpu"></div>
+          <div className="hidden md:block absolute top-1/2 left-0 w-[500px] h-[500px] bg-studio-primary/6 rounded-full blur-[100px] -translate-x-1/2 -translate-y-1/2 transform-gpu"></div>
         )}
 
-        {/* Bottom Center Orange Glow */}
-        <div className={`absolute bottom-0 left-1/2 bg-studio-primary/5 rounded-full -translate-x-1/2 translate-y-1/2 transform-gpu ${disableHeavyBackground ? 'w-[380px] h-[380px] blur-[60px]' : 'w-[700px] h-[700px] blur-[140px]'}`}></div>
+        {/* Bottom Center Orange Glow — all devices but smaller on mobile */}
+        <div className={`absolute bottom-0 left-1/2 bg-studio-primary/5 rounded-full -translate-x-1/2 translate-y-1/2 transform-gpu ${disableHeavyBackground ? 'w-[380px] h-[380px] blur-[60px]' : 'w-[400px] h-[400px] md:w-[700px] md:h-[700px] blur-[80px] md:blur-[140px]'}`}></div>
 
         {/* Noise Texture Overlay for Depth */}
         <div

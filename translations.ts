@@ -59,7 +59,7 @@ export const translations = {
       startTrial: 'Start Using',
       viewShowreel: 'Login →',
       noCard: 'No credit card',
-      trialDays: '14-day free trial',
+      trialDays: 'Register or login',
       cancelAnytime: 'Cancel anytime',
       screenshotTitle: 'Golden Hour Session',
       screenshotRev: 'Monthly Rev',
@@ -73,8 +73,8 @@ export const translations = {
           subLabel: '(Raya 2026)'
         },
         sales: {
-          value: 'RM 2.7M+',
-          mobileValue: '2.7M+',
+          value: 'RM 3.16M+',
+          mobileValue: '3.16M+',
           label: 'Sales Managed',
           subLabel: '(Raya 2026)'
         },
@@ -204,30 +204,51 @@ export const translations = {
       note: "* Verified CHIP account is required to use SesiFoto."
     },
     testimonials: {
-      title: 'What Studio Owners Say?',
-      subtitle: 'They have switched to an automated system. When will you?',
+      title: 'Smooth bookings, happier clients.',
+      subtitle: '',
       rating: '4.9/5 Average Rating',
+      readFull: 'Read full testimonial',
       items: [
         {
-          name: "Haziq",
-          role: "Owner",
-          company: "Lensa Klasik Bangi",
-          content: "\"My admin used to cry trying to reply to 500 WhatsApps a day during Raya. Now customers book themselves, admin just shakes legs checking the dashboard.\"",
-          avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=200"
-        },
-        {
-          name: "Sarah",
+          name: "Faiz Firdaus",
           role: "Manager",
-          company: "Momento Studio Shah Alam",
-          content: "\"Love the commission feature the most. No need to fight with freelancers counting jobs. End of month press one button for report.\"",
-          avatar: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&q=80&w=200"
+          company: "Stitch & Shutter Studio",
+          content: "\"Sumpah mudah and memudahkan. Booking form diorang lengkap semua detail ada. Boleh adjust tarikh kalau customer perlu tukar tarikh. Boleh assign photographer so payment photographer system akan terus kira. Paling penting boleh terus payment by website, tak perlu manual lagi. Bangun pagi tengok-tengok dah ada booking masuk tanpa kita perlu buat apa-apa.\"",
+          highlight: "\"Booking form lengkap, photographer auto kira, payment terus masuk.\"",
+          avatar: "/previews/stitchshutter.png",
+          clientLogo: "/img/stitch shutter.svg",
+          type: "image-text",
+          source: "message",
+          location: "Semenyih",
+          invertMode: "dark"
         },
         {
-          name: "Encik Ramli",
-          role: "Founder",
-          company: "Cahaya Pictures JB",
-          content: "\"Sales up 40% because no more double booking issues or missed customers. ROI is great for my business.\"",
-          avatar: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&q=80&w=200"
+          name: "Wan Alif Asyraf",
+          role: "",
+          company: "Enta Tajir Studio",
+          content: "\"Sejak menggunakan @sesifoto.my, sy dah tak perlukan panadol. Hilang sakit kepala. A-Z sistem sangat function. Dr booking experience, admin, photographer, customer semua bagi good feedback. No double booking. Support team tahlah tak tidur rasanya. Rajin sangat 24 hour ready fast reply. Sy sudah, anda bila lagi.\"",
+          highlight: "\"Hilang sakit kepala. No double booking. Fast reply.\"",
+          sourceUrl: "https://www.threads.com/@wanalifasyraf/post/DWRkTJfAWSP",
+          avatar: "/previews/entatajir.png",
+          type: "image-text",
+          source: "threads",
+          location: "Ampang Jaya",
+          logoText: "Enta Tajir",
+          invertMode: "none"
+        },
+        {
+          name: "Shahrul Hazmi",
+          role: "Owner",
+          company: "Sedetik Studio",
+          content: "\"Dah 2 success year dgn sesifoto. Handle beribu booking. Yang penting customer service cepat respond bila ada tech issues. Very recommended. Sekian, Review tak berbayar.\"",
+          highlight: "\"Handle beribu booking. Customer service cepat respond.\"",
+          sourceUrl: "https://www.threads.com/@shrlsbrdn/post/DWRjue_j5ZG",
+          avatar: "/img/sedetik.png",
+          clientLogo: "/img/sedetik.png",
+          type: "text",
+          source: "threads",
+          location: "Johor Bahru",
+          invertMode: "none"
         }
       ]
     },
@@ -235,36 +256,39 @@ export const translations = {
       title: 'Available Plans',
       subtitle: 'Select a plan that fits your studio\'s growth stage.',
       popular: 'Recommended',
+      disclaimer: '* You can upgrade or subscribe for an additional 3 months, 6 months, or 12 months at any time.',
       plans: [
         {
           name: "Pro Package",
           price: "RM649",
+          oldPrice: "RM899",
           period: "90 days / 3 months",
           description: "Everything you need to automate bookings & payments.",
           features: [
             "Unlimited Booking Sessions",
-            "Professional Booking Site",
-            "Smart Calendar System",
-            "Payment Gateway",
+            "Automated Payment Collection",
+            "Professional Booking Page",
+            "Smart Calendar & Scheduling",
             "Google Calendar Sync",
-            "Email Notifications",
-            "Custom Domain",
-            "Basic Reports"
+            "Custom Subdomain Included",
+            "Automated Email Notifications",
+            "Sales & Revenue Reports"
           ],
           cta: "Get Started"
         },
         {
           name: "Prime Package",
           price: "RM899",
+          oldPrice: "RM1499",
           period: "90 days / 3 months",
-          description: "Powerful tools to manage your team & grow revenue.",
+          description: "Extra features designed for larger teams, agencies, and studios with advanced operational needs.",
           features: [
-            "Everything in Pro Package, plus:",
-            "Manage Photographers",
-            "WhatsApp Reminders",
-            "Coupons & Vouchers",
-            "In-Depth Reporting",
-            "Priority Support"
+            "Everything in Pro, plus:",
+            "Multi-Photographer Management",
+            "Automated WhatsApp Reminders",
+            "Coupons & Discount Vouchers",
+            "Advanced Revenue Analytics",
+            "Priority Support & Onboarding"
           ],
           cta: "Get Started",
           popular: true
@@ -306,10 +330,10 @@ export const translations = {
     },
     footer: {
       ctaBanner: {
-        badge: 'System Upgrade',
-        titleLine1: 'Elevate Your Studio Operations',
-        titleLine2: 'The Only Booking System You\'ll Ever Need.',
-        primaryCta: 'Start Now'
+        badge: 'Unlock Full Automation',
+        titleLine1: 'Run your studio in one place.',
+        titleLine2: 'Bookings, payments, and schedules stay clear from start to finish.',
+        primaryCta: 'Register or Login'
       },
       preFooterTitle: 'The All-in-One Booking System',
       preFooterSubtitle: 'Everything you need to manage schedules, payments, and clients effortlessly in one place.',
@@ -393,7 +417,7 @@ export const translations = {
       startTrial: 'Daftar Sekarang',
       viewShowreel: 'Log Masuk →',
       noCard: 'Tiada kad kredit',
-      trialDays: '14-hari percubaan percuma',
+      trialDays: 'Daftar atau log masuk',
       cancelAnytime: 'Batal bila-bila masa',
       screenshotTitle: 'Sesi Golden Hour',
       screenshotRev: 'Hasil Bulanan',
@@ -407,8 +431,8 @@ export const translations = {
           subLabel: '(Raya 2026)'
         },
         sales: {
-          value: 'RM 2.7+ Juta',
-          mobileValue: '2.7+ Juta',
+          value: 'RM 3.16+ Juta',
+          mobileValue: '3.16+ Juta',
           label: 'Jualan Diurus',
           subLabel: '(Raya 2026)'
         },
@@ -538,67 +562,91 @@ export const translations = {
       note: "* Akaun CHIP yang dah verified diperlukan untuk guna SesiFoto."
     },
     testimonials: {
-      title: 'Apa Kata Pemilik Studio?',
-      subtitle: 'Mereka telah beralih ke sistem digital. Anda bila lagi?',
+      title: 'Tempahan lancar, pelanggan senang.',
+      subtitle: '',
       rating: '4.9/5 Purata Penilaian',
+      readFull: 'Baca testimoni penuh',
       items: [
         {
-          name: "Haziq",
-          role: "Owner",
-          company: "Lensa Klasik Bangi",
-          content: "\"Dulu admin saya terkejar-kejar nak reply 500 WhatsApp sehari masa Raya. Sekarang customer book sendiri, admin hanya perlu pantau dashboard sahaja.\"",
-          avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=200"
-        },
-        {
-          name: "Sarah",
+          name: "Faiz Firdaus",
           role: "Manager",
-          company: "Momento Studio Shah Alam",
-          content: "\"Sistem yang sangat membantu pengurusan waktu puncak. Laporan jualan hujung bulan pun senang nak dapat. Sangat efisien.\"",
-          avatar: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&q=80&w=200"
+          company: "Stitch & Shutter Studio",
+          content: "\"Sumpah mudah dan memang memudahkan. Booking form diorang lengkap semua detail ada. Boleh adjust tarikh kalau customer perlu tukar tarikh. Boleh assign photographer jadi payment photographer sistem akan terus kira. Paling penting, boleh terus payment by website, tak perlu manual lagi. Bangun pagi tengok-tengok dah ada booking masuk tanpa kita perlu buat apa-apa.\"",
+          highlight: "\"Booking form lengkap, photographer auto kira, payment terus masuk.\"",
+          avatar: "/previews/stitchshutter.png",
+          clientLogo: "/img/stitch shutter.svg",
+          type: "image-text",
+          source: "message",
+          location: "Semenyih",
+          invertMode: "dark"
         },
         {
-          name: "Encik Ramli",
-          role: "Founder",
-          company: "Cahaya Pictures JB",
-          content: "\"Sales meningkat 40% sebab tiada lagi isu double booking atau terlepas pandang customer. ROI terbaik untuk bisnes saya.\"",
-          avatar: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&q=80&w=200"
+          name: "Wan Alif Asyraf",
+          role: "",
+          company: "Enta Tajir Studio",
+          content: "\"Sejak menggunakan @sesifoto.my, sy dah tak perlukan panadol. Hilang sakit kepala. A-Z sistem sangat function. Dari booking experience, admin, photographer, customer semua bagi good feedback. No double booking. Support team macam tak tidur. Rajin sangat, 24 jam ready fast reply. Sy sudah, anda bila lagi.\"",
+          highlight: "\"Hilang sakit kepala. No double booking. Fast reply.\"",
+          sourceUrl: "https://www.threads.com/@wanalifasyraf/post/DWRkTJfAWSP",
+          avatar: "/previews/entatajir.png",
+          type: "image-text",
+          source: "threads",
+          location: "Ampang Jaya",
+          logoText: "Enta Tajir",
+          invertMode: "none"
+        },
+        {
+          name: "Shahrul Hazmi",
+          role: "Owner",
+          company: "Sedetik Studio",
+          content: "\"Dah 2 success year dgn sesifoto. Handle beribu booking. Yang penting customer service cepat respond bila ada tech issues. Very recommended. Sekian, Review tak berbayar.\"",
+          highlight: "\"Handle beribu booking. Customer service cepat respond.\"",
+          sourceUrl: "https://www.threads.com/@shrlsbrdn/post/DWRjue_j5ZG",
+          avatar: "/img/sedetik.png",
+          clientLogo: "/img/sedetik.png",
+          type: "text",
+          source: "threads",
+          location: "Johor Bahru",
+          invertMode: "none"
         }
       ]
     },
     pricing: {
-      title: 'Pilih Pakej Anda',
-      subtitle: 'Pilih pakej yang sesuai dengan keperluan studio anda.',
+      title: 'Pilihan Pakej',
+      subtitle: 'Pilih pakej yang sesuai dengan tahap pertumbuhan studio anda.',
       popular: 'Disyorkan',
+      disclaimer: '* Anda boleh naik taraf atau langgan tambahan untuk 3 bulan, 6 bulan, atau 12 bulan pada bila-bila masa.',
       plans: [
         {
           name: "Pakej Pro",
           price: "RM649",
+          oldPrice: "RM899",
           period: "90 hari / 3 bulan",
-          description: "Semua yang anda perlukan untuk sistem tempahan digital.",
+          description: "Semua yang anda perlukan untuk automasi tempahan & bayaran.",
           features: [
-            "Sesi tempahan Tanpa Had",
+            "Tempahan Tiada Had",
+            "Bayaran Atas Talian",
             "Laman Tempahan Profesional",
-            "Kalendar Pintar",
-            "Terima bayaran secara online",
-            "<i>Sync</i> dengan Google Calendar",
-            "Notifikasi Email",
-            "<i>Custom Subdomain</i>",
-            "Laporan Asas"
+            "Kalendar",
+            "Sambung Google Calendar",
+            "Subdomain Studio Tersendiri",
+            "Notifikasi E-mel Automatik",
+            "Laporan Jualan & Pendapatan"
           ],
           cta: "Daftar Sekarang"
         },
         {
           name: "Pakej Prime",
           price: "RM899",
+          oldPrice: "RM1499",
           period: "90 hari / 3 bulan",
-          description: "Alat berkuasa untuk urus pasukan & tingkatkan hasil.",
+          description: "Fungsi ekstra direka khas untuk pasukan besar, agensi, dan studio dengan keperluan operasi lanjutan.",
           features: [
-            "Semua dalam Pakej Pro, Termasuk:",
-            "Pengurusan Jurugambar",
-            "Peringatan automatik melalui WhatsApp",
-            "Kupon & Baucar",
-            "Laporan Terperinci",
-            "Sokongan Keutamaan"
+            "Semua dalam Pakej Pro, dan lebih:",
+            "Urus Ramai Jurugambar Sekaligus",
+            "Peringatan WhatsApp Automatik",
+            "Kod Kupon & Diskaun",
+            "Analitik Pendapatan Lanjutan",
+            "Sokongan Keutamaan & Onboarding"
           ],
           cta: "Daftar Sekarang",
           popular: true
@@ -641,10 +689,10 @@ export const translations = {
     },
     footer: {
       ctaBanner: {
-        badge: 'Naik Taraf Sistem',
-        titleLine1: 'Tingkatkan Operasi Studio Anda',
-        titleLine2: 'Satu-satunya Sistem Tempahan Yang Anda Perlukan.',
-        primaryCta: 'Daftar Sekarang'
+        badge: 'Urus Studio Tanpa Stress',
+        titleLine1: 'Urus studio dalam satu tempat.',
+        titleLine2: 'Tempahan, bayaran, dan jadual bergerak lebih lancar.',
+        primaryCta: 'Daftar atau Login'
       },
       preFooterTitle: 'Sistem Tempahan All-in-One',
       preFooterSubtitle: 'Semua yang anda perlukan untuk mengurus jadual, bayaran, dan pelanggan dengan mudah di satu tempat.',
