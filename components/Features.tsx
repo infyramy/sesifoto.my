@@ -4,18 +4,28 @@ import Reveal from './ui/Reveal';
 import { useLanguage } from '../contexts/LanguageContext';
 import { Globe, LayoutDashboard, Calendar, CalendarClock, BarChart3, CheckCircle2, ShieldCheck, FileSpreadsheet, Ticket, ArrowLeftRight, Download, Search, Clock, ChevronsUpDown, Filter, Users, MessageCircle, MoreHorizontal, MoreVertical, Calendar as CalendarIcon, PhoneCall } from 'lucide-react';
 import { sanitizeRichHtml } from '../utils/sanitizeHtml';
+import bookingFormImage from '../assets/feature-cards/booking-form.webp';
+import exportDataImage from '../assets/feature-cards/export-data.webp';
+import automaticReceiptImage from '../assets/feature-cards/automatic-receipt.webp';
+import quickSearchImage from '../assets/feature-cards/quick-search.webp';
+import googleCalendarImage from '../assets/feature-cards/google-calendar.webp';
+import telegramNotificationImage from '../assets/feature-cards/telegram-notification.webp';
+import voucherManagementImage from '../assets/feature-cards/voucher-management.webp';
+import whatsappAutomationImage from '../assets/feature-cards/whatsapp-automation.webp';
+import photographerPayrollImage from '../assets/feature-cards/photographer-payroll.webp';
+import leadManagementImage from '../assets/feature-cards/lead-management.webp';
 
 const rawFeatureImages = [
-   'booking-form.webp',
-   'export-data.webp',
-   'automatic-receipt.webp',
-   'quick-search.webp',
-   'google-calendar.webp',
-   'telegram-notification.webp',
-   'voucher-management.webp',
-   'whatsapp-automation.webp',
-   'photographer-payroll.webp',
-   'lead-management.webp',
+   bookingFormImage,
+   exportDataImage,
+   automaticReceiptImage,
+   quickSearchImage,
+   googleCalendarImage,
+   telegramNotificationImage,
+   voucherManagementImage,
+   whatsappAutomationImage,
+   photographerPayrollImage,
+   leadManagementImage,
 ];
 
 const getRawFeatureImage = (title: string) => {
@@ -33,7 +43,7 @@ const getRawFeatureImage = (title: string) => {
    else if (normalized.includes('jurugambar') || normalized.includes('photographer') || normalized.includes('payout')) index = 8;
    else if (normalized.includes('lead')) index = 9;
 
-   return index >= 0 ? `/media/features/cards/${rawFeatureImages[index]}` : null;
+   return index >= 0 ? rawFeatureImages[index] : null;
 };
 
 const BentoIllustration = ({ title, description, tier, bgClass, textClass, icon }: { title: string, description?: string, tier?: string, bgClass: string, textClass: string, icon: React.ReactNode }) => {
