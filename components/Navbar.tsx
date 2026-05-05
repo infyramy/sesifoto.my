@@ -166,18 +166,18 @@ const Navbar: React.FC = () => {
     <>
       <nav
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 border-b ${isScrolled || isMobileMenuOpen
-          ? 'py-3 bg-studio-paper/80 dark:bg-studio-black/80 backdrop-blur-xl border-slate-200 dark:border-white/5 shadow-sm dark:shadow-none'
-          : 'py-6 bg-transparent border-transparent'
+          ? 'py-2.5 bg-studio-paper/85 dark:bg-studio-black/85 backdrop-blur-xl border-slate-200 dark:border-white/5 shadow-sm dark:shadow-none'
+          : 'py-2.5 bg-transparent border-transparent'
           }`}
       >
-        <div className="max-w-7xl mx-auto px-6">
-          <div className="flex items-center justify-between">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6">
+          <div className="flex items-center justify-between h-12">
 
             {/* Logo */}
-            <Link to="/" className="flex items-center gap-3 group">
-              <div className="h-8 md:h-11 p-1 flex items-center justify-center">
+            <Link to="/" className="flex items-center gap-2.5 shrink-0 group">
+              <div className="h-8 flex items-center justify-center">
                 {isLogoLoadFailed ? (
-                  <Globe className="w-8 h-8 text-studio-primary" aria-hidden="true" />
+                  <Globe className="w-7 h-7 text-studio-primary" aria-hidden="true" />
                 ) : (
                   <img
                     src={theme === 'dark' ? "/img/Asset 5.png" : "/img/Asset 4.png"}
@@ -190,13 +190,11 @@ const Navbar: React.FC = () => {
                   />
                 )}
               </div>
-              <div className="flex flex-col md:flex-row md:items-baseline gap-0 md:gap-1.5">
-                <span className="text-[10px] text-slate-500 dark:text-slate-400 font-sans font-medium tracking-widest uppercase opacity-90">by Infyra</span>
-              </div>
+              <span className="text-[10px] text-slate-500 dark:text-slate-400 font-sans font-medium tracking-widest uppercase opacity-80 hidden sm:inline">by Infyra</span>
             </Link>
 
-            {/* Desktop Nav */}
-            <div className="hidden lg:flex items-center gap-8">
+            {/* Desktop Nav — visible from md up */}
+            <div className="hidden md:flex items-center gap-6">
               {isHomePage ? (
                 <div className="relative group">
                   <a
@@ -223,35 +221,37 @@ const Navbar: React.FC = () => {
               ) : (
                 <Link
                   to="/"
-                  className="text-sm font-medium text-slate-600 dark:text-slate-400 hover:text-studio-primary dark:hover:text-studio-primary transition-colors tracking-wide inline-flex items-center"
+                  className="text-sm font-medium text-slate-600 dark:text-slate-400 hover:text-studio-primary dark:hover:text-studio-primary transition-colors tracking-wide"
                 >
                   {t.nav.home}
                 </Link>
               )}
 
-              {primaryNavLinks.map((link) => {
-                const isActive = location.pathname.startsWith(link.href);
-                return (
-                  <Link
-                    key={link.key}
-                    to={link.href}
-                    onMouseEnter={() => preloadRoute(link.href)}
-                    onClick={(event) => {
-                      void handlePrimaryNavClick(event, link.key);
-                    }}
-                    className={`text-sm tracking-wide transition-colors ${isActive
-                      ? 'font-bold text-studio-primary'
-                      : 'font-medium text-slate-600 dark:text-slate-400 hover:text-studio-primary dark:hover:text-studio-primary'
-                      }`}
-                  >
-                    {t.nav[link.key as keyof typeof t.nav]}
-                  </Link>
-                );
-              })}
+              {primaryNavLinks
+                .filter((link) => link.key !== 'support')
+                .map((link) => {
+                  const isActive = location.pathname.startsWith(link.href);
+                  return (
+                    <Link
+                      key={link.key}
+                      to={link.href}
+                      onMouseEnter={() => preloadRoute(link.href)}
+                      onClick={(event) => {
+                        void handlePrimaryNavClick(event, link.key);
+                      }}
+                      className={`text-sm tracking-wide transition-colors ${isActive
+                        ? 'font-bold text-studio-primary'
+                        : 'font-medium text-slate-600 dark:text-slate-400 hover:text-studio-primary dark:hover:text-studio-primary'
+                        }`}
+                    >
+                      {t.nav[link.key as keyof typeof t.nav]}
+                    </Link>
+                  );
+                })}
             </div>
 
             {/* Actions */}
-            <div className="flex items-center gap-3 lg:gap-6">
+            <div className="flex items-center gap-2 sm:gap-3">
 
               {/* Theme Toggle - Hidden */}
               <button
@@ -264,16 +264,17 @@ const Navbar: React.FC = () => {
               {/* Language Toggle */}
               <button
                 onClick={toggleLanguage}
-                className="flex items-center gap-2 text-sm font-medium text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white transition-colors mr-2 lg:mr-0"
+                className="flex items-center gap-1.5 text-xs font-semibold text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white transition-colors px-2 py-1 rounded-lg hover:bg-slate-100 dark:hover:bg-white/8"
               >
-                <Globe className="w-4 h-4" />
-                <span className="uppercase">{language}</span>
+                <Globe className="w-3.5 h-3.5" />
+                <span className="uppercase tracking-wide">{language}</span>
               </button>
 
-              <div className="hidden lg:flex items-center gap-4">
+              {/* Desktop CTAs */}
+              <div className="hidden md:flex items-center gap-3">
                 <a
                   href="https://office.sesifoto.my/login"
-                  className="text-sm font-medium text-slate-600 dark:text-slate-300 hover:text-studio-primary dark:hover:text-white transition-colors"
+                  className="text-sm font-medium text-slate-600 dark:text-slate-300 hover:text-studio-primary dark:hover:text-white transition-colors px-2"
                 >
                   {t.nav.signin}
                 </a>
@@ -281,26 +282,36 @@ const Navbar: React.FC = () => {
                   href="https://office.sesifoto.my/register"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="bg-studio-primary text-white px-6 py-2.5 rounded-full font-semibold text-sm hover:bg-studio-primary-hover transition-all active:scale-95 shadow-lg shadow-studio-primary/30"
+                  className="bg-studio-primary text-white px-5 py-2 rounded-full font-semibold text-sm hover:bg-studio-primary-hover transition-all active:scale-95 shadow-md shadow-studio-primary/25 whitespace-nowrap"
                 >
                   {t.nav.getStarted}
                 </a>
               </div>
 
+              {/* Mobile: compact Get Started pill */}
+              <a
+                href="https://office.sesifoto.my/register"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="md:hidden bg-studio-primary text-white px-4 py-1.5 rounded-full font-semibold text-xs hover:bg-studio-primary-hover transition-all active:scale-95 shadow-sm shadow-studio-primary/20 whitespace-nowrap"
+              >
+                {t.nav.getStarted}
+              </a>
+
               {/* Mobile Menu Button */}
               <button
-                className="lg:hidden relative w-11 h-11 flex items-center justify-center text-slate-900 dark:text-white hover:bg-slate-100 dark:hover:bg-white/10 rounded-xl transition-colors"
+                className="md:hidden relative w-9 h-9 flex items-center justify-center text-slate-900 dark:text-white hover:bg-slate-100 dark:hover:bg-white/10 rounded-lg transition-colors"
                 onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
                 aria-label={isMobileMenuOpen ? 'Close navigation menu' : 'Open navigation menu'}
                 aria-expanded={isMobileMenuOpen}
                 aria-controls="mobile-navigation-menu"
               >
                 <Menu
-                  className={`absolute w-6 h-6 transition-all duration-300 ease-out ${isMobileMenuOpen ? 'opacity-0 rotate-90 scale-75' : 'opacity-100 rotate-0 scale-100'
+                  className={`absolute w-5 h-5 transition-all duration-300 ease-out ${isMobileMenuOpen ? 'opacity-0 rotate-90 scale-75' : 'opacity-100 rotate-0 scale-100'
                     }`}
                 />
                 <X
-                  className={`absolute w-6 h-6 transition-all duration-300 ease-out ${isMobileMenuOpen ? 'opacity-100 rotate-0 scale-100' : 'opacity-0 -rotate-90 scale-75'
+                  className={`absolute w-5 h-5 transition-all duration-300 ease-out ${isMobileMenuOpen ? 'opacity-100 rotate-0 scale-100' : 'opacity-0 -rotate-90 scale-75'
                     }`}
                 />
               </button>
@@ -313,7 +324,7 @@ const Navbar: React.FC = () => {
       {/* Mobile Menu - Fullscreen */}
       <div
         id="mobile-navigation-menu"
-        className={`lg:hidden fixed inset-0 z-[60] transition-opacity duration-300 ${isMobileMenuOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`}
+        className={`md:hidden fixed inset-0 z-[60] transition-opacity duration-300 ${isMobileMenuOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`}
       >
         <button
           aria-label="Close mobile menu"
@@ -381,26 +392,28 @@ const Navbar: React.FC = () => {
 
                 <div className="my-2 border-t border-slate-200 dark:border-white/10"></div>
 
-                {primaryNavLinks.map((link) => {
-                  const isActive = location.pathname.startsWith(link.href);
-                  return (
-                    <Link
-                      key={link.key}
-                      to={link.href}
-                      onTouchStart={() => preloadRoute(link.href)}
-                      className={`flex items-center justify-between min-h-12 py-2 text-lg transition-colors ${isActive
-                        ? 'font-bold text-studio-primary'
-                        : 'font-medium text-slate-900 dark:text-slate-100 hover:text-studio-primary dark:hover:text-studio-primary'
-                        }`}
-                      onClick={(event) => {
-                        void handlePrimaryNavClick(event, link.key);
-                      }}
-                    >
-                      <span>{t.nav[link.key as keyof typeof t.nav]}</span>
-                      {isActive && <ChevronRight className="w-4 h-4 text-studio-primary" />}
-                    </Link>
-                  );
-                })}
+                {primaryNavLinks
+                  .filter((link) => link.key !== 'support')
+                  .map((link) => {
+                    const isActive = location.pathname.startsWith(link.href);
+                    return (
+                      <Link
+                        key={link.key}
+                        to={link.href}
+                        onTouchStart={() => preloadRoute(link.href)}
+                        className={`flex items-center justify-between min-h-12 py-2 text-lg transition-colors ${isActive
+                          ? 'font-bold text-studio-primary'
+                          : 'font-medium text-slate-900 dark:text-slate-100 hover:text-studio-primary dark:hover:text-studio-primary'
+                          }`}
+                        onClick={(event) => {
+                          void handlePrimaryNavClick(event, link.key);
+                        }}
+                      >
+                        <span>{t.nav[link.key as keyof typeof t.nav]}</span>
+                        {isActive && <ChevronRight className="w-4 h-4 text-studio-primary" />}
+                      </Link>
+                    );
+                  })}
               </div>
 
               <div className="mt-6 pt-4 border-t border-slate-200 dark:border-white/10">
