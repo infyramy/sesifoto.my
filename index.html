@@ -84,6 +84,18 @@
       background: linear-gradient(90deg, #FF6B2C, #FF8A5C);
       animation: sfBarProgress 1.8s cubic-bezier(0.4, 0, 0.2, 1) 0.5s forwards;
     }
+    #sf-loader-help {
+      margin-top: 22px;
+      padding: 0 24px;
+      text-align: center;
+      color: #cbd5e1;
+      font: 14px/1.5 system-ui, sans-serif;
+      opacity: 0;
+      visibility: hidden;
+      animation: sfHelpIn 0s 12s forwards;
+    }
+    #sf-loader-help a { color: #ff9a6e; }
+    @keyframes sfHelpIn { to { opacity: 1; visibility: visible; } }
     @keyframes sfLogoIn {
       to { opacity: 1; transform: translateY(0) scale(1); }
     }
@@ -108,6 +120,9 @@
     <img id="sf-loader-logo" src="/img/sesifoto-logo-dark.webp" alt="sesifoto" width="160" height="40" />
     <div id="sf-loader-bar-track">
       <div id="sf-loader-bar-fill"></div>
+    </div>
+    <div id="sf-loader-help" role="status">
+      Halaman mengambil masa lebih lama untuk dimuatkan. <a href="/">Muat semula</a>
     </div>
   </div>
 

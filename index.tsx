@@ -35,7 +35,5 @@ root.render(
   </React.StrictMode>
 );
 
-// Dismiss loader once React is painted
-requestAnimationFrame(() => {
-  requestAnimationFrame(dismissLoader);
-});
+// Timers continue when a browser throttles animation frames in background tabs.
+setTimeout(dismissLoader, 0);
