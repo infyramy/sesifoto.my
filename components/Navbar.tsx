@@ -199,40 +199,10 @@ const Navbar: React.FC = () => {
 
             {/* Desktop Nav — visible from md up */}
             <div className="hidden md:flex items-center gap-6">
-              {isLandingPage ? (
-                <div className="relative group">
-                  <a
-                    href={landingBasePath}
-                    className="text-sm font-bold text-studio-primary transition-colors tracking-wide inline-flex items-center"
-                  >
-                    {t.nav.home}
-                  </a>
-                  <div className="absolute left-1/2 -translate-x-1/2 top-full pt-3 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200">
-                    <div className="min-w-[180px] rounded-2xl bg-studio-paper/95 dark:bg-studio-black/95 backdrop-blur-xl border border-slate-200 dark:border-white/10 shadow-xl p-2">
-                      {landingSectionLinks.map((link) => {
-                        const localHref = getLandingHref(link.href);
-                        return (
-                        <a
-                          key={link.key}
-                          href={localHref}
-                          onClick={(e) => handleAnchorClick(e, localHref)}
-                          className="block px-4 py-2.5 rounded-xl text-sm font-medium text-slate-600 dark:text-slate-300 hover:text-studio-primary dark:hover:text-studio-primary hover:bg-slate-100/60 dark:hover:bg-white/5 transition-colors"
-                        >
-                          {t.nav[link.key as keyof typeof t.nav]}
-                        </a>
-                        );
-                      })}
-                    </div>
-                  </div>
-                </div>
-              ) : (
-                <Link
-                  to={landingBasePath}
-                  className="text-sm font-medium text-slate-600 dark:text-slate-400 hover:text-studio-primary dark:hover:text-studio-primary transition-colors tracking-wide"
-                >
-                  {t.nav.home}
-                </Link>
-              )}
+              {landingSectionLinks.map((link) => {
+                const href = getLandingHref(link.href);
+                return <a key={link.key} href={href} onClick={(event) => handleAnchorClick(event, href)} className="text-sm font-medium tracking-wide text-slate-600 transition-colors hover:text-studio-primary dark:text-slate-400 dark:hover:text-studio-primary">{t.nav[link.key as keyof typeof t.nav]}</a>;
+              })}
 
               {primaryNavLinks
                 .filter((link) => link.key !== 'support')
@@ -371,36 +341,12 @@ const Navbar: React.FC = () => {
 
             <div className="overflow-y-auto overscroll-contain px-5 py-4 max-h-[calc(100vh-5.5rem)]">
               <div className="space-y-1">
-                <Link
-                  to={landingBasePath}
-                  className={`flex items-center justify-between min-h-12 py-2 text-lg transition-colors ${isLandingPage
-                    ? 'font-bold text-studio-primary'
-                    : 'font-medium text-slate-900 dark:text-slate-100 hover:text-studio-primary dark:hover:text-studio-primary'
-                    }`}
-                  onClick={() => setIsMobileMenuOpen(false)}
-                >
-                  <span>{t.nav.home}</span>
-                  {isLandingPage && <ChevronRight className="w-4 h-4 text-studio-primary" />}
-                </Link>
-
-                {isLandingPage && (
-                  <div className="ml-2 pl-4 border-l border-slate-200 dark:border-white/10 space-y-0.5">
-                    {landingSectionLinks.map((link) => {
-                      const localHref = getLandingHref(link.href);
-                      return (
-                      <a
-                        key={link.key}
-                        href={localHref}
-                        onClick={(e) => handleAnchorClick(e, localHref)}
-                        className="flex items-center justify-between min-h-10 py-1.5 text-base font-medium text-slate-600 dark:text-slate-300 hover:text-studio-primary dark:hover:text-studio-primary transition-colors"
-                      >
-                        <span>{t.nav[link.key as keyof typeof t.nav]}</span>
-                        <ChevronRight className="w-4 h-4 text-slate-400" />
-                      </a>
-                      );
-                    })}
-                  </div>
-                )}
+                <div className="space-y-0.5">
+                  {landingSectionLinks.map((link) => {
+                    const href = getLandingHref(link.href);
+                    return <a key={link.key} href={href} onClick={(event) => handleAnchorClick(event, href)} className="flex min-h-12 items-center justify-between py-2 text-base font-medium text-slate-700 transition-colors hover:text-studio-primary dark:text-slate-300"><span>{t.nav[link.key as keyof typeof t.nav]}</span><ChevronRight className="h-4 w-4 text-slate-400" /></a>;
+                  })}
+                </div>
 
                 <div className="my-2 border-t border-slate-200 dark:border-white/10"></div>
 

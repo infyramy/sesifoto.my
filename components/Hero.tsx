@@ -33,7 +33,7 @@ const SVG_STUDIOS = [
 ];
 
 const Hero: React.FC = () => {
-    const { t, isChanging } = useLanguage();
+    const { t, language, isChanging } = useLanguage();
     const { theme } = useTheme();
     const [loaded, setLoaded] = useState(false);
     const [disableHeavyMotion, setDisableHeavyMotion] = useState(false);
@@ -232,36 +232,17 @@ const Hero: React.FC = () => {
                         {/* Wrapper Correction for Mobile - Negative Margin to pull up following content because scale leaves space */}
                         <div className="md:hidden -mt-[320px] sm:-mt-[150px] mb-20"></div>
 
-                        {/* FLOATING WIDGETS - Mobile Optimised (Scaled Down) */}
-                        {/* 1. Payment Notification (Right Top) */}
-                        <div className="absolute -right-4 top-16 md:-right-12 md:top-24 z-30 [transform:translateZ(50px)] animate-float scale-[0.6] md:scale-100 origin-top-right hidden md:block">
-                            <div className="bg-white dark:bg-zinc-800 p-4 rounded-xl shadow-[0_20px_50px_-12px_rgba(0,0,0,0.3)] border border-slate-100 dark:border-white/10 flex items-center gap-3 w-64 backdrop-blur-md">
-                                <div className="w-10 h-10 rounded-full bg-green-100 dark:bg-green-500/20 flex items-center justify-center text-green-600 dark:text-green-400">
-                                    <CheckCircle2 size={20} />
-                                </div>
-                                <div>
-                                    <p className="text-[10px] uppercase font-bold text-slate-400 dark:text-zinc-500 tracking-wider">Payment Received</p>
-                                    <p className="text-sm font-bold text-slate-800 dark:text-white">RM 250.00 <span className="font-normal text-slate-400 text-xs">from Sarah</span></p>
-                                </div>
-                            </div>
+                        {/* Illustrative messages based on the booking flow */}
+                        <div className="absolute -right-4 top-24 z-30 hidden w-60 rounded-2xl border border-slate-200 bg-white p-4 text-left shadow-xl dark:border-white/10 dark:bg-zinc-800 md:block">
+                            <div className="flex items-center gap-2 text-xs font-semibold text-slate-500 dark:text-slate-400"><CalendarIcon size={15} className="text-studio-primary" />{language === 'bm' ? 'Tempahan baharu' : 'New booking'}</div>
+                            <p className="mt-3 text-sm font-semibold text-slate-900 dark:text-white">{language === 'bm' ? 'Sesi keluarga' : 'Family session'}</p>
+                            <p className="mt-1 text-xs text-slate-500 dark:text-slate-400">{language === 'bm' ? 'Sabtu · 10:00 pagi' : 'Saturday · 10:00 AM'}</p>
+                            <div className="mt-3 flex items-center gap-2 border-t border-slate-100 pt-3 text-xs text-slate-600 dark:border-white/10 dark:text-slate-300"><CheckCircle2 size={15} className="text-green-600 dark:text-green-400" />{language === 'bm' ? 'Slot disahkan selepas bayaran' : 'Slot confirmed after payment'}</div>
                         </div>
-
-                        {/* 2. WhatsApp Automation (Left Bottom) */}
-                        <div className="absolute -left-4 bottom-24 md:-left-16 md:bottom-40 z-30 [transform:translateZ(60px)] animate-float animation-delay-2000 scale-[0.6] md:scale-100 origin-bottom-left hidden md:block">
-                            <div className="bg-white dark:bg-zinc-800 p-4 rounded-xl shadow-[0_20px_50px_-12px_rgba(0,0,0,0.3)] border border-slate-100 dark:border-white/10 flex items-center gap-3 w-72 backdrop-blur-md">
-                                <div className="w-10 h-10 rounded-full bg-green-100 dark:bg-green-500/20 flex items-center justify-center text-green-600 dark:text-green-400 relative">
-                                    <MessageSquare size={20} />
-                                    <div className="absolute -top-1 -right-1 w-3 h-3 bg-green-500 rounded-full border-2 border-white dark:border-zinc-800"></div>
-                                </div>
-                                <div className="flex-1">
-                                    <p className="text-[10px] uppercase font-bold text-slate-400 dark:text-zinc-500 tracking-wider flex justify-between">
-                                        WhatsApp Auto-Reply <span>Just now</span>
-                                    </p>
-                                    <p className="text-xs font-medium text-slate-600 dark:text-zinc-300 mt-0.5 line-clamp-1">"Hi Sarah, receipt #IN-2024 generated..."</p>
-                                </div>
-                            </div>
+                        <div className="absolute -left-4 bottom-28 z-30 hidden w-64 rounded-2xl border border-slate-200 bg-white p-4 text-left shadow-xl dark:border-white/10 dark:bg-zinc-800 md:block">
+                            <div className="flex items-center gap-2 text-xs font-semibold text-slate-600 dark:text-slate-300"><MessageSquare size={15} className="text-green-600 dark:text-green-400" />WhatsApp</div>
+                            <div className="mt-3 rounded-xl rounded-tl-sm bg-green-50 p-3 text-xs leading-relaxed text-slate-700 dark:bg-green-900/20 dark:text-slate-200">{language === 'bm' ? 'Hai! Tempahan anda dah disahkan. Jumpa nanti 😊' : 'Hi! Your booking is confirmed. See you soon 😊'}</div>
                         </div>
-
                     </div>
 
                     {/* Reflection/Shadow underneath */}
