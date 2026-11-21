@@ -1,140 +1,108 @@
-import React from 'react';
-import GlassCard from './ui/GlassCard';
-import { Check, CalendarDays, Globe, CreditCard, Bell, BarChart2, Users, MessageCircle, Tag, Headset, Star, RefreshCcw, Link } from 'lucide-react';
-import Reveal from './ui/Reveal';
+import React, { useState } from 'react';
+import { motion, useReducedMotion } from 'framer-motion';
+import { ArrowRight, CalendarDays, CreditCard, FileText, Globe, Bell, BarChart3, Download, Ticket, Users, Search, CalendarSync, Send, SlidersHorizontal, Palette, Workflow, Headphones } from 'lucide-react';
 import { useLanguage } from '../contexts/LanguageContext';
-import { sanitizeRichHtml } from '../utils/sanitizeHtml';
 
-// Each feature string gets a specific, distinct icon
-const getFeatureIcon = (featureText: string) => {
-  const text = featureText.toLowerCase();
-  if (text.includes('everything in') || text.includes('semua dalam')) return <Star className="w-3.5 h-3.5 stroke-[2.5]" />;
-  if (text.includes('unlimited') || text.includes('tiada had')) return <Check className="w-3.5 h-3.5 stroke-[3]" />;
-  if (text.includes('payment') || text.includes('bayaran') || text.includes('kutip')) return <CreditCard className="w-3.5 h-3.5 stroke-[2.5]" />;
-  if (text.includes('booking page') || text.includes('laman tempahan')) return <Globe className="w-3.5 h-3.5 stroke-[2.5]" />;
-  if (text.includes('calendar') || text.includes('kalendar') || text.includes('penjadualan') || text.includes('scheduling')) return <CalendarDays className="w-3.5 h-3.5 stroke-[2.5]" />;
-  if (text.includes('sync') || text.includes('sinkronisasi') || text.includes('google')) return <RefreshCcw className="w-3.5 h-3.5 stroke-[2.5]" />;
-  if (text.includes('subdomain') || text.includes('domain') || text.includes('link')) return <Link className="w-3.5 h-3.5 stroke-[2.5]" />;
-  if (text.includes('email') || text.includes('notifikasi') || text.includes('notification')) return <Bell className="w-3.5 h-3.5 stroke-[2.5]" />;
-  if (text.includes('report') || text.includes('laporan') || text.includes('sales') || text.includes('revenue') || text.includes('pendapatan') || text.includes('jualan')) return <BarChart2 className="w-3.5 h-3.5 stroke-[2.5]" />;
-  if (text.includes('photographer') || text.includes('jurugambar') || text.includes('team') || text.includes('ramai')) return <Users className="w-3.5 h-3.5 stroke-[2.5]" />;
-  if (text.includes('whatsapp') || text.includes('peringatan')) return <MessageCircle className="w-3.5 h-3.5 stroke-[2.5]" />;
-  if (text.includes('coupon') || text.includes('kupon') || text.includes('voucher') || text.includes('discount') || text.includes('diskaun') || text.includes('kod')) return <Tag className="w-3.5 h-3.5 stroke-[2.5]" />;
-  if (text.includes('analytics') || text.includes('analitik')) return <BarChart2 className="w-3.5 h-3.5 stroke-[2.5]" />;
-  if (text.includes('support') || text.includes('sokongan') || text.includes('onboarding')) return <Headset className="w-3.5 h-3.5 stroke-[2.5]" />;
-  return <Check className="w-3.5 h-3.5 stroke-[3]" />;
-};
+const durations = [
+  { months: 1, total: 149, saving: 0, percent: 0 },
+  { months: 3, total: 399, saving: 48, percent: 11 },
+  { months: 12, total: 1188, saving: 600, percent: 34 },
+] as const;
 
 const Pricing: React.FC = () => {
-  const { t, isChanging } = useLanguage();
+  const { language, isChanging } = useLanguage();
+  const [selected, setSelected] = useState(2);
+  const reduceMotion = useReducedMotion();
+  const plan = durations[selected];
+  const period = language === 'bm' ? 'bulan' : plan.months === 1 ? 'month' : 'months';
+  const bm = language === 'bm';
+  const money = (amount: number) => `RM${amount.toLocaleString('en-MY')}`;
+  const features = [
+    [Globe, bm ? 'Laman & borang tempahan' : 'Booking page & form'],
+    [CalendarDays, bm ? 'Kalendar & kawalan slot' : 'Calendar & slot controls'],
+    [CreditCard, bm ? 'Bayaran dalam talian' : 'Online payments'],
+    [FileText, bm ? 'Resit automatik' : 'Automatic receipts'],
+    [CalendarSync, 'Google Calendar'],
+    [Send, bm ? 'Notifikasi Telegram' : 'Telegram notifications'],
+    [Bell, bm ? 'Peringatan WhatsApp' : 'WhatsApp reminders'],
+    [BarChart3, bm ? 'Laporan jualan' : 'Sales reports'],
+    [Download, bm ? 'Eksport & carian data' : 'Data export & search'],
+    [Ticket, bm ? 'Baucar & diskaun' : 'Vouchers & discounts'],
+    [Users, bm ? 'Urus jurugambar & upah' : 'Photographer management & payouts'],
+    [Search, bm ? 'Pengurusan lead' : 'Lead management'],
+  ] as const;
 
   return (
-    <section id="pricing" className="py-20 md:py-32 relative overflow-hidden bg-gradient-to-b from-orange-50/20 via-amber-50/10 to-rose-50/20 dark:from-orange-950/5 dark:via-amber-950/5 dark:to-rose-950/5">
-      <div className="absolute top-1/3 left-1/4 w-[700px] h-[700px] bg-gradient-to-br from-orange-500/15 to-amber-500/15 dark:from-orange-500/10 dark:to-amber-500/10 rounded-full blur-[140px] z-0 pointer-events-none"></div>
-      <div className="absolute bottom-1/3 right-1/4 w-[700px] h-[700px] bg-gradient-to-br from-studio-primary/12 to-rose-500/12 dark:from-studio-primary/8 dark:to-rose-500/8 rounded-full blur-[140px] z-0 pointer-events-none"></div>
-
-      <div className="absolute inset-x-0 top-0 h-full opacity-[0.15] dark:opacity-[0.2] pointer-events-none"
-        style={{ backgroundImage: `radial-gradient(#94a3b8 1.2px, transparent 1.2px)`, backgroundSize: '24px 24px' }}
-      ></div>
-
-      <div className="absolute inset-x-0 bottom-0 h-56 z-0 pointer-events-none">
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-studio-paper/40 dark:via-studio-black/40 to-studio-paper dark:to-studio-black"></div>
-      </div>
-
-      <div className={`max-w-7xl mx-auto transition-all duration-500 ${isChanging ? 'opacity-0 blur-sm' : 'opacity-100 blur-0'} relative z-10`}>
-        <div className="text-center max-w-3xl mx-auto mb-12 md:mb-20 px-6 flex flex-col items-center">
-          <Reveal>
-            <h2 className="text-3xl md:text-5xl font-medium font-serif mb-3 leading-tight bg-gradient-to-r from-orange-600 via-slate-800 to-slate-900 dark:from-white dark:to-slate-300 bg-clip-text text-transparent pb-2">
-              {t.pricing.title}
-            </h2>
-            <p className="text-lg text-slate-600 dark:text-slate-400 font-light leading-snug">
-              {t.pricing.subtitle}
-            </p>
-          </Reveal>
+    <section id="pricing" className="bg-transparent py-16 md:py-20">
+      <div className={`mx-auto max-w-6xl px-5 transition-opacity duration-300 sm:px-6 ${isChanging ? 'opacity-0' : 'opacity-100'}`}>
+        <div className="mx-auto max-w-3xl text-center">
+          <h2 className="font-serif text-3xl font-medium leading-tight text-slate-900 dark:text-white md:text-5xl">{bm ? 'Pilih tempoh anda.' : 'Choose your duration.'}</h2>
+          <p className="mt-3 text-base text-slate-600 dark:text-slate-400">{bm ? 'Satu pakej, semua fungsi untuk studio anda.' : 'One plan, every feature for your studio.'}</p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8 px-6 max-w-6xl mx-auto">
-          {t.pricing.plans.map((plan: any, index: number) => (
-            <Reveal key={index} delay={index * 150} className="h-full" width="100%">
-              <div className={`relative h-full ${plan.popular ? 'z-20 md:scale-[1.05]' : 'z-0'}`}>
-                {plan.popular && (
-                  <div className="absolute -inset-0.5 bg-gradient-to-r from-studio-primary/20 to-orange-500/20 rounded-[30px] blur-xl opacity-60 dark:opacity-40 -z-10"></div>
-                )}
-                {plan.popular && (
-                  <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-gradient-to-r from-studio-primary via-orange-500 to-studio-primary text-white text-xs font-bold px-6 py-2.5 rounded-full tracking-widest uppercase shadow-xl animate-pulse-slow z-50 whitespace-nowrap">
-                    ✨ {t.pricing.popular}
-                  </div>
-                )}
+        <div className="mx-auto mt-9 flex w-fit max-w-full items-center gap-1 rounded-full border border-slate-200 bg-white p-1 dark:border-white/10 dark:bg-[#171719]" role="group" aria-label={bm ? 'Tempoh langganan' : 'Subscription duration'}>
+          {durations.map((option, index) => <button key={option.months} type="button" onClick={() => setSelected(index)} aria-pressed={selected === index} className={`min-h-11 rounded-full px-4 text-sm font-medium transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-500 sm:px-6 ${selected === index ? 'bg-[#c2410c] text-white' : 'text-slate-600 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-white/10'}`}>
+            {option.months} {bm ? 'bulan' : option.months === 1 ? 'month' : 'months'}
+          </button>)}
+        </div>
 
-                <GlassCard className={`p-8 lg:p-10 relative transition-all duration-500 h-full flex flex-col ${plan.popular
-                  ? 'bg-slate-50 dark:bg-zinc-900 border-2 border-studio-primary/60 dark:border-studio-primary/40 shadow-xl shadow-studio-primary/10 dark:shadow-studio-primary/20'
-                  : 'bg-slate-50 dark:bg-zinc-900 border border-slate-200 dark:border-white/10 hover:border-slate-300 dark:hover:border-white/20 hover:shadow-md transition-all'
-                  }`}>
-                  <div className={`${plan.popular ? 'mt-6' : ''}`}>
-                    <h3 className="text-3xl font-bold text-slate-900 dark:text-white mb-3 font-serif">{plan.name}</h3>
-                    <p className="text-slate-600 dark:text-slate-400 text-sm mb-10 leading-relaxed">{plan.description}</p>
-                  </div>
-
-                  <div className="mb-8 relative">
-                    {plan.oldPrice && (
-                      <div className="absolute -top-7 left-0 flex items-center gap-2">
-                        <span className="text-lg text-slate-400 dark:text-slate-500 line-through font-semibold">{plan.oldPrice}</span>
-                        <span className="text-[10px] px-2 py-0.5 bg-green-100 text-green-700 dark:bg-green-500/20 dark:text-green-400 rounded-full font-bold uppercase tracking-wider">Save</span>
-                      </div>
-                    )}
-                    <div className="flex items-baseline gap-2 pt-1">
-                      <span className="text-2xl font-bold text-slate-500 dark:text-slate-400">RM</span>
-                      <span className={`text-6xl font-black tracking-tight font-serif ${plan.popular ? 'text-studio-primary' : 'text-slate-900 dark:text-white'}`}>{plan.price.replace('RM', '')}</span>
-                      {plan.period && <span className="text-slate-500 ml-2 text-sm">{plan.period}</span>}
-                    </div>
-                  </div>
-
-                  <ul className="space-y-4 mb-10 flex-grow">
-                    {plan.features.map((feature: string, idx: number) => {
-                      const isStar = feature.toLowerCase().includes('everything in') || feature.toLowerCase().includes('semua dalam');
-                      return (
-                        <li key={idx} className="flex items-center gap-3 text-slate-700 dark:text-slate-300 text-sm">
-                          <div className={`w-6 h-6 rounded-lg flex items-center justify-center shrink-0 ${isStar
-                            ? 'bg-studio-primary text-white'
-                            : plan.popular
-                              ? 'bg-studio-primary/15 dark:bg-studio-primary/25 text-studio-primary'
-                              : 'bg-slate-100 dark:bg-white/10 text-slate-500 dark:text-slate-400'
-                            }`}>
-                            {getFeatureIcon(feature)}
-                          </div>
-                          <span
-                            className={isStar ? 'font-semibold text-slate-800 dark:text-slate-200' : ''}
-                            dangerouslySetInnerHTML={{ __html: sanitizeRichHtml(feature) }}
-                          />
-                        </li>
-                      );
-                    })}
-                  </ul>
-
-                  <a
-                    href="https://office.sesifoto.my/register"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className={`block w-full text-center py-5 rounded-xl font-bold transition-all duration-300 text-sm tracking-wide mt-auto shadow-lg ${plan.popular
-                      ? 'bg-gradient-to-r from-studio-primary to-orange-500 text-white hover:from-studio-primary-hover hover:to-orange-600 shadow-xl shadow-studio-primary/40 hover:shadow-2xl hover:shadow-studio-primary/50 transform hover:scale-[1.02] active:scale-[0.98]'
-                      : 'bg-white dark:bg-white/10 hover:bg-slate-50 dark:hover:bg-white/15 text-slate-900 dark:text-white border-2 border-slate-200 dark:border-white/20 hover:border-slate-300 dark:hover:border-white/30 hover:scale-[1.02] active:scale-[0.98]'
-                      }`}
+        <div className="mx-auto mt-6 grid max-w-5xl items-center gap-5 lg:grid-cols-[minmax(0,1fr)_minmax(260px,0.46fr)] lg:gap-7">
+          <div className="overflow-hidden rounded-[1.5rem] border border-slate-200 bg-white dark:border-white/10 dark:bg-[#151517]">
+            <div className="bg-slate-50 px-6 py-8 text-center dark:bg-zinc-900 sm:px-9 sm:py-10">
+              <div aria-live="polite" aria-atomic="true">
+                <div className="flex flex-wrap items-baseline justify-center gap-x-2 gap-y-1">
+                  <motion.span
+                    key={plan.months}
+                    initial={reduceMotion ? false : { opacity: 0.65, y: 5 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.16 }}
+                    className="text-[clamp(2.5rem,8vw,4rem)] font-semibold leading-none tracking-tight tabular-nums text-slate-900 dark:text-white"
                   >
-                    {plan.cta}
-                  </a>
-                </GlassCard>
+                    {money(plan.total)}
+                  </motion.span>
+                  <span className="text-sm font-medium text-slate-600 dark:text-slate-300">
+                    / {plan.months} {period}
+                  </span>
+                </div>
+                <div className="mt-5 flex min-h-10 justify-center">
+                  {plan.saving > 0 && (
+                    <div className="inline-flex items-center gap-3 text-left">
+                      <span className="flex h-10 items-center rounded-lg bg-studio-primary/10 px-3 text-sm font-bold tabular-nums text-[#9a3412] dark:text-orange-400">−{plan.percent}%</span>
+                      <span className="text-sm leading-tight text-slate-500 dark:text-slate-400">
+                        <span className="block font-semibold text-slate-900 dark:text-white">{bm ? 'Jimat' : 'Save'} {money(plan.saving)}</span>
+                        <span className="text-xs">{bm ? 'berbanding harga bulanan' : 'compared with monthly billing'}</span>
+                      </span>
+                    </div>
+                  )}
+                </div>
               </div>
-            </Reveal>
-          ))}
-        </div>
-
-        {t.pricing.disclaimer && (
-          <Reveal delay={400} width="100%">
-            <p className="mx-auto mt-10 max-w-2xl px-6 text-center text-xs leading-relaxed text-slate-400 dark:text-slate-600">
-              {t.pricing.disclaimer}
+              <a href="https://office.sesifoto.my/register" target="_blank" rel="noopener noreferrer" className="mx-auto mt-5 flex min-h-12 w-full max-w-xs items-center justify-center gap-2 rounded-full bg-[#C2410C] px-5 py-3.5 text-sm font-semibold text-white transition-colors hover:bg-[#9a3412] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-orange-500">{bm ? 'Daftar Sekarang' : 'Get started'} <ArrowRight size={16} aria-hidden="true" /></a>
+            </div>
+            <div className="border-t border-slate-200 px-6 py-7 dark:border-white/10 sm:px-9 sm:py-8">
+              <h3 className="text-sm font-medium text-slate-500 dark:text-slate-400">{bm ? 'Dalam pakej ini' : 'In this plan'}</h3>
+              <ul className="mt-6 grid gap-x-6 gap-y-4 sm:grid-cols-2">{features.map(([Icon, feature]) => <li key={feature} className="flex items-start gap-3 text-sm leading-snug text-slate-600 dark:text-slate-300"><Icon size={17} strokeWidth={1.7} className="mt-0.5 shrink-0 text-[#c2410c] dark:text-orange-400" aria-hidden="true" />{feature}</li>)}</ul>
+            </div>
+          </div>
+          <aside className="rounded-[1.5rem] border border-slate-200 bg-slate-50 px-6 py-7 text-center dark:border-white/10 dark:bg-zinc-900 sm:px-8">
+            <span className="mx-auto flex h-11 w-11 items-center justify-center rounded-full bg-studio-primary/10 text-[#c2410c] dark:text-orange-400">
+              <SlidersHorizontal size={19} strokeWidth={1.7} aria-hidden="true" />
+            </span>
+            <h3 className="mt-4 text-2xl font-medium tracking-tight text-slate-900 dark:text-white">Custom</h3>
+            <p className="mt-2 text-sm font-semibold text-slate-900 dark:text-white">{bm ? 'Harga ikut keperluan' : 'Pricing tailored to your needs'}</p>
+            <p className="mt-2 text-sm leading-relaxed text-slate-600 dark:text-slate-400">
+              {bm ? 'Bincang penyelesaian untuk operasi studio anda.' : 'Discuss a solution for your studio operations.'}
             </p>
-          </Reveal>
-        )}
+            <ul className="my-5 divide-y divide-slate-200 border-y border-slate-200 text-left text-sm text-slate-700 dark:divide-white/10 dark:border-white/10 dark:text-slate-300">
+              <li className="flex items-center gap-3 py-2.5"><Palette size={16} className="text-studio-primary" aria-hidden="true" />White label</li>
+              <li className="flex items-center gap-3 py-2.5"><Workflow size={16} className="text-studio-primary" aria-hidden="true" />{bm ? 'Aliran tempahan khas' : 'Custom booking workflows'}</li>
+              <li className="flex items-center gap-3 py-2.5"><CalendarSync size={16} className="text-studio-primary" aria-hidden="true" />{bm ? 'Integrasi khas untuk dibincang' : 'Integration options to discuss'}</li>
+              <li className="flex items-center gap-3 py-2.5"><Headphones size={16} className="text-studio-primary" aria-hidden="true" />{bm ? 'Sokongan terus untuk setup' : 'Direct setup support'}</li>
+            </ul>
+            <a href="https://wa.link/rxj90f" target="_blank" rel="noopener noreferrer" className="inline-flex min-h-11 items-center justify-center gap-2 rounded-full border border-slate-300 px-5 text-sm font-semibold text-slate-900 transition-colors hover:bg-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-orange-500 dark:border-white/20 dark:text-white dark:hover:bg-white/5">
+              {bm ? 'Jom bincang' : 'Let’s talk'} <ArrowRight size={16} aria-hidden="true" />
+            </a>
+          </aside>
+        </div>
       </div>
     </section>
   );

@@ -22,12 +22,14 @@ const Navbar: React.FC = () => {
   const [isSupportPromptOpen, setIsSupportPromptOpen] = useState(false);
   const [isLogoLoadFailed, setIsLogoLoadFailed] = useState(false);
   const location = useLocation();
-  const isHomePage = location.pathname === '/';
+  const isLandingPage = location.pathname === '/';
+  const landingBasePath = '/';
   const landingSectionKeys = new Set(['features', 'pricing', 'faq']);
   const landingSectionLinks = NAV_LINKS.filter((link) => landingSectionKeys.has(link.key));
-  const primaryNavLinks = NAV_LINKS.filter((link) => !landingSectionKeys.has(link.key));
+  const primaryNavLinks = NAV_LINKS.filter((link) => !landingSectionKeys.has(link.key) && link.key !== 'directory' && link.key !== 'news');
   const supportLink = NAV_LINKS.find((link) => link.key === 'support');
   const supportHref = supportLink?.href || 'https://wa.link/rxj90f';
+  const getLandingHref = (href: string) => `${landingBasePath}${href.slice(1)}`;
 
   const { language, setLanguage, t } = useLanguage();
   const { theme, toggleTheme } = useTheme();
@@ -149,9 +151,9 @@ const Navbar: React.FC = () => {
   };
 
   const handleAnchorClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
-    if (isHomePage && href.startsWith('/#')) {
+    if (isLandingPage && href.startsWith(`${landingBasePath}#`)) {
       e.preventDefault();
-      const targetId = href.substring(2);
+      const targetId = href.substring(landingBasePath.length + 1);
       const element = document.getElementById(targetId);
       if (element) {
         const yOffset = -80; // Navbar height offset
@@ -174,14 +176,16 @@ const Navbar: React.FC = () => {
           <div className="flex items-center justify-between h-12">
 
             {/* Logo */}
-            <Link to="/" className="flex items-center gap-2.5 shrink-0 group">
+            <Link to={landingBasePath} className="flex items-center gap-2.5 shrink-0 group">
               <div className="h-8 flex items-center justify-center">
                 {isLogoLoadFailed ? (
                   <Globe className="w-7 h-7 text-studio-primary" aria-hidden="true" />
                 ) : (
                   <img
-                    src={theme === 'dark' ? "/img/Asset 5.png" : "/img/Asset 4.png"}
+                    src={theme === 'dark' ? "/img/sesifoto-logo-dark.webp" : "/img/sesifoto-logo-light.webp"}
                     alt="SesiFoto Logo"
+                    width={160}
+                    height={40}
                     className="h-full w-auto object-contain"
                     loading="eager"
                     decoding="async"
@@ -195,32 +199,35 @@ const Navbar: React.FC = () => {
 
             {/* Desktop Nav — visible from md up */}
             <div className="hidden md:flex items-center gap-6">
-              {isHomePage ? (
+              {isLandingPage ? (
                 <div className="relative group">
                   <a
-                    href="/"
+                    href={landingBasePath}
                     className="text-sm font-bold text-studio-primary transition-colors tracking-wide inline-flex items-center"
                   >
                     {t.nav.home}
                   </a>
                   <div className="absolute left-1/2 -translate-x-1/2 top-full pt-3 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200">
                     <div className="min-w-[180px] rounded-2xl bg-studio-paper/95 dark:bg-studio-black/95 backdrop-blur-xl border border-slate-200 dark:border-white/10 shadow-xl p-2">
-                      {landingSectionLinks.map((link) => (
+                      {landingSectionLinks.map((link) => {
+                        const localHref = getLandingHref(link.href);
+                        return (
                         <a
                           key={link.key}
-                          href={link.href}
-                          onClick={(e) => handleAnchorClick(e, link.href)}
+                          href={localHref}
+                          onClick={(e) => handleAnchorClick(e, localHref)}
                           className="block px-4 py-2.5 rounded-xl text-sm font-medium text-slate-600 dark:text-slate-300 hover:text-studio-primary dark:hover:text-studio-primary hover:bg-slate-100/60 dark:hover:bg-white/5 transition-colors"
                         >
                           {t.nav[link.key as keyof typeof t.nav]}
                         </a>
-                      ))}
+                        );
+                      })}
                     </div>
                   </div>
                 </div>
               ) : (
                 <Link
-                  to="/"
+                  to={landingBasePath}
                   className="text-sm font-medium text-slate-600 dark:text-slate-400 hover:text-studio-primary dark:hover:text-studio-primary transition-colors tracking-wide"
                 >
                   {t.nav.home}
@@ -282,7 +289,7 @@ const Navbar: React.FC = () => {
                   href="https://office.sesifoto.my/register"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="bg-studio-primary text-white px-5 py-2 rounded-full font-semibold text-sm hover:bg-studio-primary-hover transition-all active:scale-95 shadow-md shadow-studio-primary/25 whitespace-nowrap"
+                  className="bg-[#C2410C] text-white px-5 py-2 rounded-full font-semibold text-sm hover:bg-[#9A3412] transition-all active:scale-95 shadow-md shadow-orange-900/25 whitespace-nowrap"
                 >
                   {t.nav.getStarted}
                 </a>
@@ -293,7 +300,7 @@ const Navbar: React.FC = () => {
                 href="https://office.sesifoto.my/register"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="md:hidden bg-studio-primary text-white px-4 py-1.5 rounded-full font-semibold text-xs hover:bg-studio-primary-hover transition-all active:scale-95 shadow-sm shadow-studio-primary/20 whitespace-nowrap"
+                className="md:hidden bg-[#C2410C] text-white px-4 py-1.5 rounded-full font-semibold text-xs hover:bg-[#9A3412] transition-all active:scale-95 shadow-sm shadow-orange-900/20 whitespace-nowrap"
               >
                 {t.nav.getStarted}
               </a>
@@ -341,8 +348,10 @@ const Navbar: React.FC = () => {
                   <Globe className="w-6 h-6 text-studio-primary" aria-hidden="true" />
                 ) : (
                   <img
-                    src={theme === 'dark' ? "/img/Asset 5.png" : "/img/Asset 4.png"}
+                    src={theme === 'dark' ? "/img/sesifoto-logo-dark.webp" : "/img/sesifoto-logo-light.webp"}
                     alt="SesiFoto Logo"
+                    width={160}
+                    height={40}
                     className="h-full w-auto object-contain"
                     loading="eager"
                     decoding="async"
@@ -363,30 +372,33 @@ const Navbar: React.FC = () => {
             <div className="overflow-y-auto overscroll-contain px-5 py-4 max-h-[calc(100vh-5.5rem)]">
               <div className="space-y-1">
                 <Link
-                  to="/"
-                  className={`flex items-center justify-between min-h-12 py-2 text-lg transition-colors ${isHomePage
+                  to={landingBasePath}
+                  className={`flex items-center justify-between min-h-12 py-2 text-lg transition-colors ${isLandingPage
                     ? 'font-bold text-studio-primary'
                     : 'font-medium text-slate-900 dark:text-slate-100 hover:text-studio-primary dark:hover:text-studio-primary'
                     }`}
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
                   <span>{t.nav.home}</span>
-                  {isHomePage && <ChevronRight className="w-4 h-4 text-studio-primary" />}
+                  {isLandingPage && <ChevronRight className="w-4 h-4 text-studio-primary" />}
                 </Link>
 
-                {isHomePage && (
+                {isLandingPage && (
                   <div className="ml-2 pl-4 border-l border-slate-200 dark:border-white/10 space-y-0.5">
-                    {landingSectionLinks.map((link) => (
+                    {landingSectionLinks.map((link) => {
+                      const localHref = getLandingHref(link.href);
+                      return (
                       <a
                         key={link.key}
-                        href={link.href}
-                        onClick={(e) => handleAnchorClick(e, link.href)}
+                        href={localHref}
+                        onClick={(e) => handleAnchorClick(e, localHref)}
                         className="flex items-center justify-between min-h-10 py-1.5 text-base font-medium text-slate-600 dark:text-slate-300 hover:text-studio-primary dark:hover:text-studio-primary transition-colors"
                       >
                         <span>{t.nav[link.key as keyof typeof t.nav]}</span>
                         <ChevronRight className="w-4 h-4 text-slate-400" />
                       </a>
-                    ))}
+                      );
+                    })}
                   </div>
                 )}
 
@@ -427,7 +439,7 @@ const Navbar: React.FC = () => {
                   </a>
                   <a
                     href="https://office.sesifoto.my/register"
-                    className="relative group overflow-hidden w-full px-4 py-3 bg-studio-primary text-white rounded-full font-bold text-sm hover:bg-studio-primary-hover transition-all shadow-[0_10px_30px_-10px_rgba(255,107,44,0.45)] text-center flex items-center justify-center"
+                    className="relative group overflow-hidden w-full px-4 py-3 bg-[#C2410C] text-white rounded-full font-bold text-sm hover:bg-[#9A3412] transition-all shadow-[0_10px_30px_-10px_rgba(154,52,18,0.55)] text-center flex items-center justify-center"
                     onClick={() => setIsMobileMenuOpen(false)}
                   >
                     {t.nav.getStarted}
@@ -474,7 +486,7 @@ const Navbar: React.FC = () => {
                 </button>
                 <button
                   onClick={handleSupportContinue}
-                  className="flex-1 inline-flex items-center justify-center gap-1.5 px-2.5 py-2 rounded-lg bg-studio-primary text-white text-xs font-semibold hover:bg-studio-primary-hover transition-colors shadow-lg shadow-studio-primary/30"
+                  className="flex-1 inline-flex items-center justify-center gap-1.5 px-2.5 py-2 rounded-lg bg-[#C2410C] text-white text-xs font-semibold hover:bg-[#9A3412] transition-colors shadow-lg shadow-orange-900/30"
                 >
                   <span>{supportPromptCopy.continue}</span>
                   <ExternalLink className="w-3 h-3" />

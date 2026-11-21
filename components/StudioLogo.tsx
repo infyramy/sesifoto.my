@@ -80,6 +80,8 @@ const StudioLogo: React.FC<StudioLogoProps> = ({ src, name, link, wrapperClassNa
                 <img
                     src={src}
                     alt={name}
+                    width={130}
+                    height={64}
                     draggable={false}
                     loading="lazy"
                     decoding="async"

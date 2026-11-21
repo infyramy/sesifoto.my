@@ -306,7 +306,7 @@ const BentoIllustration = ({ title, description, tier, bgClass, textClass, icon 
 };
 
 const Features: React.FC = () => {
-   const { t, isChanging } = useLanguage();
+   const { t, language, isChanging } = useLanguage();
 
    // Map icons to the 5 features dynamically based on index
    const getIcon = (index: number) => {
@@ -417,15 +417,7 @@ const Features: React.FC = () => {
       );
 
    return (
-      <section id="features" className="py-16 md:py-24 relative bg-slate-50 dark:bg-zinc-950 overflow-hidden transition-colors duration-500">
-
-         {/* Theme-Aware Background Gradient Orbs — desktop only (too heavy for mobile GPU) */}
-         <div className="hidden md:block absolute top-0 right-0 w-[800px] h-[800px] bg-gradient-radial from-orange-200/40 dark:from-studio-primary/10 to-transparent opacity-60 dark:opacity-50 blur-3xl pointer-events-none"></div>
-         <div className="hidden md:block absolute bottom-0 left-0 w-[600px] h-[600px] bg-gradient-radial from-amber-200/30 dark:from-orange-500/10 to-transparent opacity-50 dark:opacity-40 blur-3xl pointer-events-none"></div>
-
-         {/* Additional Orange Accents for Depth — desktop only */}
-         <div className="hidden md:block absolute top-[30%] left-[-10%] w-[500px] h-[500px] bg-studio-primary/10 dark:bg-studio-primary/5 rounded-full blur-[100px] pointer-events-none"></div>
-         <div className="hidden md:block absolute top-[60%] right-[-10%] w-[500px] h-[500px] bg-orange-400/10 dark:bg-orange-500/5 rounded-full blur-[100px] pointer-events-none"></div>
+      <section id="features" className="py-16 md:py-20 relative bg-transparent overflow-hidden">
 
          {/* Grid Pattern Overlay - CSS Based for Reliability */}
          <div className="absolute inset-0 z-0 opacity-[0.02] dark:opacity-[0.04] pointer-events-none"
@@ -590,58 +582,29 @@ const Features: React.FC = () => {
                      </Reveal>
                   </div>
 
-                  {(() => {
-                     const items = t.features.bentoGrid.items || [];
-                     const allPackageItems = items.filter((item: any) => item.tier !== 'prime');
-                     const primeOnlyItems = items.filter((item: any) => item.tier === 'prime');
-                     return (
-                        <div className="relative z-10 space-y-12">
-                           <div>
-                              <div className="mb-5 flex justify-center sm:justify-start">
-                                 <Reveal width="fit-content" delay={0}>
-                                    <span className="inline-flex items-center rounded-full border border-emerald-500/25 bg-emerald-500/10 px-3 py-1 text-xs font-bold uppercase tracking-wide text-emerald-600 dark:text-emerald-300">
-                                       {t.features.bentoGrid.groupAllTitle}
-                                    </span>
-                                 </Reveal>
-                              </div>
-                              <div className="grid w-full grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3 lg:gap-6" style={{ gridAutoRows: '1fr' }}>
-                                 {allPackageItems.map((item: any, index: number) => {
-                                    const { bg, text } = getBentoStyle(item.title, item.tier);
-                                    return (
-                                       <Reveal key={`all-${index}`} delay={(index + 1) * 75} width="100%" className="flex h-full">
-                                          <div className="w-full h-full">
-                                             <BentoIllustration title={item.title} description={item.description} tier={item.tier} bgClass={bg} textClass={text} icon={getBentoIcon(item.title, item.tier)} />
-                                          </div>
-                                       </Reveal>
-                                    );
-                                 })}
-                              </div>
-                           </div>
-
-                           <div className="pt-8 border-t border-slate-200 dark:border-white/10 md:pt-10">
-                              <div className="mb-5 flex justify-center sm:justify-start">
-                                 <Reveal width="fit-content" delay={0}>
-                                    <span className="inline-flex items-center rounded-full border border-studio-primary/35 bg-studio-primary/15 px-3 py-1 text-xs font-bold uppercase tracking-wide text-studio-primary dark:text-orange-300">
-                                       {t.features.bentoGrid.groupPrimeTitle}
-                                    </span>
-                                 </Reveal>
-                              </div>
-                              <div className="grid w-full grid-cols-1 gap-5 md:grid-cols-2 lg:gap-6" style={{ gridAutoRows: '1fr' }}>
-                                 {primeOnlyItems.map((item: any, index: number) => {
-                                    const { bg, text } = getBentoStyle(item.title, item.tier);
-                                    return (
-                                       <Reveal key={`prime-${index}`} delay={(index + 1) * 75} width="100%" className="flex h-full">
-                                          <div className="h-full w-full">
-                                             <BentoIllustration title={item.title} description={item.description} tier={item.tier} bgClass={bg} textClass={text} icon={getBentoIcon(item.title, item.tier)} />
-                                          </div>
-                                       </Reveal>
-                                    );
-                                 })}
-                              </div>
-                           </div>
-                        </div>
-                     );
-                  })()}
+                  <div className="relative z-10">
+                     <div className="mb-6 flex flex-wrap items-center justify-center gap-3 sm:justify-start" aria-label={language === 'bm' ? 'Sebelum ini Prime sahaja, kini untuk semua' : 'Previously Prime only, now for everyone'}>
+                        <span className="text-xs font-semibold uppercase tracking-wide text-slate-500 line-through decoration-slate-400/70 dark:text-slate-500 dark:decoration-slate-500" aria-hidden="true">
+                           {t.features.bentoGrid.groupPrimeTitle}
+                        </span>
+                        <span aria-hidden="true" className="h-px w-5 bg-studio-primary/50" />
+                        <span aria-hidden="true" className="inline-flex items-center rounded-full border border-studio-primary/25 bg-studio-primary/10 px-3 py-1 text-xs font-bold uppercase tracking-wide text-[#9a3412] dark:text-orange-300">
+                           {t.features.bentoGrid.groupAllTitle}
+                        </span>
+                     </div>
+                     <div className="grid w-full grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3 lg:gap-6" style={{ gridAutoRows: '1fr' }}>
+                        {(t.features.bentoGrid.items || []).map((item: any, index: number) => {
+                           const { bg, text } = getBentoStyle(item.title, 'all');
+                           return (
+                              <Reveal key={item.title} delay={(index + 1) * 75} width="100%" className="flex h-full">
+                                 <div className="h-full w-full">
+                                    <BentoIllustration title={item.title} description={item.description} tier="all" bgClass={bg} textClass={text} icon={getBentoIcon(item.title, 'all')} />
+                                 </div>
+                              </Reveal>
+                           );
+                        })}
+                     </div>
+                  </div>
                </div>
             )}
 
@@ -886,7 +849,7 @@ const ControlCentreMockup = () => (
          </div>
 
          {/* Bottom Fade */}
-         <div className="absolute bottom-0 left-0 w-full h-12 bg-gradient-to-t from-slate-50 dark:from-zinc-950 to-transparent pointer-events-none"></div>
+         <div className="absolute bottom-0 left-0 w-full h-12 bg-gradient-to-t from-studio-paper dark:from-studio-black to-transparent pointer-events-none"></div>
       </div>
    </div>
 );

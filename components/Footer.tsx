@@ -60,7 +60,7 @@ const Footer: React.FC<FooterProps> = ({ hideCtaBanner = false }) => {
                     href="https://office.sesifoto.my"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="relative group overflow-hidden w-full rounded-xl bg-studio-primary px-6 py-3.5 text-center text-base font-bold text-white transition-all hover:-translate-y-0.5 hover:bg-studio-primary-hover active:translate-y-0 sm:w-auto sm:px-8 sm:py-4 flex items-center justify-center"
+                    className="relative group overflow-hidden w-full rounded-xl bg-[#C2410C] px-6 py-3.5 text-center text-base font-bold text-white transition-all hover:-translate-y-0.5 hover:bg-[#9A3412] active:translate-y-0 sm:w-auto sm:px-8 sm:py-4 flex items-center justify-center"
                   >
                     <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:animate-shimmer" />
                     <div className="relative z-10 flex items-center gap-2">
@@ -84,8 +84,10 @@ const Footer: React.FC<FooterProps> = ({ hideCtaBanner = false }) => {
             <a href="#" className="flex items-center gap-3">
               <div className="h-10 flex items-center justify-center">
                 <img
-                  src={theme === 'dark' ? "/img/Asset 5.png" : "/img/Asset 4.png"}
+                  src={theme === 'dark' ? "/img/sesifoto-logo-dark.webp" : "/img/sesifoto-logo-light.webp"}
                   alt="SesiFoto Logo"
+                  width={160}
+                  height={40}
                   className="h-full w-auto object-contain"
                 />
               </div>

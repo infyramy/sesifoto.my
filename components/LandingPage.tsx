@@ -36,9 +36,7 @@ const LandingPage: React.FC = () => {
                         <Features />
                     </Suspense>
                     <Suspense fallback={<SectionFallback />}>
-                        <div className="relative z-10 w-full pt-16 pb-12">
-                          <Testimonials />
-                        </div>
+                        <Testimonials />
                     </Suspense>
                     <Suspense fallback={<SectionFallback />}>
                         <Integrations />

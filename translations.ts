@@ -52,7 +52,7 @@ export const translations = {
       promo: 'Take advantage of this one-time fixed rate for the entire season.'
     },
     hero: {
-      badge: '#1 System for Studio Raya 2026',
+      badge: 'Trusted by photography studios',
       titleLine1: 'Simplify Booking Management',
       titleLine2: 'For Your Photo Studio.',
       subtitle: 'Manage bookings, payments, and customers in one system—customers book and pay themselves, you simply monitor the dashboard.',
@@ -205,7 +205,8 @@ export const translations = {
     },
     testimonials: {
       title: 'Smooth bookings, happier clients.',
-      subtitle: '',
+      subtitle: 'What they say',
+      description: 'Studios say bookings feel clearer, calmer, and easier to manage.',
       rating: '4.9/5 Average Rating',
       readFull: 'Read full testimonial',
       items: [
@@ -215,7 +216,7 @@ export const translations = {
           company: "Stitch & Shutter Studio",
           content: "\"Sumpah mudah and memudahkan. Booking form diorang lengkap semua detail ada. Boleh adjust tarikh kalau customer perlu tukar tarikh. Boleh assign photographer so payment photographer system akan terus kira. Paling penting boleh terus payment by website, tak perlu manual lagi. Bangun pagi tengok-tengok dah ada booking masuk tanpa kita perlu buat apa-apa.\"",
           highlight: "\"Booking form lengkap, photographer auto kira, payment terus masuk.\"",
-          avatar: "/previews/stitchshutter.png",
+          avatar: "/previews/stitch.jpeg",
           clientLogo: "/img/stitch shutter.svg",
           type: "image-text",
           source: "message",
@@ -229,8 +230,8 @@ export const translations = {
           content: "\"Sejak menggunakan @sesifoto.my, sy dah tak perlukan panadol. Hilang sakit kepala. A-Z sistem sangat function. Dr booking experience, admin, photographer, customer semua bagi good feedback. No double booking. Support team tahlah tak tidur rasanya. Rajin sangat 24 hour ready fast reply. Sy sudah, anda bila lagi.\"",
           highlight: "\"Hilang sakit kepala. No double booking. Fast reply.\"",
           sourceUrl: "https://www.threads.com/@wanalifasyraf/post/DWRkTJfAWSP",
-          avatar: "/previews/entatajir.png",
-          type: "image-text",
+          avatar: "/previews/entatajir.webp",
+          type: "text",
           source: "threads",
           location: "Ampang Jaya",
           logoText: "Enta Tajir",
@@ -243,12 +244,25 @@ export const translations = {
           content: "\"Dah 2 success year dgn sesifoto. Handle beribu booking. Yang penting customer service cepat respond bila ada tech issues. Very recommended. Sekian, Review tak berbayar.\"",
           highlight: "\"Handle beribu booking. Customer service cepat respond.\"",
           sourceUrl: "https://www.threads.com/@shrlsbrdn/post/DWRjue_j5ZG",
-          avatar: "/img/sedetik.png",
+          avatar: "/previews/sedetik.jpeg",
           clientLogo: "/img/sedetik.png",
-          type: "text",
+          type: "image-text",
           source: "threads",
           location: "Johor Bahru",
           invertMode: "none"
+        },
+        {
+          name: "Visual Diaries",
+          role: "Photography Studio",
+          company: "Visual Diaries Photography",
+          content: "\"SesiFoto bantu susun booking dengan lebih jelas. Pelanggan nampak slot, team boleh semak jadual, dan proses tempahan jadi lebih kemas.\"",
+          highlight: "\"Booking lebih jelas, jadual senang semak, tempahan lebih kemas.\"",
+          avatar: "/previews/vd.jpeg",
+          clientLogo: "/img/vd.svg",
+          type: "image-text",
+          source: "instagram",
+          location: "Malaysia",
+          invertMode: "dark"
         }
       ]
     },
@@ -299,32 +313,32 @@ export const translations = {
       title: 'Frequently Asked Questions',
       items: [
         {
-          question: "How do I start using this system?",
-          answer: "It's simple. 1) Register an account. 2) Complete studio & package details. 3) Connect CHIP account. Done!<br/><br/><strong>When can customers book?</strong> Immediately. Once you complete the steps above and share the booking link, the system is ready to accept bookings 24/7."
+          question: "How do I start using SesiFoto?",
+          answer: "Create an account, add your studio details and packages, then connect a verified <strong>CHIP</strong> account. Once setup is complete, share your booking link and customers can start booking."
         },
         {
-          question: "What is the main difference vs. manual management?",
-          answer: "<strong>Automation & Efficiency.</strong><br/>Manual management demands your time to reply to WhatsApp & check bank receipts. With SesiFoto, customers select slots and pay online. The system automatically locks the slot. You only need to focus on photography."
+          question: "Can customers book and pay without WhatsApp back-and-forth?",
+          answer: "<strong>Yes.</strong> Customers choose a slot, fill in their details, and pay online. After payment is confirmed, SesiFoto locks the slot automatically."
         },
         {
-          question: "What payment gateway is used & why is it important?",
-          answer: "We use <strong>CHIP</strong>. It is required so the system can verify payments & lock slots automatically (without manual receipt checking). Transaction fees are low & settlement funds are deposited directly into your bank account."
+          question: "Does SesiFoto stop double bookings?",
+          answer: "<strong>Yes.</strong> Paid slots are locked in the calendar, so another customer cannot take the same time."
         },
         {
-          question: "How does the pricing structure work?",
-          answer: "Our subscription plans are designed for flexibility. Pay for your selected 3-month tier (PRO at RM649 or PRIME at RM899) and enjoy full access. No long-term annual commitments required."
+          question: "Where do customer payments go?",
+          answer: "Payments are processed through <strong>CHIP</strong> and settled to the verified studio bank account. SesiFoto does not hold customer money."
+        },
+        {
+          question: "Can I change a customer's date or slot?",
+          answer: "<strong>Yes.</strong> Admins can update bookings based on the studio's own reschedule policy. The customer should follow the latest booking details from your studio."
         },
         {
           question: "What happens when my subscription ends?",
-          answer: "Full access is provided for the duration of your active subscription. After it expires, you can easily renew it directly from the dashboard to continue accepting bookings without any downtime."
+          answer: "You need to renew to keep the booking page and dashboard active for new bookings. Your studio can renew from the dashboard."
         },
         {
-          question: "How are refunds handled for cancellations?",
-          answer: "Fully subject to your studio's SOP. You have the option to reschedule the slot, provide credit coupons (Agency Plan) for new bookings, or cancel the booking and refund manually."
-        },
-        {
-          question: "Is technical support provided if issues arise?",
-          answer: "Yes, our team is ready to assist. You can contact our customer service directly if any technical issues arise. We understand that every booking is critical for your business."
+          question: "Who helps if something goes wrong?",
+          answer: "SesiFoto support can help check issues related to setup, booking pages, payment status, notifications, and system usage."
         }
       ]
     },
@@ -337,7 +351,7 @@ export const translations = {
       },
       preFooterTitle: 'The All-in-One Booking System',
       preFooterSubtitle: 'Everything you need to manage schedules, payments, and clients effortlessly in one place.',
-      taglineLine1: 'The Ultimate Booking Management System.',
+      taglineLine1: 'Photography Studio Booking System.',
       taglineLine2: '',
       product: 'Product',
       company: 'Company',
@@ -410,7 +424,7 @@ export const translations = {
       promo: 'Manfaatkan kadar tetap sekali bayar ini untuk kegunaan sepanjang musim.'
     },
     hero: {
-      badge: 'Sistem #1 Untuk Studio Raya 2026',
+      badge: 'Dipercayai studio fotografi',
       titleLine1: 'Mudahkan Urusan Tempahan',
       titleLine2: 'Studio Foto Anda.',
       subtitle: 'Urus tempahan, bayaran dan pelanggan dalam satu sistem — pelanggan tempah dan bayar sendiri, anda cuma pantau dashboard.',
@@ -563,7 +577,8 @@ export const translations = {
     },
     testimonials: {
       title: 'Tempahan lancar, pelanggan senang.',
-      subtitle: '',
+      subtitle: 'Apa kata mereka?',
+      description: 'Studio kata booking lebih tersusun, tak perlu kejar pelanggan satu-satu.',
       rating: '4.9/5 Purata Penilaian',
       readFull: 'Baca testimoni penuh',
       items: [
@@ -573,7 +588,7 @@ export const translations = {
           company: "Stitch & Shutter Studio",
           content: "\"Sumpah mudah dan memang memudahkan. Booking form diorang lengkap semua detail ada. Boleh adjust tarikh kalau customer perlu tukar tarikh. Boleh assign photographer jadi payment photographer sistem akan terus kira. Paling penting, boleh terus payment by website, tak perlu manual lagi. Bangun pagi tengok-tengok dah ada booking masuk tanpa kita perlu buat apa-apa.\"",
           highlight: "\"Booking form lengkap, photographer auto kira, payment terus masuk.\"",
-          avatar: "/previews/stitchshutter.png",
+          avatar: "/previews/stitch.jpeg",
           clientLogo: "/img/stitch shutter.svg",
           type: "image-text",
           source: "message",
@@ -587,8 +602,8 @@ export const translations = {
           content: "\"Sejak menggunakan @sesifoto.my, sy dah tak perlukan panadol. Hilang sakit kepala. A-Z sistem sangat function. Dari booking experience, admin, photographer, customer semua bagi good feedback. No double booking. Support team macam tak tidur. Rajin sangat, 24 jam ready fast reply. Sy sudah, anda bila lagi.\"",
           highlight: "\"Hilang sakit kepala. No double booking. Fast reply.\"",
           sourceUrl: "https://www.threads.com/@wanalifasyraf/post/DWRkTJfAWSP",
-          avatar: "/previews/entatajir.png",
-          type: "image-text",
+          avatar: "/previews/entatajir.webp",
+          type: "text",
           source: "threads",
           location: "Ampang Jaya",
           logoText: "Enta Tajir",
@@ -601,12 +616,25 @@ export const translations = {
           content: "\"Dah 2 success year dgn sesifoto. Handle beribu booking. Yang penting customer service cepat respond bila ada tech issues. Very recommended. Sekian, Review tak berbayar.\"",
           highlight: "\"Handle beribu booking. Customer service cepat respond.\"",
           sourceUrl: "https://www.threads.com/@shrlsbrdn/post/DWRjue_j5ZG",
-          avatar: "/img/sedetik.png",
+          avatar: "/previews/sedetik.jpeg",
           clientLogo: "/img/sedetik.png",
-          type: "text",
+          type: "image-text",
           source: "threads",
           location: "Johor Bahru",
           invertMode: "none"
+        },
+        {
+          name: "Visual Diaries",
+          role: "Studio fotografi",
+          company: "Visual Diaries Photography",
+          content: "\"SesiFoto bantu susun booking dengan lebih jelas. Pelanggan nampak slot, team boleh semak jadual, dan proses tempahan jadi lebih kemas.\"",
+          highlight: "\"Booking lebih jelas, jadual senang semak, tempahan lebih kemas.\"",
+          avatar: "/previews/vd.jpeg",
+          clientLogo: "/img/vd.svg",
+          type: "image-text",
+          source: "instagram",
+          location: "Malaysia",
+          invertMode: "dark"
         }
       ]
     },
@@ -658,32 +686,32 @@ export const translations = {
       subtitle: 'Ada soalan lain? Hubungi kami terus.',
       items: [
         {
-          question: "Bagaimanakah cara untuk mula menggunakan sistem ini?",
-          answer: "Prosesnya mudah sahaja:<ol style=\"list-style: decimal; padding-left: 1.25rem; margin-top: 0.5rem;\"><li>Daftar akaun.</li><li>Lengkapkan maklumat studio & pakej.</li><li>Hubungkan akaun CHIP.</li></ol><br/><strong>Bilakah pelanggan boleh mula menempah?</strong> Serta-merta*.<br/><span style=\"font-size: 0.9em; opacity: 0.9;\">* Hanya selepas butiran akaun CHIP disahkan (verified) untuk mula menerima pembayaran.</span>"
+          question: "Macam mana nak mula guna SesiFoto?",
+          answer: "Daftar akaun, lengkapkan maklumat studio dan pakej, kemudian sambungkan akaun <strong>CHIP</strong> yang sudah disahkan. Bila setup siap, kongsi link tempahan dan pelanggan boleh mula booking."
         },
         {
-          question: "Apakah perbezaan utama berbanding pengurusan manual?",
-          answer: "<strong>Automasi & Kecekapan.</strong><br/>Pengurusan manual menuntut masa anda untuk membalas WhatsApp & menyemak resit bank. Dengan SesiFoto, pelanggan memilih slot dan membuat bayaran dalam talian. Sistem akan mengunci slot secara automatik. Anda hanya perlu fokus kepada fotografi."
+          question: "Pelanggan boleh tempah dan bayar sendiri ke?",
+          answer: "<strong>Boleh.</strong> Pelanggan pilih slot, isi maklumat, dan bayar online. Lepas bayaran berjaya, SesiFoto akan lock slot itu secara automatik."
         },
         {
-          question: "Apakah gerbang pembayaran yang digunakan & kepentingannya?",
-          answer: "Kami menggunakan <strong>CHIP</strong>. Ia diperlukan supaya sistem dapat mengesahkan pembayaran & mengunci slot secara automatik (tanpa perlu semakan resit manual). Caj transaksi adalah rendah & wang penyelesaian (<em>settlement</em>) dimasukkan terus ke akaun bank anda."
+          question: "Kalau slot dah penuh, sistem elak double booking tak?",
+          answer: "<strong>Ya.</strong> Slot yang sudah dibayar akan dikunci dalam kalendar, jadi pelanggan lain tak boleh ambil masa yang sama."
         },
         {
-          question: "Bagaimanakah struktur harga pakej berfungsi?",
-          answer: "Pelan langganan kami direka untuk fleksibiliti. Buat bayaran untuk pelan 3 bulan pilihan anda (PRO pada RM649 atau PRIME pada RM899) dan nikmati akses penuh. Tiada komitmen tahunan jangka panjang diperlukan."
+          question: "Bayaran pelanggan masuk ke mana?",
+          answer: "Bayaran diproses melalui <strong>CHIP</strong> dan dimasukkan ke akaun bank studio yang sudah disahkan. SesiFoto tak pegang duit pelanggan."
         },
         {
-          question: "Apa yang berlaku apabila langganan saya tamat?",
-          answer: "Akses penuh diberikan sepanjang tempoh langganan aktif anda. Selepas ia tamat, anda boleh memperbaharuinya dengan mudah terus dari papan pemuka untuk terus menerima tempahan tanpa sebarang gangguan."
+          question: "Boleh tukar tarikh atau slot pelanggan?",
+          answer: "<strong>Boleh.</strong> Admin boleh kemaskini tempahan ikut polisi studio sendiri. Pelanggan ikut maklumat tempahan terbaru yang studio berikan."
         },
         {
-          question: "Bagaimanakah proses pemulangan wang (refund) jika berlaku pembatalan?",
-          answer: "Tertakluk sepenuhnya kepada SOP studio anda. Anda mempunyai pilihan untuk mengubah tarikh slot, memberikan kupon kredit (Pelan Agensi) untuk tempahan baharu, atau membatalkan tempahan dan memulangkan wang secara manual."
+          question: "Apa jadi bila langganan tamat?",
+          answer: "Studio perlu renew untuk terus aktifkan booking page dan dashboard bagi tempahan baharu. Renewal boleh dibuat dari dashboard."
         },
         {
-          question: "Adakah sokongan teknikal disediakan jika timbul masalah?",
-          answer: "Ya, pasukan kami bersedia membantu. Anda boleh terus menghubungi khidmat pelanggan kami jika terdapat sebarang isu teknikal. Kami memahami bahawa setiap tempahan adalah kritikal bagi perniagaan anda."
+          question: "Kalau ada masalah teknikal, siapa boleh bantu?",
+          answer: "Support SesiFoto boleh bantu semak isu berkaitan setup, booking page, status bayaran, notifikasi, dan penggunaan sistem."
         }
       ]
     },
@@ -696,7 +724,7 @@ export const translations = {
       },
       preFooterTitle: 'Sistem Tempahan All-in-One',
       preFooterSubtitle: 'Semua yang anda perlukan untuk mengurus jadual, bayaran, dan pelanggan dengan mudah di satu tempat.',
-      taglineLine1: 'Sistem Pengurusan Tempahan Terbaik.',
+      taglineLine1: 'Sistem Tempahan Studio Fotografi.',
       taglineLine2: '',
       product: 'Produk',
       company: 'Syarikat',

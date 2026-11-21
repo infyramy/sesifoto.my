@@ -135,7 +135,7 @@ const Hero: React.FC = () => {
                 {/* Buttons */}
                 <div style={{ transitionDelay: '300ms' }} className={`${getDelayClass(300)} relative z-10 mb-20`}>
                     <div className="flex flex-col sm:flex-row items-center gap-4 justify-center w-full relative">
-                        <a href="https://office.sesifoto.my/register" target="_blank" rel="noopener noreferrer" className="relative group overflow-hidden w-[220px] sm:w-auto px-6 sm:px-10 py-3 sm:py-4 bg-studio-primary text-white rounded-full font-bold text-base sm:text-lg hover:bg-studio-primary-hover transition-all hover:scale-105 active:scale-95 shadow-[0_10px_40px_-10px_rgba(255,107,44,0.4)] text-center flex items-center justify-center">
+                        <a href="https://office.sesifoto.my/register" target="_blank" rel="noopener noreferrer" className="relative group overflow-hidden w-[220px] sm:w-auto px-6 sm:px-10 py-3 sm:py-4 bg-[#C2410C] text-white rounded-full font-bold text-base sm:text-lg hover:bg-[#9A3412] transition-all hover:scale-105 active:scale-95 shadow-[0_10px_40px_-10px_rgba(154,52,18,0.45)] text-center flex items-center justify-center">
                             <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700"></div>
                             <div className="relative z-10 flex items-center gap-2">
                                 <Zap className="w-4 h-4 sm:w-5 sm:h-5 fill-current" />
@@ -329,8 +329,10 @@ const Sidebar = ({ theme }: { theme: string }) => {
             </div> */}
             <div className="h-16 flex items-center px-6">
                 <img
-                    src="/img/Asset 5.png"
+                    src="/img/sesifoto-logo-dark.webp"
                     alt="SesiFoto Logo"
+                    width={160}
+                    height={40}
                     className={`h-8 w-auto object-contain ${isDark ? '' : 'invert brightness-0'}`}
                 />
             </div>

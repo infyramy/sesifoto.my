@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useLayoutEffect, useRef } from 'react';
-import { User, Store, Camera, CheckCircle2, Calendar, CreditCard, Clock, TrendingUp, Users, List, Bell } from 'lucide-react';
+import { User, Store, Camera, CheckCircle2 } from 'lucide-react';
 import { useLanguage } from '../contexts/LanguageContext';
 
 const AUTO_ROTATE_MS = 5000;
@@ -106,12 +106,7 @@ const UserBenefits = () => {
     };
 
     return (
-        <section id="user-benefits" className="py-24 relative overflow-hidden bg-studio-paper dark:bg-studio-black">
-            {/* Background Ambience */}
-            <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
-                {/* Gradient Orb - Middle Left Side */}
-                <div className="absolute top-1/2 left-0 -translate-x-1/3 -translate-y-1/2 w-[600px] h-[600px] bg-studio-primary/20 rounded-full blur-[120px] md:mix-blend-screen mix-blend-normal transform-gpu pointer-events-none"></div>
-            </div>
+        <section id="user-benefits" className="py-16 md:py-20 relative overflow-hidden bg-transparent">
             <div className="container mx-auto px-4 relative z-10">
 
                 {/* Section Header */}
@@ -244,173 +239,17 @@ const UserBenefits = () => {
                             ))}
                         </div>
 
-                        {/* Right: Dynamic Mockup — all three always in DOM, CSS crossfade */}
-                        <div className="relative h-[400px] lg:h-[500px] flex items-center justify-center">
-
-                            {/* Animated Background Blob */}
-                            <div className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] h-[300px] rounded-full blur-[80px] opacity-20 transition-colors duration-500 ${activeTab === 'customer' ? 'bg-orange-500' :
-                                activeTab === 'owner' ? 'bg-slate-500' :
-                                    'bg-zinc-500'
-                                }`}></div>
-
-                            {/* CUSTOMER MOCKUP */}
-                            <div className={`absolute inset-0 flex items-center justify-center transition-[opacity,transform] duration-500 ease-out will-change-[opacity,transform] ${activeTab === 'customer' ? 'opacity-100 scale-100' : 'opacity-0 scale-95 pointer-events-none'
-                                }`}>
-                                <div className={`relative w-[280px] ${disableHeavyMotion ? '' : 'animate-float-slow'}`}>
-                                    {/* Mobile Card */}
-                                    <div className="bg-white dark:bg-zinc-900 rounded-[2.5rem] border-[6px] border-slate-900 dark:border-zinc-800 shadow-2xl p-4 overflow-hidden relative z-10">
-                                        {/* Dynamic Island */}
-                                        <div className="absolute top-0 left-1/2 -translate-x-1/2 h-6 w-24 bg-slate-900 dark:bg-black rounded-b-xl"></div>
-
-                                        {/* Screen Content */}
-                                        <div className="mt-8 space-y-4">
-                                            <div className="flex items-center justify-between">
-                                                <div className="w-8 h-8 rounded-full bg-slate-100 dark:bg-zinc-800"></div>
-                                                <div className="w-20 h-4 rounded-full bg-slate-100 dark:bg-zinc-800"></div>
-                                            </div>
-
-                                            <div className="bg-green-50 dark:bg-green-900/10 p-4 rounded-2xl border border-green-100 dark:border-green-900/20 text-center">
-                                                <div className="w-12 h-12 bg-green-500 rounded-full flex items-center justify-center mx-auto mb-3 text-white">
-                                                    <CheckCircle2 size={24} />
-                                                </div>
-                                                <p className="font-bold text-slate-900 dark:text-white text-sm">{t.userBenefits.roles.customer.mockup.confirmed}</p>
-                                                <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">{t.userBenefits.roles.customer.mockup.message}</p>
-                                            </div>
-
-                                            <div className="space-y-2">
-                                                <div className="h-12 w-full bg-slate-50 dark:bg-zinc-800/50 rounded-xl flex items-center px-3 gap-3">
-                                                    <div className="w-8 h-8 rounded-lg bg-slate-200 dark:bg-white/10 text-slate-500 flex items-center justify-center"><Calendar size={16} /></div>
-                                                    <div className="w-24 h-2 bg-slate-200 dark:bg-zinc-700 rounded-full"></div>
-                                                </div>
-                                                <div className="h-12 w-full bg-slate-50 dark:bg-zinc-800/50 rounded-xl flex items-center px-3 gap-3">
-                                                    <div className="w-8 h-8 rounded-lg bg-orange-100 dark:bg-orange-900/30 text-orange-500 flex items-center justify-center"><Clock size={16} /></div>
-                                                    <div className="w-20 h-2 bg-slate-200 dark:bg-zinc-700 rounded-full"></div>
-                                                </div>
-                                                <div className="h-12 w-full bg-slate-50 dark:bg-zinc-800/50 rounded-xl flex items-center px-3 gap-3">
-                                                    <div className="w-8 h-8 rounded-lg bg-slate-200 dark:bg-white/10 text-slate-500 flex items-center justify-center"><CreditCard size={16} /></div>
-                                                    <div className="w-16 h-2 bg-slate-200 dark:bg-zinc-700 rounded-full"></div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    {/* Floating Element */}
-                                    <div className={`absolute top-20 -right-12 z-30 bg-white dark:bg-zinc-800 p-3 rounded-xl shadow-lg border border-slate-100 dark:border-white/5 ${disableHeavyMotion ? '' : 'animate-bounce-slow'}`}>
-                                        <div className="flex items-center gap-2">
-                                            <div className={`w-2 h-2 rounded-full bg-green-500 ${disableHeavyMotion ? '' : 'animate-pulse'}`}></div>
-                                            <span className="text-xs font-bold text-slate-700 dark:text-white">{t.userBenefits.roles.customer.mockup.paymentSuccess}</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            {/* OWNER MOCKUP */}
-                            <div className={`absolute inset-0 flex items-center justify-center transition-[opacity,transform] duration-500 ease-out will-change-[opacity,transform] ${activeTab === 'owner' ? 'opacity-100 scale-100' : 'opacity-0 scale-95 pointer-events-none'
-                                }`}>
-                                <div className="relative w-[320px]">
-                                    {/* Dashboard Widget */}
-                                    <div className="bg-white dark:bg-zinc-950 rounded-2xl border border-slate-200 dark:border-white/10 shadow-2xl p-5 relative z-10">
-                                        <div className="flex justify-between items-center mb-6">
-                                            <div>
-                                                <p className="text-xs text-slate-500 font-bold uppercase">{t.userBenefits.roles.owner.mockup.salesTitle}</p>
-                                                <h4 className="text-2xl font-black text-slate-900 dark:text-white">RM 1,250</h4>
-                                            </div>
-                                            <div className="w-10 h-10 rounded-full bg-orange-50 dark:bg-orange-900/20 flex items-center justify-center text-orange-500">
-                                                <TrendingUp size={20} />
-                                            </div>
-                                        </div>
-
-                                        <div className="space-y-3">
-                                            <div className="flex items-center justify-between p-3 bg-slate-50 dark:bg-zinc-900 rounded-xl border border-slate-100 dark:border-white/5">
-                                                <div className="flex items-center gap-3">
-                                                    <div className="w-8 h-8 rounded-full bg-slate-200 dark:bg-white/10 text-slate-600 flex items-center justify-center font-bold text-xs">#1</div>
-                                                    <div>
-                                                        <p className="text-xs font-bold text-slate-800 dark:text-white">Family Portrait</p>
-                                                        <p className="text-[10px] text-slate-500">10:00 AM • Paid</p>
-                                                    </div>
-                                                </div>
-                                                <span className="text-xs font-bold text-slate-700 dark:text-slate-300 bg-slate-200 dark:bg-white/10 px-2 py-1 rounded-full">RM 350</span>
-                                            </div>
-                                            <div className="flex items-center justify-between p-3 bg-slate-50 dark:bg-zinc-900 rounded-xl border border-slate-100 dark:border-white/5">
-                                                <div className="flex items-center gap-3">
-                                                    <div className="w-8 h-8 rounded-full bg-orange-100 dark:bg-orange-900/30 text-orange-600 flex items-center justify-center font-bold text-xs">#2</div>
-                                                    <div>
-                                                        <p className="text-xs font-bold text-slate-800 dark:text-white">Graduation</p>
-                                                        <p className="text-[10px] text-slate-500">2:00 PM • Paid</p>
-                                                    </div>
-                                                </div>
-                                                <span className="text-xs font-bold text-slate-700 dark:text-slate-300 bg-slate-200 dark:bg-white/10 px-2 py-1 rounded-full">RM 250</span>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    {/* Floating Stats */}
-                                    <div className={`absolute -top-6 -right-6 z-30 bg-white dark:bg-zinc-800 p-4 rounded-xl shadow-xl border border-slate-100 dark:border-white/5 ${disableHeavyMotion ? '' : 'animate-float'}`}>
-                                        <p className="text-[10px] text-slate-500 mb-1">{t.userBenefits.roles.owner.mockup.totalBookings}</p>
-                                        <div className="flex items-center gap-2">
-                                            <Users size={16} className="text-studio-primary" />
-                                            <span className="font-bold text-slate-900 dark:text-white">12 {t.userBenefits.roles.owner.mockup.new}</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            {/* PHOTOGRAPHER MOCKUP */}
-                            <div className={`absolute inset-0 flex items-center justify-center transition-[opacity,transform] duration-500 ease-out will-change-[opacity,transform] ${activeTab === 'photographer' ? 'opacity-100 scale-100' : 'opacity-0 scale-95 pointer-events-none'
-                                }`}>
-                                <div className="relative w-[300px]">
-                                    {/* Shotlist Card */}
-                                    <div className="bg-white dark:bg-zinc-950 rounded-2xl border border-slate-200 dark:border-white/10 shadow-2xl overflow-hidden relative z-10">
-                                        <div className="bg-slate-900 p-4 flex justify-between items-center">
-                                            <span className="text-white font-bold text-sm">{t.userBenefits.roles.photographer.mockup.shotlist}</span>
-                                            <List size={16} className="text-white/60" />
-                                        </div>
-                                        <div className="p-4 space-y-4">
-                                            <div className="flex gap-4 relative">
-                                                <div className="flex flex-col items-center">
-                                                    <div className="w-2 h-2 rounded-full bg-green-500 mb-1"></div>
-                                                    <div className="w-0.5 h-full bg-slate-200 dark:bg-zinc-800"></div>
-                                                </div>
-                                                <div className="pb-4">
-                                                    <p className="text-xs font-bold text-slate-500 mb-1">10:00 AM</p>
-                                                    <div className="bg-slate-50 dark:bg-zinc-900 p-3 rounded-xl border border-slate-100 dark:border-white/5 w-48">
-                                                        <p className="font-bold text-slate-800 dark:text-white text-sm">Raya Family A</p>
-                                                        <p className="text-xs text-slate-500 mt-1">Theme: Kampung House</p>
-                                                        <div className="mt-2 flex gap-1">
-                                                            <span className="text-[9px] bg-orange-100 dark:bg-orange-900/30 text-orange-700 px-1.5 py-0.5 rounded">Child x3</span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div className="flex gap-4 relative">
-                                                <div className="flex flex-col items-center">
-                                                    <div className="w-2 h-2 rounded-full bg-slate-300 dark:bg-zinc-700 mb-1"></div>
-                                                </div>
-                                                <div>
-                                                    <p className="text-xs font-bold text-slate-500 mb-1">11:30 AM</p>
-                                                    <div className="bg-white dark:bg-zinc-900 p-3 rounded-xl border border-slate-200 dark:border-white/10 w-48 opacity-60">
-                                                        <p className="font-bold text-slate-800 dark:text-white text-sm">Couple Portrait</p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    {/* Floating Notification */}
-                                    <div className={`absolute -top-6 -right-6 z-30 bg-white dark:bg-zinc-800 p-3 rounded-xl shadow-lg border border-slate-100 dark:border-white/5 ${disableHeavyMotion ? '' : 'animate-pulse'}`}>
-                                        <div className="flex items-center gap-3">
-                                            <div className="w-8 h-8 rounded-full bg-studio-primary/10 flex items-center justify-center text-studio-primary">
-                                                <Bell size={16} />
-                                            </div>
-                                            <div>
-                                                <p className="text-[10px] text-slate-500">{t.userBenefits.roles.photographer.mockup.newAssignment}</p>
-                                                <p className="text-xs font-bold text-slate-900 dark:text-white">{t.userBenefits.roles.photographer.mockup.assignedBy}</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
+                        <div className="flex items-center justify-center lg:justify-end">
+                            <figure className="w-full max-w-xl overflow-hidden rounded-2xl border border-slate-200 bg-white dark:border-white/10 dark:bg-zinc-900">
+                                <img
+                                    key={activeTab}
+                                    src={`/media/illustrations/benefit-${activeTab}.webp`}
+                                    alt=""
+                                    className="block aspect-[3/2] w-full object-cover"
+                                    loading="lazy"
+                                    decoding="async"
+                                />
+                            </figure>
                         </div>
                     </div>
                 </div>
