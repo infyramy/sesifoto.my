@@ -18,13 +18,13 @@ const Pricing: React.FC = () => {
   const bm = language === 'bm';
   const money = (amount: number) => `RM${amount.toLocaleString('en-MY')}`;
   const features = [
-    [Globe, bm ? 'Laman & borang tempahan' : 'Booking page & form'],
+    [Globe, bm ? 'Tempahan tanpa had' : 'Unlimited bookings'],
     [CalendarDays, bm ? 'Kalendar & kawalan slot' : 'Calendar & slot controls'],
     [CreditCard, bm ? 'Bayaran dalam talian' : 'Online payments'],
     [FileText, bm ? 'Resit automatik' : 'Automatic receipts'],
     [CalendarSync, 'Google Calendar'],
     [Send, bm ? 'Notifikasi Telegram' : 'Telegram notifications'],
-    [Bell, bm ? 'Peringatan WhatsApp' : 'WhatsApp reminders'],
+    [Bell, bm ? 'Peringatan WhatsApp (guna kredit)' : 'WhatsApp reminders (credits required)'],
     [BarChart3, bm ? 'Laporan jualan' : 'Sales reports'],
     [Download, bm ? 'Eksport & carian data' : 'Data export & search'],
     [Ticket, bm ? 'Baucar & diskaun' : 'Vouchers & discounts'],
@@ -80,7 +80,7 @@ const Pricing: React.FC = () => {
             </div>
             <div className="border-t border-slate-200 px-6 py-7 dark:border-white/10 sm:px-9 sm:py-8">
               <h3 className="text-sm font-medium text-slate-500 dark:text-slate-400">{bm ? 'Dalam pakej ini' : 'In this plan'}</h3>
-              <ul className="mt-6 grid gap-x-6 gap-y-4 sm:grid-cols-2">{features.map(([Icon, feature]) => <li key={feature} className="flex items-start gap-3 text-sm leading-snug text-slate-600 dark:text-slate-300"><Icon size={17} strokeWidth={1.7} className="mt-0.5 shrink-0 text-[#c2410c] dark:text-orange-400" aria-hidden="true" />{feature}</li>)}</ul>
+              <ul className="mt-6 grid gap-x-6 gap-y-4 sm:grid-cols-2"><li className="flex items-start gap-3 text-sm leading-snug text-slate-600 dark:text-slate-300"><Globe size={17} strokeWidth={1.7} className="mt-0.5 shrink-0 text-[#c2410c] dark:text-orange-400" aria-hidden="true" />{bm ? 'Laman & borang tempahan' : 'Booking page & form'}</li>{features.map(([Icon, feature]) => <li key={feature} className="flex items-start gap-3 text-sm leading-snug text-slate-600 dark:text-slate-300"><Icon size={17} strokeWidth={1.7} className="mt-0.5 shrink-0 text-[#c2410c] dark:text-orange-400" aria-hidden="true" />{feature}</li>)}</ul>
             </div>
           </div>
           <aside className="rounded-[1.5rem] border border-slate-200 bg-slate-50 px-6 py-7 text-center dark:border-white/10 dark:bg-zinc-900 sm:px-8">
